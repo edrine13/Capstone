@@ -1,0 +1,11 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 5rem;
+  color: white;
+  background-color: black;
+}
+
+.nav ul {
+  display: flex;
+}
