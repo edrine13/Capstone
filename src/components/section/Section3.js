@@ -6,13 +6,13 @@ import { DummyLoanProducts } from "../../store/dummy-data";
 const Section3 = (props) => {
   return (
     <section id="cards">
-      <div class="container">
-        <div class="section-title text-center mt-5">
+      <div className="container">
+        <div className={`${style["section-title"]} my-4 text-center`}>
           <h3>
             <span>Loan</span> Products
           </h3>
         </div>
-        <div class="row ">
+        <div className="row ">
           {DummyLoanProducts.map((products) => (
             <LoanProductsCard
               key={products.id}

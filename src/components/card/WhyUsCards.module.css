@@ -11,6 +11,7 @@
   transition: all 0.3s ease-in-out;
   border-radius: 8px;
   z-index: 1;
+  fill: #ffa500;
 }
 .icon-box::before {
   content: "";
@@ -30,4 +31,15 @@
   border-radius: 0px;
 }
 
+.title a {
+  text-decoration: none;
+  color: #ffa600;
 
+  font-weight: 700;
+  font-size: 18px;
+}
+.icon-box:hover {
+  color: white;
+  background: #ffa600;
+  fill: #6fa8cc;
+}

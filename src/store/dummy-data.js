@@ -4,25 +4,29 @@ import loanProductImage3 from "../images/loan_Products/img3.jpg";
 import loanProductImage4 from "../images/loan_Products/img4.jpg";
 import loanProductImage5 from "../images/loan_Products/img5.jpg";
 import loanProductImage6 from "../images/loan_Products/img6.jpg";
+import ThumbsUp from "../assets/Icons/ThumbsUp";
+import CircleCheck from "../assets/Icons/CircleCheck";
+import HoldingDollar from "../assets/Icons/HoldingDollar";
+import style from "./AboutUs.module.css";
 
 export const DummyData = [
   {
     id: 1,
-    icon: <i className="fa-regular fa-thumbs-up"></i>,
+    icon: <ThumbsUp className={style["svg-logo"]} />,
     title: "Easy and Convenient",
     description:
       "Too busy? Apply anytime, anywhere. Link Coop is fast and online. You can apply for a loan using your mobile phone or desktop.",
   },
   {
     id: 2,
-    icon: <i className="fa-solid fa-hand-holding-dollar"></i>,
+    icon: <HoldingDollar className={style["svg-logo"]} />,
     title: "Flexible Payment Options",
     description:
       "Too busy? Apply anytime, anywhere. Link Coop is fast and online. You can apply for a loan using your mobile phone or desktop.",
   },
   {
     id: 3,
-    icon: <i className="fa-solid fa-circle-check"></i>,
+    icon: <CircleCheck className={style["svg-logo"]} />,
     title: "Safe and Secure",
     description:
       "Your information is safe with us. We take information confidentiality seriously. ",

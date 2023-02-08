@@ -4,17 +4,17 @@ import style from "./LoanProductsCard.module.css";
 
 const LoanProductsCard = (props) => {
   return (
-    <div class="col-lg-4 col-md-6 my-3">
+    <div className="col-lg-4 col-md-6 my-3">
       <NavLink to="/" className={`${style["card-link"]}`}>
-        <div class="card">
+        <div className="card">
           <img
             src={props.image}
-            class={`card-img-top ${style.image}`}
+            className={`card-img-top ${style.image}`}
             alt={props.alt ? props.alt : ""}
           />
-          <div class={`card-body ${style.cardBody}`}>
-            <h5 class="card-title">{props.title}</h5>
-            <p class="card-text">{props.text}</p>
+          <div className={`card-body ${style.cardBody}`}>
+            <h5 className="card-title">{props.title}</h5>
+            <p className="card-text">{props.text}</p>
           </div>
         </div>
       </NavLink>
