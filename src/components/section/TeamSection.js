@@ -14,9 +14,9 @@ const MEMBERS = [
 
 const TeamSection = () => {
   return (
-    <section id="team" class="team section-bg">
+    <section id="team" class={`team ${style["section-bg"]}`}>
       <div class="container" data-aos="fade-up">
-        <div class="section-title text-center">
+        <div class="section-title text-center mb-4 ">
           <h3>
             Our Hardworking <span>Team</span>
           </h3>
