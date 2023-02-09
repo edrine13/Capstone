@@ -26,24 +26,24 @@ const Header = () => {
           </Link>
         </li>
         <li>
-          <Link to="/" className={` ${style.link} `}>
-            About Us
+          <Link to="/loan-products" className={` ${style.link} `}>
+            Loan Products
           </Link>
         </li>
         <li>
-          <Link to="/" className={` ${style.link} `}>
-            About Us
+          <Link to="/login" className={` ${style.link} `}>
+            Login
           </Link>
         </li>
         <li>
-          <Link to="/" className={` ${style.link} `}>
-            About Us
+          <Link to="/sign-up" className={` ${style.link} `}>
+            Sign Up
           </Link>
         </li>
 
         <li>
-          <Link to="/" className={` ${style.link} `}>
-            About Us
+          <Link to="/contact-us" className={` ${style.link} `}>
+            Contact Us
           </Link>
         </li>
       </ul>

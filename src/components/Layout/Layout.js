@@ -5,10 +5,12 @@ import Footer from "../footer/Footer";
 import { FormText } from "react-bootstrap";
 
 const Layout = (props) => {
+  const style = { minHeight: "calc(100vh - 125px)" };
+
   return (
     <>
       <Header />
-      <main>
+      <main style={style}>
         <Outlet />
       </main>
       <Footer />
