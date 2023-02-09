@@ -5,3 +5,8 @@
 .svg-logo {
   fill: #ffa500;
 }
+
+.icon-box:hover .icon {
+  color: #ffa600;
+  fill: #6fa8cc;
+}
