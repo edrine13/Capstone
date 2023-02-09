@@ -2,9 +2,15 @@ import React from "react";
 import style from "./ContactForm.module.css";
 
 const ContactForm = () => {
+  const contactSubmitHandler = (event) => {
+    event.preventDefault();
+  };
   return (
     <div className="offset-md-3 col-md-6">
-      <form className={`${style["php-email-form"]}`}>
+      <form
+        className={`${style["php-email-form"]}`}
+        onSubmit={contactSubmitHandler}
+      >
         <div className="row my-4 ">
           <div className="col form-group ">
             <input
