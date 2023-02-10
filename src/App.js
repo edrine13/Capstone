@@ -9,6 +9,7 @@ import {
 import Layout from './components/Layout/Layout';
 import About from './page/About';
 import Dashboard from './page/Dashboard';
+
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 

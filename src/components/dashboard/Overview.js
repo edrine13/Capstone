@@ -1,8 +1,9 @@
 import React from 'react';
+import style from './Overview.module.css';
 
 const overview = () => {
   return (
-    <div id="overview" className="mt-5">
+    <section id="overview" className={`${style.side} mt-5`}>
       <div className="container">
         <h1>Reynaldo Delima</h1>
         <div className="card">
@@ -15,8 +16,51 @@ const overview = () => {
             Cooperative!"
           </div>
         </div>
+
+        <div className="row">
+          <div className="col-lg-6 mt-5">
+            <div className={`${style.box} card text-center`}>
+              <div className="card-body">
+                <h5 className="card-title">
+                  <br />
+                  Contributions
+                </h5>
+
+                <p className="card-text">
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  No existing contribution
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6 mt-5">
+            <div className={`${style.box} card text-center`}>
+              <div className="card-body">
+                <h5 className="card-title">
+                  <br />
+                  Loans
+                </h5>
+
+                <p className="card-text">
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  No existing loan
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
