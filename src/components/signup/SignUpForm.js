@@ -70,6 +70,7 @@ const SignUpForm = () => {
       {/* GOOGLE BUTTON added by NPM */}
       <div className="col-lg-7 m-auto">
         <GoogleButton
+          label="Sign up with Google"
           type="light" // can be light or dark
           onClick={() => {
             console.log("Google button clicked");
