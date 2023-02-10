@@ -29,25 +29,25 @@ const Header = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/" className={` ${style.link} `}>
-            About Us
-          </NavLink>
+          <Link to="/loan-products" className={` ${style.link} `}>
+            Loan Products
+          </Link>
         </li>
         <li>
-          <NavLink to="/" className={` ${style.link} `}>
-            About Us
-          </NavLink>
+          <Link to="/login" className={` ${style.link} `}>
+            Login
+          </Link>
         </li>
         <li>
-          <NavLink to="/" className={` ${style.link} `}>
-            About Us
-          </NavLink>
+          <Link to="/sign-up" className={` ${style.link} `}>
+            Sign Up
+          </Link>
         </li>
 
         <li>
-          <NavLink to="/" className={` ${style.link} `}>
-            About Us
-          </NavLink>
+          <Link to="/contact-us" className={` ${style.link} `}>
+            Contact Us
+          </Link>
         </li>
       </ul>
     </nav>

@@ -9,7 +9,8 @@ import {
 import Layout from './components/Layout/Layout';
 import About from './page/About';
 import Dashboard from './page/Dashboard';
-
+import LoginPage from './page/LoginPage';
+import SignUpPage from './page/SignUpPage';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -20,6 +21,8 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<About />} />
         <Route path="/user" element={<Dashboard />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/sign-up" element={<SignUpPage />} />
       </Route>
     )
   );
