@@ -19,6 +19,8 @@ import Admin from "./components/admin/Admin";
 import UserManagementPage from "./page/UserManagementPage";
 
 function App() {
+  
+
   AOS.init();
   const router = createBrowserRouter(
     createRoutesFromElements(

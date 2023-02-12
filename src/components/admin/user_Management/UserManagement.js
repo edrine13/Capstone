@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./UserManagement.module.css";
+import Modal from "../../../UI/modal";
 
 const UserManagement = () => {
+  const [showModal, setShowModal] = useState(false);
   return (
     <section
       className={`${style.userSection} 
     ${style.side}`}
     >
       <div className="container-fluid text-center p-5">
-        <h1 className="">User Management </h1>
-        <div className={`row ${style["bg"]} p-2`}>
+        <div className="row">
+          <div className="col-10">
+            <h1 className="">User Management </h1>
+          </div>
+          <div className="col-2 pt-2">
+            {showModal ? (
+              <Modal onClick={() => setShowModal((showmodal) => !showmodal)}>
+                sdfasfd
+              </Modal>
+            ) : null}
+            <button className="btn btn-dark" onClick={() => setShowModal(true)}>
+              Add
+            </button>
+          </div>
+        </div>
+        <div className={`row ${style["bg"]}`}>
           {/* ID COLUMN */}
           <div className="col-4 text-center">
             <h2>ID</h2>

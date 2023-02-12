@@ -20,7 +20,7 @@ const Aside = () => {
         <AsideButton linkTo={"contribution-management"}>
           Contribution Management
         </AsideButton>
-        <AsideButton linkTo={"overdue-loans"}>Overdue Loans</AsideButton>
+        <AsideButton linkTo={"/"}>Logout</AsideButton>
       </ul>
     </aside>
   );
