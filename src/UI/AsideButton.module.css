@@ -1,0 +1,22 @@
+.nav-item {
+  margin-bottom: 5px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2b4257;
+  transition: 0.3;
+  background: #f6f9ff;
+  padding: 10px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  background: white;
+}
+
+.nav-link:hover {
+  color: #fff;
+  background: #2b4257;
+}

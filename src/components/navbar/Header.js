@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import style from "./Header.module.css";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
-import DropdownComponent from "../../UI/DropdownButton";
+
 const Header = () => {
   const [added, setAdded] = useState(false);
 

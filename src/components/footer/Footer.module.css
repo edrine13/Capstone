@@ -1,6 +1,8 @@
 .footer {
   background: #2b4257;
   color: #f4f4f4;
+  z-index: 1000;
+  position: sticky;
 }
 
 .footer a {
