@@ -6,11 +6,7 @@ export const addUser = async (data) => {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: data.id,
-          author: data.author,
-          text: data.text,
-        }),
+        body: JSON.stringify(data),
       }
     );
     if (!response.ok) {
@@ -23,7 +19,7 @@ export const addUser = async (data) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          password: data.pass,
+          password: data.password,
           email: data.email,
 
           returnSecureToken: true,

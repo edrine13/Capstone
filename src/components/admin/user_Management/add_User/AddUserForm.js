@@ -13,7 +13,7 @@ const AddUserForm = (props) => {
   const [nameSuffix, setNameSuffix] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
-
+  const [gender, setGender] = useState("");
   const [civilStatus, setCivilStatus] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [nationality, setNationality] = useState("");
@@ -21,12 +21,17 @@ const AddUserForm = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // API ERROR CHECKER
+  const [isError, setIsError] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+
   // Check if the input is valid for user experience
   const [validInput, setValidInput] = useState({
     lastName: true,
     middleName: true,
     firstName: true,
-    nameSuffix: true,
+
     contactNumber: true,
     email: true,
     civilStatus: true,
@@ -64,6 +69,11 @@ const AddUserForm = (props) => {
     setEmail(event.target.value);
   };
 
+  // GENDER INPUT HANDLER
+  const genderInputHandler = (event) => {
+    setGender(event.target.value);
+  };
+
   //   Civil Status Handler
   const civilStatusInputHandler = (event) => {
     setCivilStatus(event.target.value);
@@ -95,14 +105,15 @@ const AddUserForm = (props) => {
   };
 
   // Submit Handler
-  const addUserHandler = (event) => {
+  const addUserHandler = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     // setting all input a check
     const lastNameIsValid = inputIsNotEmpty(lastName);
     const middleNameIsValid = inputIsNotEmpty(middleName);
     const firstNameIsValid = inputIsNotEmpty(firstName);
-    const nameSuffixIsValid = inputIsNotEmpty(nameSuffix);
+
     const contactIsValid = phoneNumIsValid(contactNumber);
     const emailIsValid = inputIsNotEmpty(email);
     const civilStatusIsValid = inputIsNotEmpty(civilStatus);
@@ -118,7 +129,6 @@ const AddUserForm = (props) => {
       lastNameIsValid &&
       middleNameIsValid &&
       firstNameIsValid &&
-      nameSuffixIsValid &&
       contactIsValid &&
       emailIsValid &&
       civilStatusIsValid &&
@@ -132,7 +142,7 @@ const AddUserForm = (props) => {
       lastName: lastNameIsValid,
       middleName: middleNameIsValid,
       firstName: firstNameIsValid,
-      nameSuffix: nameSuffixIsValid,
+
       contactNumber: contactIsValid,
       email: emailIsValid,
       civilStatus: civilStatusIsValid,
@@ -144,8 +154,27 @@ const AddUserForm = (props) => {
     });
 
     if (!inputIsValid) {
+      setIsLoading(false);
       return;
     }
+
+    try {
+      await addUser({
+        lastName,
+        middleName,
+        firstName,
+        nameSuffix,
+        contactNumber,
+        email,
+        gender,
+        civilStatus,
+        birthDate,
+        nationality,
+        monthlyContribution,
+        username,
+        password,
+      });
+    } catch (err) {}
   };
   return (
     <form onSubmit={addUserHandler}>
@@ -211,9 +240,7 @@ const AddUserForm = (props) => {
               type="text"
               name="suffix"
               id="suffix"
-              className={`form-control my-3 p-2 ${
-                !validInput.nameSuffix ? "is-invalid" : ""
-              }`}
+              className={`form-control my-3 p-2 `}
               placeholder="Jr, Sr, etc..."
               onChange={suffixInputHandler}
             />
