@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import Modal from "../../../../UI/modal";
+import AddUserForm from "./AddUserForm";
 
-const AddUser = () => {
+const AddUser = (props) => {
+  
   return (
-    <div>AddUser</div>
-  )
-}
+    <Modal onClick={props.onClick}>
+      <h1 className="text-center">Add User</h1>
+      <AddUserForm onClick={props.onClick}  />
+    </Modal>
+  );
+};
 
-export default AddUser
+export default AddUser;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import style from "./UserManagement.module.css";
 import Modal from "../../../UI/modal";
+import AddUser from "./add_User/AddUser";
 
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
@@ -16,9 +17,7 @@ const UserManagement = () => {
           </div>
           <div className="col-2 pt-2">
             {showModal ? (
-              <Modal onClick={() => setShowModal((showmodal) => !showmodal)}>
-                sdfasfd
-              </Modal>
+              <AddUser onClick={() => setShowModal((show) => !show)} />
             ) : null}
             <button className="btn btn-dark" onClick={() => setShowModal(true)}>
               Add
