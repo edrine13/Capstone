@@ -1,28 +1,151 @@
 import React, { useState } from "react";
+import { addUser } from "../../../../store/api/api";
+
+const inputIsNotEmpty = (input) => input !== "";
+const phoneNumIsValid = (phone) => phone.trim().length === 11;
 
 const AddUserForm = (props) => {
+  // STATE FOR ALL INPUTS
+  // CAN USE "REACT-HOOK-FORMS" later if we made it in time
   const [lastName, setLastName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [nameSuffix, setNameSuffix] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("");
+
   const [civilStatus, setCivilStatus] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [nationality, setNationality] = useState("");
   const [monthlyContribution, setMonthlyContribution] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const middleNameInputHandler = (event) => {};
+  // Check if the input is valid for user experience
+  const [validInput, setValidInput] = useState({
+    lastName: true,
+    middleName: true,
+    firstName: true,
+    nameSuffix: true,
+    contactNumber: true,
+    email: true,
+    civilStatus: true,
+    birthDate: true,
+    nationality: true,
+    monthlyContribution: true,
+    username: true,
+    password: true,
+  });
 
   // Last Name Input Handler
   const lastNameInputHandler = (event) => {
     setLastName(event.target.value);
   };
 
+  //   Middle name input handler
+  const middleNameInputHandler = (event) => {
+    setMiddleName(event.target.value);
+  };
+  //   First Input Handler
+  const firstNameInputHandler = (event) => {
+    setFirstName(event.target.value);
+  };
+  //   Suffix name Input Handler
+  const suffixInputHandler = (event) => {
+    setNameSuffix(event.target.value);
+  };
+  //   Contact Number Handler
+  const contactNumberHandler = (event) => {
+    setContactNumber(event.target.value);
+  };
+
+  //   Email Input Handler
+  const emailInputHandler = (event) => {
+    setEmail(event.target.value);
+  };
+
+  //   Civil Status Handler
+  const civilStatusInputHandler = (event) => {
+    setCivilStatus(event.target.value);
+  };
+
+  //   Birthdate handler
+  const birthdateHandler = (event) => {
+    setBirthDate(event.target.value);
+  };
+
+  //   Nationality input Handler
+  const nationalityHandler = (event) => {
+    setNationality(event.target.value);
+  };
+
+  //   Monthly Contribution Input Handler
+  const monthlyContriHandler = (event) => {
+    setMonthlyContribution(event.target.value);
+  };
+
+  //   Username Input Handler
+  const usernameInputHandler = (event) => {
+    setUsername(event.target.value);
+  };
+
+  //   Password Input Handler
+  const passwordInputHandler = (event) => {
+    setPassword(event.target.value);
+  };
+
   // Submit Handler
   const addUserHandler = (event) => {
     event.preventDefault();
+
+    // setting all input a check
+    const lastNameIsValid = inputIsNotEmpty(lastName);
+    const middleNameIsValid = inputIsNotEmpty(middleName);
+    const firstNameIsValid = inputIsNotEmpty(firstName);
+    const nameSuffixIsValid = inputIsNotEmpty(nameSuffix);
+    const contactIsValid = phoneNumIsValid(contactNumber);
+    const emailIsValid = inputIsNotEmpty(email);
+    const civilStatusIsValid = inputIsNotEmpty(civilStatus);
+    const birthDateIsValid = inputIsNotEmpty(birthDate);
+    const nationalityIsValid = inputIsNotEmpty(nationality);
+    const monthlyContributionIsValid = inputIsNotEmpty(monthlyContribution);
+    const userNameIsValid = inputIsNotEmpty(username);
+    const passwordIsValid = inputIsNotEmpty(password);
+
+    // OVERALL INPUT CHECK IF VALID
+
+    const inputIsValid =
+      lastNameIsValid &&
+      middleNameIsValid &&
+      firstNameIsValid &&
+      nameSuffixIsValid &&
+      contactIsValid &&
+      emailIsValid &&
+      civilStatusIsValid &&
+      nationalityIsValid &&
+      monthlyContributionIsValid &&
+      userNameIsValid &&
+      passwordIsValid;
+
+    // Validation input again for user experience
+    setValidInput({
+      lastName: lastNameIsValid,
+      middleName: middleNameIsValid,
+      firstName: firstNameIsValid,
+      nameSuffix: nameSuffixIsValid,
+      contactNumber: contactIsValid,
+      email: emailIsValid,
+      civilStatus: civilStatusIsValid,
+      birthDate: birthDateIsValid,
+      nationality: nationalityIsValid,
+      monthlyContribution: monthlyContributionIsValid,
+      username: userNameIsValid,
+      password: passwordIsValid,
+    });
+
+    if (!inputIsValid) {
+      return;
+    }
   };
   return (
     <form onSubmit={addUserHandler}>
@@ -37,7 +160,9 @@ const AddUserForm = (props) => {
               type="text"
               name="lastName"
               id="lastName"
-              className="form-control my-3 p-2"
+              className={`form-control my-3 p-2 ${
+                !validInput.lastName ? "is-invalid" : ""
+              }`}
               placeholder="Last Name..."
               onChange={lastNameInputHandler}
             />
@@ -52,7 +177,9 @@ const AddUserForm = (props) => {
               type="text"
               name="middleName"
               id="middleName"
-              className="form-control my-3 p-2"
+              className={`form-control my-3 p-2 ${
+                !validInput.middleName ? "is-invalid" : ""
+              }`}
               placeholder="Middle Name.."
               onChange={middleNameInputHandler}
             />
@@ -67,7 +194,9 @@ const AddUserForm = (props) => {
               type="text"
               name="firstName"
               id="firstName"
-              className="form-control my-3 p-2"
+              className={`form-control my-3 p-2 ${
+                !validInput.firstName ? "is-invalid" : ""
+              }`}
               placeholder="First Name..."
               onChange={firstNameInputHandler}
             />
@@ -82,7 +211,9 @@ const AddUserForm = (props) => {
               type="text"
               name="suffix"
               id="suffix"
-              className="form-control my-3 p-2"
+              className={`form-control my-3 p-2 ${
+                !validInput.nameSuffix ? "is-invalid" : ""
+              }`}
               placeholder="Jr, Sr, etc..."
               onChange={suffixInputHandler}
             />
@@ -98,7 +229,9 @@ const AddUserForm = (props) => {
               type="number"
               name="contactNum"
               id="contactNum"
-              className="form-control my-3 p-2"
+              className={`form-control my-3 p-2 ${
+                !validInput.contactNumber ? "is-invalid" : ""
+              }`}
               placeholder="Contact Number"
               onChange={contactNumberHandler}
             />
@@ -112,7 +245,9 @@ const AddUserForm = (props) => {
               type="email"
               name="email"
               id="email"
-              className="form-control my-3 p-2"
+              className={`form-control my-3 p-2 ${
+                !validInput.email ? "is-invalid" : ""
+              }`}
               placeholder="Email Address"
               onChange={emailInputHandler}
             />
@@ -134,6 +269,24 @@ const AddUserForm = (props) => {
             </select>
           </div>
 
+          {/* Civil Status */}
+
+          <div className="col-4">
+            <label htmlFor="civilStatus" className="d-block">
+              Civil Status
+            </label>
+            <input
+              type="text"
+              name="civilStatus"
+              id="civilStatus"
+              className={`form-control my-3 p-2 ${
+                !validInput.civilStatus ? "is-invalid" : ""
+              }`}
+              placeholder="Civil Status"
+              onChange={civilStatusInputHandler}
+            />
+          </div>
+
           {/* Date */}
 
           <div className="col-4">
@@ -144,8 +297,11 @@ const AddUserForm = (props) => {
               type="date"
               name="date"
               id="date"
-              className="form-control my-3 p-2"
+              className={`form-control my-3 p-2 ${
+                !validInput.birthDate ? "is-invalid" : ""
+              }`}
               onChange={birthdateHandler}
+              format={"DD-MM-YYYY"}
             />
           </div>
 
@@ -158,11 +314,14 @@ const AddUserForm = (props) => {
               type="text"
               name="nationality"
               id="nationality"
-              className="form-control my-3 p-2"
+              className={`form-control my-3 p-2 ${
+                !validInput.nationality ? "is-invalid" : ""
+              }`}
               placeholder="Nationality"
               onChange={nationalityHandler}
             />
           </div>
+
           {/* USERNAME*/}
           <div className="col-4">
             <label htmlFor="userName" className="d-block">
@@ -172,7 +331,9 @@ const AddUserForm = (props) => {
               type="text"
               name="userName"
               id="userName"
-              className="form-control my-3 p-2"
+              className={`form-control my-3 p-2 ${
+                !validInput.username ? "is-invalid" : ""
+              }`}
               placeholder="Password "
               onChange={usernameInputHandler}
             />
@@ -187,7 +348,9 @@ const AddUserForm = (props) => {
               type="password"
               name="password"
               id="password"
-              className="form-control my-3 p-2"
+              className={`form-control my-3 p-2 ${
+                !validInput.password ? "is-invalid" : ""
+              }`}
               placeholder="Password "
               onChange={passwordInputHandler}
             />
@@ -202,9 +365,11 @@ const AddUserForm = (props) => {
               type="text"
               name="contribution"
               id="contribution"
-              className="form-control my-3 p-2 ms-2"
+              className={`form-control my-3 p-2  ${
+                !validInput.monthlyContribution ? "is-invalid" : ""
+              }`}
               placeholder="Amount..."
-              onChange={null}
+              onChange={monthlyContriHandler}
             />
           </div>
         </div>
