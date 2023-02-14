@@ -1,7 +1,3 @@
-button {
-  background-color: wheat;
-  width: max-content;
+.cursor-pointer {
+  cursor: pointer;
 }
-/* h1 {
-  mb-4
-} */

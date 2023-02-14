@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import style from "./Faqs.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 
 export default function Faqs() {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -9,18 +11,21 @@ export default function Faqs() {
   };
 
   return (
-    <div class="container mt-5 pt-5">
+    <div className="container mt-5 pt-5">
       <h1 className="text-center">Frequently Asked Questions</h1>
       <h6 className="text-center pb-5">Link Coop</h6>
       <div id="accordion">
-        <div class="card">
-          <div class="card-header">
-            <h6 onClick={() => handleClick(0)}>
+        <div className={`card ${style["cursor-pointer"]} mb-2`}>
+          <div className="card-header">
+            <h6
+              onClick={() => handleClick(0)}
+              className="d-flex justify-content-between"
+            >
               Q-How to apply for a loan?
               {activeIndex === 0 ? (
-                <i className="fas fa-angle-down" />
+                <FontAwesomeIcon icon={faAngleUp} />
               ) : (
-                <i className="fas fa-angle-right" />
+                <FontAwesomeIcon icon={faAngleDown} />
               )}
             </h6>
             {activeIndex === 0 && (
@@ -36,14 +41,17 @@ export default function Faqs() {
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-header">
-            <h6 onClick={() => handleClick(1)}>
+        <div className={`card ${style["cursor-pointer"]} mb-2`}>
+          <div className="card-header">
+            <h6
+              onClick={() => handleClick(1)}
+              className="d-flex justify-content-between"
+            >
               Q-How much can I barrow?
               {activeIndex === 1 ? (
-                <i className="fas fa-angle-down" />
+                <FontAwesomeIcon icon={faAngleUp} />
               ) : (
-                <i className="fas fa-angle-right" />
+                <FontAwesomeIcon icon={faAngleDown} />
               )}
             </h6>
             {activeIndex === 1 && (
@@ -54,14 +62,17 @@ export default function Faqs() {
             )}
           </div>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <h6 onClick={() => handleClick(2)}>
+        <div className={`card ${style["cursor-pointer"]} mb-2`}>
+          <div className="card-header">
+            <h6
+              onClick={() => handleClick(2)}
+              className="d-flex justify-content-between"
+            >
               Q-How long does it take to get a loan?
               {activeIndex === 2 ? (
-                <i className="fas fa-angle-down" />
+                <FontAwesomeIcon icon={faAngleUp} />
               ) : (
-                <i className="fas fa-angle-right" />
+                <FontAwesomeIcon icon={faAngleDown} />
               )}
             </h6>
             {activeIndex === 2 && (
@@ -75,14 +86,17 @@ export default function Faqs() {
             )}
           </div>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <h6 onClick={() => handleClick(3)}>
+        <div className={`card ${style["cursor-pointer"]} mb-2`}>
+          <div className="card-header">
+            <h6
+              onClick={() => handleClick(3)}
+              className="d-flex justify-content-between"
+            >
               Q-What are the requirements needed?
               {activeIndex === 3 ? (
-                <i className="fas fa-angle-down" />
+                <FontAwesomeIcon icon={faAngleUp} />
               ) : (
-                <i className="fas fa-angle-right" />
+                <FontAwesomeIcon icon={faAngleDown} />
               )}
             </h6>
             {activeIndex === 3 && <p>For Employed:</p>}
@@ -100,14 +114,17 @@ export default function Faqs() {
             {activeIndex === 3 && <li>3 Trade Referrences</li>}
           </div>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <h6 onClick={() => handleClick(4)}>
+        <div className={`card ${style["cursor-pointer"]} mb-2`}>
+          <div className="card-header">
+            <h6
+              onClick={() => handleClick(4)}
+              className="d-flex justify-content-between"
+            >
               Q-How can i know the status of my application?
               {activeIndex === 4 ? (
-                <i className="fas fa-angle-down" />
+                <FontAwesomeIcon icon={faAngleUp} />
               ) : (
-                <i className="fas fa-angle-right" />
+                <FontAwesomeIcon icon={faAngleDown} />
               )}
             </h6>
             {activeIndex === 4 && (
@@ -119,14 +136,17 @@ export default function Faqs() {
             {activeIndex === 4 && <></>}
           </div>
         </div>
-        <div class="card">
+        <div className={`card ${style["cursor-pointer"]} mb-2`}>
           <div class="card-header">
-            <h6 onClick={() => handleClick(5)}>
+            <h6
+              onClick={() => handleClick(5)}
+              className="d-flex justify-content-between"
+            >
               Q-How much is the monthly interest rate?
               {activeIndex === 5 ? (
-                <i className="fas fa-angle-down" />
+                <FontAwesomeIcon icon={faAngleUp} />
               ) : (
-                <i className="fas fa-angle-right" />
+                <FontAwesomeIcon icon={faAngleDown} />
               )}
             </h6>
             {activeIndex === 5 && (
@@ -139,14 +159,17 @@ export default function Faqs() {
             {activeIndex === 5 && <></>}
           </div>
         </div>
-        <div class="card">
+        <div class={`card ${style["cursor-pointer"]} mb-2`}>
           <div class="card-header">
-            <h6 onClick={() => handleClick(6)}>
+            <h6
+              onClick={() => handleClick(6)}
+              className="d-flex justify-content-between"
+            >
               Q-How will I know that my loan is approved?
               {activeIndex === 6 ? (
-                <i className="fas fa-angle-down" />
+                <FontAwesomeIcon icon={faAngleUp} />
               ) : (
-                <i className="fas fa-angle-right" />
+                <FontAwesomeIcon icon={faAngleDown} />
               )}
             </h6>
             {activeIndex === 6 && (
@@ -158,14 +181,17 @@ export default function Faqs() {
             {activeIndex === 6 && <></>}
           </div>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <h6 onClick={() => handleClick(7)}>
+        <div className={`card ${style["cursor-pointer"]} mb-2`}>
+          <div className="card-header">
+            <h6
+              onClick={() => handleClick(7)}
+              className="d-flex justify-content-between"
+            >
               Q-Is there an application fees?
               {activeIndex === 7 ? (
-                <i className="fas fa-angle-down" />
+                <FontAwesomeIcon icon={faAngleUp} />
               ) : (
-                <i className="fas fa-angle-right" />
+                <FontAwesomeIcon icon={faAngleDown} />
               )}
             </h6>
             {activeIndex === 7 && (
@@ -178,14 +204,17 @@ export default function Faqs() {
             {activeIndex === 7 && <></>}
           </div>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <h6 onClick={() => handleClick(8)}>
+        <div className={`card ${style["cursor-pointer"]} mb-2`}>
+          <div className="card-header">
+            <h6
+              onClick={() => handleClick(8)}
+              className="d-flex justify-content-between"
+            >
               Q-Where to submit my documents?
               {activeIndex === 8 ? (
-                <i className="fas fa-angle-down" />
+                <FontAwesomeIcon icon={faAngleUp} />
               ) : (
-                <i className="fas fa-angle-right" />
+                <FontAwesomeIcon icon={faAngleDown} />
               )}
             </h6>
             {activeIndex === 8 && (
@@ -197,14 +226,17 @@ export default function Faqs() {
             {activeIndex === 8 && <></>}
           </div>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <h6 onClick={() => handleClick(9)}>
+        <div className={`card ${style["cursor-pointer"]} mb-2`}>
+          <div className="card-header">
+            <h6
+              onClick={() => handleClick(9)}
+              className="d-flex justify-content-between"
+            >
               Q-Can I cancel my application?
               {activeIndex === 9 ? (
-                <i className="fas fa-angle-down" />
+                <FontAwesomeIcon icon={faAngleUp} />
               ) : (
-                <i className="fas fa-angle-right" />
+                <FontAwesomeIcon icon={faAngleDown} />
               )}
             </h6>
             {activeIndex === 9 && (
