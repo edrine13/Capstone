@@ -139,10 +139,13 @@ export default function Faqs() {
               )}
             </h6>
             {activeIndex === 4 && (
-              <li>
-                You may check your status at https://link-coop-alpha.vercel.app/
-                and click Loan Status in the homepage.
-              </li>
+              <ol>
+                <li>
+                  You may check your status at
+                  https://link-coop-alpha.vercel.app/ and click Loan Status in
+                  the homepage.
+                </li>
+              </ol>
             )}
             {activeIndex === 4 && <></>}
           </div>
@@ -161,11 +164,13 @@ export default function Faqs() {
               )}
             </h6>
             {activeIndex === 5 && (
-              <li>
-                WFP offers a competitive rate for as low as 1.39% up to 3.5% for
-                Unsecured Loan and 1.0% -2.35% for Secured Loan, depending on
-                the loan products and customer's credit profile.
-              </li>
+              <ol>
+                <li>
+                  WFP offers a competitive rate for as low as 1.39% up to 3.5%
+                  for Unsecured Loan and 1.0% -2.35% for Secured Loan, depending
+                  on the loan products and customer's credit profile.
+                </li>
+              </ol>
             )}
             {activeIndex === 5 && <></>}
           </div>
@@ -184,10 +189,12 @@ export default function Faqs() {
               )}
             </h6>
             {activeIndex === 6 && (
-              <li>
-                You will receive a phone call from our sales associates to
-                schedule you for loan release.
-              </li>
+              <ol>
+                <li>
+                  You will receive a phone call from our sales associates to
+                  schedule you for loan release.
+                </li>
+              </ol>
             )}
             {activeIndex === 6 && <></>}
           </div>
@@ -231,10 +238,12 @@ export default function Faqs() {
               )}
             </h6>
             {activeIndex === 8 && (
-              <li>
-                You can submit your documents at sales@welcomefinanceinc.com OR
-                upload through the URL link received by SMS.
-              </li>
+              <ol>
+                <li>
+                  You can submit your documents at sales@welcomefinanceinc.com
+                  OR upload through the URL link received by SMS.
+                </li>
+              </ol>
             )}
             {activeIndex === 8 && <></>}
           </div>
@@ -253,10 +262,12 @@ export default function Faqs() {
               )}
             </h6>
             {activeIndex === 9 && (
-              <li>
-                Technically you can cancel your application anytime as long as
-                you inform us.
-              </li>
+              <ol>
+                <li>
+                  Technically you can cancel your application anytime as long as
+                  you inform us.
+                </li>
+              </ol>
             )}
             {activeIndex === 9 && <></>}
           </div>
