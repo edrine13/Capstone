@@ -29,14 +29,14 @@ export default function Faqs() {
               )}
             </h6>
             {activeIndex === 0 && (
-              <ul>
+              <ol>
                 <li>Upload your documents on the given link or send to</li>
                 <li> Linkcooperative@gmail.com</li>
 
-                {activeIndex === 0 && (
-                  <li>Expect a call from Welcome associates</li>
-                )}
-              </ul>
+                {/* {activeIndex === 0 && ( */}
+                <li>Expect a call from Welcome associates</li>
+                {/* )} */}
+              </ol>
             )}
           </div>
         </div>
@@ -55,10 +55,13 @@ export default function Faqs() {
               )}
             </h6>
             {activeIndex === 1 && (
-              <li>If you are Employed: P 20,000 to P 1,000,000</li>
-            )}
-            {activeIndex === 1 && (
-              <li>If you are Self-Employed: P 50,000 to P 3,000,000</li>
+              <ol>
+                <li>If you are Employed: P 20,000 to P 1,000,000</li>
+                {/* )} */}
+                {/* {activeIndex === 1 && ( */}
+
+                <li>If you are Self-Employed: P 50,000 to P 3,000,000</li>
+              </ol>
             )}
           </div>
         </div>
@@ -76,13 +79,17 @@ export default function Faqs() {
               )}
             </h6>
             {activeIndex === 2 && (
-              <li>
-                Loan process depends if the client submitted all the complete
-                documents and participate in credit verification
-              </li>
-            )}
-            {activeIndex === 2 && (
-              <li>For smooth transaction it may run for 1-3 working days</li>
+              <ol>
+                <li>
+                  Loan process depends if the client submitted all the complete
+                  documents and participate in credit verification
+                </li>
+
+                {/* )} */}
+                {/* {activeIndex === 2 && ( */}
+
+                <li>For smooth transaction it may run for 1-3 working days</li>
+              </ol>
             )}
           </div>
         </div>
@@ -100,18 +107,22 @@ export default function Faqs() {
               )}
             </h6>
             {activeIndex === 3 && <p>For Employed:</p>}
-            {activeIndex === 3 && <li>2 months recent payslip</li>}
-            {activeIndex === 3 && <li>COE</li>}
-            {activeIndex === 3 && <li>Two (2) government Ids</li>}
-            {activeIndex === 3 && <li>Utility Bill</li>}
+            <ol>
+              {activeIndex === 3 && <li>2 months recent payslip</li>}
+              {activeIndex === 3 && <li>COE</li>}
+              {activeIndex === 3 && <li>Two (2) government Ids</li>}
+              {activeIndex === 3 && <li>Utility Bill</li>}
+            </ol>
             <span></span>
-            {activeIndex === 3 && <p>For Self-Employed:</p>}
-            {activeIndex === 3 && <li>Two (2) government Ids</li>}
-            {activeIndex === 3 && <li> 3 months bank statement</li>}
-            {activeIndex === 3 && <li>Business Permit</li>}
-            {activeIndex === 3 && <li>Utility Bill</li>}
-            {activeIndex === 3 && <li>latest ITR (optional)</li>}
-            {activeIndex === 3 && <li>3 Trade Referrences</li>}
+            {activeIndex === 3 && <p>For Self-Employed:</p>}{" "}
+            <ol>
+              {activeIndex === 3 && <li>Two (2) government Ids</li>}
+              {activeIndex === 3 && <li> 3 months bank statement</li>}
+              {activeIndex === 3 && <li>Business Permit</li>}
+              {activeIndex === 3 && <li>Utility Bill</li>}
+              {activeIndex === 3 && <li>latest ITR (optional)</li>}
+              {activeIndex === 3 && <li>3 Trade Referrences</li>}
+            </ol>
           </div>
         </div>
         <div className={`card ${style["cursor-pointer"]} mb-2`}>
@@ -195,11 +206,13 @@ export default function Faqs() {
               )}
             </h6>
             {activeIndex === 7 && (
-              <li>
-                Loan application is free. However, once the loan is disbursed
-                processing fee and notarial fee will be deducted from loan
-                disbursement.
-              </li>
+              <ol>
+                <li>
+                  Loan application is free. However, once the loan is disbursed
+                  processing fee and notarial fee will be deducted from loan
+                  disbursement.
+                </li>
+              </ol>
             )}
             {activeIndex === 7 && <></>}
           </div>

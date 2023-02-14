@@ -35,16 +35,6 @@ const Header = () => {
             Login
           </Link>
         </li>
-        <li>
-          <Link to="/SignUp" className={` ${style.link} `}>
-            Sign Up
-          </Link>
-        </li>
-        <li>
-          <Link to="/sign-up" className={` ${style.link} `}>
-            Sign Up
-          </Link>
-        </li>
 
         <li>
           <Link to="/contact-us" className={` ${style.link} `}>

@@ -6,7 +6,7 @@ const Privacy = () => {
       <h1 className="text-center">Frequently Asked Questions</h1>
       <h6 className="text-center pb-5">Link Coop</h6>
       <p>
-        <span class="ms-5"> </span>
+        <span className="ms-5"> </span>
         I/We know and understand that Link Coop is a Filipino non-profit
         organization and existing under the laws of the Philippines and
         registered with the Securities and Exchange Commission with the primary
