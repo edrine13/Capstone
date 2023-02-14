@@ -10,7 +10,9 @@ export const addUser = async (data) => {
       }
     );
     if (!response.ok) {
-      throw new Error("Failed to send request");
+      throw new Error({
+        message: registerRes.message || "failed to send data",
+      });
     }
 
     const registerRes = await fetch(
@@ -28,9 +30,12 @@ export const addUser = async (data) => {
     );
 
     if (!registerRes.ok) {
-      throw new Error("Failed to register");
+      throw new Error({
+        code: response.code,
+        message: registerRes.message || "failed to register",
+      });
     }
   } catch (err) {
-    return err.message;
+    return err;
   }
 };
