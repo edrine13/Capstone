@@ -1,0 +1,32 @@
+.info-box {
+  color: #2b4257;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(214, 215, 216, 0.3);
+  padding: 20px 0 30px 0;
+  height: 155px;
+}
+
+.info-box h3 {
+  font-size: 20px;
+  color: #2b4257;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.contact-logo {
+  width: 60px;
+  height: 50px;
+  font-size: 32px;
+
+  border-radius: 50%;
+  padding: 8px;
+  padding-right: 8px;
+  padding-left: 8px;
+  border: 2px dotted #b3d1fa;
+}
+
+.path {
+  color: #106eea;
+
+  fill: #106eea;
+}

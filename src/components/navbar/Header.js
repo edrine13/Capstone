@@ -21,6 +21,11 @@ const Header = () => {
           </Link>
         </li>
         <li>
+          <Link to="/About Us" className={` ${style.link} `}>
+            About Us
+          </Link>
+        </li>
+        <li>
           <Link to="/LoanProduct" className={` ${style.link} `}>
             Loan Product
           </Link>
@@ -31,19 +36,19 @@ const Header = () => {
           </Link>
         </li>
         <li>
-          <Link to="/" className={` ${style.link} `}>
-            Sign up
+          <Link to="/SignUp" className={` ${style.link} `}>
+            Sign Up
           </Link>
         </li>
         <li>
-          <Link to="/" className={` ${style.link} `}>
-            Contact Us
+          <Link to="/sign-up" className={` ${style.link} `}>
+            Sign Up
           </Link>
         </li>
 
         <li>
-          <Link to="/" className={` ${style.link} `}>
-            EN
+          <Link to="/contact-us" className={` ${style.link} `}>
+            Contact Us
           </Link>
         </li>
       </ul>

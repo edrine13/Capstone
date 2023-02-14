@@ -14,15 +14,15 @@ const MEMBERS = [
 
 const TeamSection = () => {
   return (
-    <section id="team" class="team section-bg">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title text-center">
+    <section id="team" className={`team ${style["section-bg"]}`}>
+      <div className="container" data-aos="fade-up">
+        <div className={`${style["section-title"]} my-4 text-center`}>
           <h3>
             Our Hardworking <span>Team</span>
           </h3>
         </div>
 
-        <div class="row ">
+        <div className="row ">
           {MEMBERS.map((mem) => (
             <MemberCard key={mem.id} name={mem.name} team={mem.team} />
           ))}

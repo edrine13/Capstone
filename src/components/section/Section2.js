@@ -10,10 +10,10 @@ const Section2 = () => {
       id="featured-services"
       className={`${style["featured-services"]} ${style["section-bg"]}`}
     >
-      <div className="container" data-aos="fade-up">
+      <div className="container" data-aos="fade-up ">
         <div className="row">
-          <div className="section-title">
-            <h3>
+          <div className={`${style["section-title"]} mb-4`}>
+            <h3 >
               Why<span> Us?</span>
             </h3>
           </div>

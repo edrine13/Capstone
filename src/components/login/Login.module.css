@@ -1,0 +1,14 @@
+.signup {
+  display: flex;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 12px 12px 22px grey;
+  padding: 0 !important;
+  margin-top: 7rem;
+}
+
+.image-fluid {
+  padding: 0;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}

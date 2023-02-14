@@ -13,10 +13,10 @@ const WhyUsCards = (props) => {
         data-aos-delay="100"
       >
         <div className="icon">{props.icon}</div>
-        <h4 className="title">
+        <h4 className={`${style.title} text-decoration-none`}>
           <NavLink to="/">{props.title}</NavLink>
         </h4>
-        <p className="description">{props.description}</p>
+        <p className={style.description}>{props.description}</p>
       </div>
     </div>
   );
