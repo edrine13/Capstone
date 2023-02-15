@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import style from "./UserManagement.module.css";
-import Modal from "../../../UI/modal";
-import AddUser from "./add_User/AddUser";
+import React, { useState } from 'react';
+import style from './UserManagement.module.css';
+
+import AddUser from './add_User/AddUser';
 
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
@@ -24,7 +24,7 @@ const UserManagement = () => {
             </button>
           </div>
         </div>
-        <div className={`row ${style["bg"]}`}>
+        <div className={`row ${style['bg']}`}>
           {/* ID COLUMN */}
           <div className="col-4 text-center">
             <h2>ID</h2>

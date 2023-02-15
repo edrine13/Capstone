@@ -10,6 +10,7 @@ import authContext from '../context/auth-context';
 import AdminPage from '../../page/AdminPage';
 import Admin from '../../components/admin/Admin';
 import UserManagementPage from '../../page/UserManagementPage';
+import ContributionManagementPage from '../../page/ContributionManagementPage';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -37,6 +38,10 @@ const useCreatedRoutes = () => {
             <Route index element={<Navigate to={'overview'} />} />
             <Route path="overview" element={<Admin />} />
             <Route path="user-management" element={<UserManagementPage />} />
+            <Route
+              path="contribution-management"
+              element={<ContributionManagementPage />}
+            />
           </Route>
         ) : null}
       </Route>
