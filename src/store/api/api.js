@@ -2,7 +2,7 @@
 export const addUser = async (data) => {
   try {
     const response = await fetch(
-      "https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members.json",
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members.json`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -10,9 +10,7 @@ export const addUser = async (data) => {
       }
     );
     if (!response.ok) {
-      throw new Error({
-        message: registerRes.message || "failed to send data",
-      });
+      throw new Error("Failed to send data");
     }
 
     const registerRes = await fetch(
@@ -30,12 +28,10 @@ export const addUser = async (data) => {
     );
 
     if (!registerRes.ok) {
-      throw new Error({
-        code: response.code,
-        message: registerRes.message || "failed to register",
-      });
+      throw new Error("Failed to register");
     }
   } catch (err) {
-    return err;
+    console.log(err.message);
+    return err.message;
   }
 };

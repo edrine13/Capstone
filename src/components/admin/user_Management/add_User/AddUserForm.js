@@ -151,6 +151,7 @@ const AddUserForm = (props) => {
 
     // Validation input again for user experience
     setValidInput({
+      id: Math.random().toString(16).slice(2),
       lastName: lastNameIsValid,
       middleName: middleNameIsValid,
       firstName: firstNameIsValid,
@@ -186,16 +187,19 @@ const AddUserForm = (props) => {
         username,
         password,
         role,
+        acountStatus: "active",
       });
 
       setIsSubmitted(true);
 
-      console.log(`${response.code} ${response.message}`);
       if (response) {
         throw new Error(response.message);
       }
     } catch (err) {
+      setIsLoading(false);
       setIsError(err);
+
+      return;
     }
 
     setIsLoading(false);
@@ -224,7 +228,7 @@ const AddUserForm = (props) => {
     <form onSubmit={addUserHandler}>
       <div className="container">
         {isSubmitted ? (
-          <div class="alert alert-success text-center" role="alert">
+          <div className="alert alert-success text-center" role="alert">
             Form is submitted successfully!
           </div>
         ) : null}
@@ -310,7 +314,7 @@ const AddUserForm = (props) => {
                 Contact Number
               </label>
               <input
-                type="number"
+                type="tel"
                 name="contactNum"
                 id="contactNum"
                 className={`form-control my-3 p-2 ${
@@ -424,7 +428,7 @@ const AddUserForm = (props) => {
                 className={`form-control my-3 p-2 ${
                   !validInput.username ? "is-invalid" : ""
                 }`}
-                placeholder="Password "
+                placeholder="Username"
                 onChange={usernameInputHandler}
                 value={username}
               />

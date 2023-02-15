@@ -26,7 +26,7 @@ function App() {
         <Route index element={<About />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/user" element={<UserPage Aside={<Aside />} />} />
+        <Route path="/members" element={<UserPage Aside={<Aside />} />} />
         <Route path="/admin/*" element={<AdminPage Aside={<Aside />} />}>
           <Route index element={<Navigate to={"overview"} />} />
           <Route path="overview" element={<Admin />} />

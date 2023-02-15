@@ -3,33 +3,91 @@ import style from "./LoginForm.module.css";
 import { Link } from "react-router-dom";
 import authContext from "../../store/context/auth-context";
 import { useNavigate } from "react-router-dom/dist";
+import roleContext from "../../store/context/role-context";
+const inputIsNotEmpty = (input) => input !== "" && input.trim().length >= 7;
 
 const LoginForm = () => {
-  const [isError, setIsError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(null);
+  const [emailIsValid, setEmailIsValid] = useState(true);
+  const [passwordIsValid, setPasswordIsValid] = useState(true);
+
+  // WE CAN CHECK THE EMAIL INPUT IF VALID BY USING THIS REGEX CODE
+  const regex =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   const Navigate = useNavigate();
 
   // Input ref
-  const passwordRef = useRef("");
-  const emailRef = useRef("");
+  const passwordRef = useRef();
+  const emailRef = useRef();
   const roleRef = useRef("");
 
   const authCtx = useContext(authContext);
+  const roleCtx = useContext(roleContext);
 
   // Submit Handler
 
   const loginSubmitHandler = async (event) => {
     event.preventDefault();
 
-    setIsLoading(true);
-
     const pass = passwordRef.current.value;
-    const email = emailRef.current.value;
+    const emailAddress = emailRef.current.value;
     const role = roleRef.current.value;
+    const validPassword = inputIsNotEmpty(pass);
+    const validEmail = regex.test(emailAddress);
+    const inputIsValid = validPassword && validEmail;
+
+    if (!validEmail) {
+      setEmailIsValid(false);
+      setTimeout(() => {
+        setEmailIsValid(true);
+      }, 5000);
+      console.log("asdfasdfasdfsdf");
+    }
+
+    if (!validPassword) {
+      setPasswordIsValid(false);
+      setTimeout(() => {
+        setPasswordIsValid(true);
+      }, 5000);
+      console.log("Asdfasdf");
+    }
+
+    if (!inputIsValid) {
+      return;
+    }
 
     try {
-      // Main Fetch
+      // CHECK IF USER EXIST IN DESIGNED ROLE
+      const user = await fetch(
+        `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/${role}.json`
+      );
+
+      const getUser = await user.json();
+
+      console.log(getUser);
+
+      let convertData = [];
+
+      for (let user_id in getUser) {
+        convertData.push({
+          email: getUser[user_id].email,
+
+          id: user_id,
+        });
+      }
+
+      // CHECK IF USER EXIST IN DESIGNED ROLE
+
+      const userExist = convertData.find((user) => user.email === emailAddress);
+
+      if (!userExist) {
+        setIsError("You don't have the right role to log in");
+        setTimeout(() => {
+          setIsError(null);
+        }, 5000);
+        return;
+      }
 
       const response = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAhYUaQeJllfCXoqZTxuOhlaYzVhspN98I",
@@ -39,8 +97,7 @@ const LoginForm = () => {
           body: JSON.stringify({
             idToken: authCtx.token,
             password: pass,
-            email: email,
-
+            email: emailAddress,
             returnSecureToken: true,
           }),
         }
@@ -56,20 +113,34 @@ const LoginForm = () => {
             : "Failed to send request"
         );
       }
-      setIsLoading(false);
+      // AUTH TIMER
 
       const expiresIn = new Date(new Date().getTime() + +res.expiresIn * 1000);
       authCtx.login(res.idToken, expiresIn.toISOString());
       Navigate(`/${role}`, { replace: true });
     } catch (err) {
       setIsError(err.message);
-      setIsLoading(false);
     }
   };
 
+  // ERROR MESSAGES
+
   return (
-    <form onSubmit={loginSubmitHandler}>
+    <form onSubmit={loginSubmitHandler} className="pb-3">
       <div className="col-lg-7">
+        {isError ? (
+          <div className="alert alert-danger text-center" role="alert">
+            {isError}
+          </div>
+        ) : (
+          ""
+        )}
+
+        {/* Email Invalid message */}
+        {!emailIsValid && (
+          <p className={style.invalid}>Please enter a valid email</p>
+        )}
+
         <input
           type="email"
           placeholder="Email"
@@ -79,6 +150,8 @@ const LoginForm = () => {
       </div>
 
       <div className="col-lg-7 ">
+        {/* Password Invalid Message */}
+        {!passwordIsValid && <p className={style.invalid}> Invalid Password</p>}
         <input
           type="password"
           placeholder="Password"
@@ -92,8 +165,9 @@ const LoginForm = () => {
           className="form-select"
           aria-label="Default select example"
           ref={roleRef}
+          defaultValue="members"
         >
-          <option value="user">User</option>
+          <option value="members">Member</option>
           <option value="admin">Admin</option>
         </select>
       </div>
