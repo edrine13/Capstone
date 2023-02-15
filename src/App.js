@@ -1,40 +1,14 @@
-import "./App.css";
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  RouterProvider,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import Layout from "./components/Layout/Layout";
-import About from "./page/About";
-import LoginPage from "./page/LoginPage";
-import SignUpPage from "./page/SignUpPage";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import UserPage from "./page/UserPage";
-import AdminPage from "./page/AdminPage";
-import Aside from "./components/user/aside/Aside";
-import Admin from "./components/admin/Admin";
-import UserManagementPage from "./page/UserManagementPage";
+import React, { useContext } from 'react';
+import './App.css';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import useCreatedRoutes from './store/routes/routes';
+import { RouterProvider } from 'react-router-dom';
 
 function App() {
+  const router = useCreatedRoutes();
   AOS.init();
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route path="/" element={<Layout />}>
-        <Route index element={<About />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/members" element={<UserPage Aside={<Aside />} />} />
-        <Route path="/admin/*" element={<AdminPage Aside={<Aside />} />}>
-          <Route index element={<Navigate to={"overview"} />} />
-          <Route path="overview" element={<Admin />} />
-          <Route path="user-management" element={<UserManagementPage />} />
-        </Route>
-      </Route>
-    )
-  );
   return (
     <>
       <RouterProvider router={router} />

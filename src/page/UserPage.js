@@ -1,13 +1,13 @@
-import React from "react";
-import User from "../components/user/User";
-import Aside from "../components/user/aside/Aside";
-import { Route } from "react-router-dom";
+import React from 'react';
+import User from '../components/user/User';
+
+import Aside from '../components/user/aside/AsideUser';
 
 const UserPage = (props) => {
-  const Active = "admin";
+  const Active = 'admin';
   return (
     <React.Fragment>
-      {props.Aside}
+      <Aside />
       <User />
     </React.Fragment>
   );

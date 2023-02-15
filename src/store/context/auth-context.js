@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 const authContext = React.createContext({
-  token: "",
+  token: '',
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
-  role: "",
+  role: '',
 });
 // Just a helper to calculate the timer
 const timerHelper = (expiresIn) => {
@@ -13,14 +13,15 @@ const timerHelper = (expiresIn) => {
   const timer = new Date(expiresIn).getTime();
 
   const timeExp = timer - latestDate;
+
   return timeExp;
 };
 
 // Function to check if the user has enough reasonable time to keep the account login
 
 const tokenData = () => {
-  const existingToken = localStorage.getItem("token");
-  const existingTimer = localStorage.getItem("timer");
+  const existingToken = localStorage.getItem('token');
+  const existingTimer = localStorage.getItem('timer');
 
   const validTime = timerHelper(existingTimer);
 
@@ -29,6 +30,7 @@ const tokenData = () => {
   if (validTime <= 60000) {
     return null;
   }
+
   return { token: existingToken, time: validTime };
 };
 
@@ -38,7 +40,7 @@ export const AuthContextProvider = (props) => {
   const retrieveToken = tokenData();
   let localToken;
   if (retrieveToken) {
-    localToken = localStorage.getItem("token");
+    localToken = localStorage.getItem('token');
   }
 
   const [token, setToken] = useState(localToken);
@@ -48,8 +50,8 @@ export const AuthContextProvider = (props) => {
   //   LogoutHandler
 
   const logoutHandler = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("timer");
+    localStorage.removeItem('token');
+    localStorage.removeItem('timer');
     setToken(null);
 
     if (timerGlobal) {
@@ -60,10 +62,10 @@ export const AuthContextProvider = (props) => {
   //Login Handler
 
   const loginHandler = (token, timer) => {
-    localStorage.setItem("token", token);
+    localStorage.setItem('token', token);
 
     setToken(token);
-    localStorage.setItem("timer", timer);
+    localStorage.setItem('timer', timer);
 
     const tokenTimer = timerHelper(timer);
     console.log(tokenTimer);

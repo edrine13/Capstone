@@ -1,10 +1,10 @@
-import React, { useRef, useContext, useState } from "react";
-import style from "./LoginForm.module.css";
-import { Link } from "react-router-dom";
-import authContext from "../../store/context/auth-context";
-import { useNavigate } from "react-router-dom/dist";
-import roleContext from "../../store/context/role-context";
-const inputIsNotEmpty = (input) => input !== "" && input.trim().length >= 7;
+import React, { useRef, useContext, useState } from 'react';
+import style from './LoginForm.module.css';
+import { Link } from 'react-router-dom';
+import authContext from '../../store/context/auth-context';
+import { useNavigate } from 'react-router-dom/dist';
+import roleContext from '../../store/context/role-context';
+const inputIsNotEmpty = (input) => input !== '' && input.trim().length >= 7;
 
 const LoginForm = () => {
   const [isError, setIsError] = useState(null);
@@ -20,7 +20,7 @@ const LoginForm = () => {
   // Input ref
   const passwordRef = useRef();
   const emailRef = useRef();
-  const roleRef = useRef("");
+  const roleRef = useRef('');
 
   const authCtx = useContext(authContext);
   const roleCtx = useContext(roleContext);
@@ -65,8 +65,6 @@ const LoginForm = () => {
 
       const getUser = await user.json();
 
-      console.log(getUser);
-
       let convertData = [];
 
       for (let user_id in getUser) {
@@ -80,9 +78,12 @@ const LoginForm = () => {
       // CHECK IF USER EXIST IN DESIGNED ROLE
 
       const userExist = convertData.find((user) => user.email === emailAddress);
+      console.log(userExist);
 
       if (!userExist) {
-        setIsError("You don't have the right role to log in");
+        setIsError(
+          "You don't have the right role to log in Or your account does not exist"
+        );
         setTimeout(() => {
           setIsError(null);
         }, 5000);
@@ -90,10 +91,10 @@ const LoginForm = () => {
       }
 
       const response = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAhYUaQeJllfCXoqZTxuOhlaYzVhspN98I",
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAhYUaQeJllfCXoqZTxuOhlaYzVhspN98I',
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             idToken: authCtx.token,
             password: pass,
@@ -110,7 +111,7 @@ const LoginForm = () => {
         throw new Error(
           response.error.message
             ? response.error.message
-            : "Failed to send request"
+            : 'Failed to send request'
         );
       }
       // AUTH TIMER
@@ -133,7 +134,7 @@ const LoginForm = () => {
             {isError}
           </div>
         ) : (
-          ""
+          ''
         )}
 
         {/* Email Invalid message */}
@@ -182,7 +183,7 @@ const LoginForm = () => {
 
       {/* GOOGLE BUTTON added by NPM */}
 
-      <Link to={"/"} className={`text-decoration-none`}>
+      <Link to={'/'} className={`text-decoration-none`}>
         Forgot Password?
       </Link>
     </form>
