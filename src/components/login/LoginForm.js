@@ -42,7 +42,6 @@ const LoginForm = () => {
       setTimeout(() => {
         setEmailIsValid(true);
       }, 5000);
-      console.log("asdfasdfasdfsdf");
     }
 
     if (!validPassword) {
@@ -50,8 +49,9 @@ const LoginForm = () => {
       setTimeout(() => {
         setPasswordIsValid(true);
       }, 5000);
-      console.log("Asdfasdf");
     }
+
+    // CHECK IF ALL INPUT IS VALID BEFORE PROCEEDING TO NEXT LINE
 
     if (!inputIsValid) {
       return;

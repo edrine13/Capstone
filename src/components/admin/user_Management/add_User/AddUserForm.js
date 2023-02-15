@@ -151,7 +151,6 @@ const AddUserForm = (props) => {
 
     // Validation input again for user experience
     setValidInput({
-      id: Math.random().toString(16).slice(2),
       lastName: lastNameIsValid,
       middleName: middleNameIsValid,
       firstName: firstNameIsValid,
@@ -164,6 +163,9 @@ const AddUserForm = (props) => {
       monthlyContribution: monthlyContributionIsValid,
       username: userNameIsValid,
       password: passwordIsValid,
+      loanStatus: "inactive",
+      accountStatus: "active",
+      totalContribution: monthlyContribution,
     });
 
     if (!inputIsValid) {
