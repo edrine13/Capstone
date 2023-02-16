@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from './UserManagement.module.css';
-
+import Table from 'react-bootstrap/Table';
 import AddUser from './add_User/AddUser';
+import { getAllUser } from '../../../store/api/api';
 
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
+  const [users, setUsers] = useState([]);
+
+  console.log(users.sort());
+
+  useEffect(() => {
+    const response = async () => {
+      const data = await getAllUser();
+      setUsers(data);
+    };
+
+    response();
+  }, [setUsers, getAllUser]);
   return (
     <section
       className={`${style.userSection} 
@@ -24,29 +37,50 @@ const UserManagement = () => {
             </button>
           </div>
         </div>
-        <div className={`row ${style['bg']}`}>
-          {/* ID COLUMN */}
-          <div className="col-4 text-center">
-            <h2>ID</h2>
-            <div className="row text-center ">
-              <p>234iho3424</p>
-            </div>
-          </div>
-          {/* NAME COLUMN */}
-          <div className="col-4 text-center">
-            <h2>Name</h2>
-            <div className="row text-center">
-              <p>asdfasdfasdfoin</p>
-            </div>
-          </div>
-          {/* EMAIL ADDRESS COLUMN */}
-          <div className="col-4 text-center">
-            <h2>Email</h2>
-            <div className="row text-center">
-              <p>testEmail.com</p>
-            </div>
-          </div>
-        </div>
+        <section>
+          <Table responsive>
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Suffix</th>
+                <th>Gender</th>
+                <th>Civil Status</th>
+                <th>Birth Date</th>
+                <th>Contact No.</th>
+                <th>Email</th>
+                <th>Nationality</th>
+                <th>Password</th>
+                <th>Total Contribution</th>
+                <th>Account Status</th>
+                <th>Loan Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr>
+                  <td>{user.id}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.firstName}</td>
+                  <td>{user.middleName}</td>
+                  <td>{user.suffix ? user.suffix : 'N/A'}</td>
+                  <td>{user.gender}</td>
+                  <td>{user.civilStatus}</td>
+                  <td>{user.birthDate}</td>
+                  <td>{user.contactNumber}</td>
+                  <td>{user.email}</td>
+                  <td>{user.nationality}</td>
+                  <td>{user.password}</td>
+                  <td>{user.totalContribution}</td>
+                  <td>{user.accountStatus}</td>
+                  <td>{user.loanStatus}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </section>
       </div>
     </section>
   );
