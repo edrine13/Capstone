@@ -1,8 +1,12 @@
 import React from 'react';
-import ContributionManagement from '../components/admin/contribution_Management/ContributionManagement';
+import LoanManagement from '../components/admin/loan_Management/LoanManagement';
 
 const LoanManagementPage = () => {
-  return <></>;
+  return (
+    <>
+      <LoanManagement />
+    </>
+  );
 };
 
 export default LoanManagementPage;

@@ -17,6 +17,7 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
+import LoanManagementPage from '../../page/LoanManagementPage';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
@@ -42,6 +43,7 @@ const useCreatedRoutes = () => {
               path="contribution-management"
               element={<ContributionManagementPage />}
             />
+            <Route path="loan-management" element={<LoanManagementPage />} />
           </Route>
         ) : null}
       </Route>

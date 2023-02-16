@@ -67,8 +67,43 @@ export const getAllUser = async () => {
         totalContribution: data[user_id].totalContribution,
         accountStatus: data[user_id].accountStatus,
         loanStatus: data[user_id].loanStatus,
+        lastPaid: data[user_id].lastPaid ? data[user_id].lastPaid : 'N/A',
+        contributionCount: data[user_id].contributionCount
+          ? data[user_id].contributionCount
+          : 1,
+        monthlyContribution: data[user_id].monthlyContribution,
       });
     }
     return convertData;
+  } catch (err) {}
+};
+
+export const updatedData = async (data) => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members.json`,
+      {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to process the action');
+    }
+  } catch (err) {}
+};
+
+export const getAllUserPure = async () => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members.json`
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+
+    const data = await response.json();
+    return data;
   } catch (err) {}
 };

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import style from "./Header.module.css";
-import Logo from "./Logo";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from 'react';
+import style from './Header.module.css';
+import Logo from './Logo';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [added, setAdded] = useState(false);

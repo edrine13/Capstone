@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Table } from 'react-bootstrap';
 import style from './ContributionManagement.module.css';
-import { getAllUser } from '../../../store/api/api';
-import Pagination from 'react-bootstrap/Pagination';
-import PageItem from 'react-bootstrap/PageItem';
+import { getAllUser, updatedData } from '../../../store/api/api';
+
 import MyPagination from './MyPagination';
+import AreYouSureModal from './AreYouSureModal';
+import { getAllUserPure } from '../../../store/api/api';
 
 const ContributionManagement = () => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(5);
-  const [showModal, setShowModal] = useState();
+  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [showModal, setShowModal] = useState(false);
+  const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
     const response = async () => {
@@ -24,12 +26,44 @@ const ContributionManagement = () => {
   const indexOfLastPost = page * postsPerPage;
   const indexOfFirstPosts = indexOfLastPost - postsPerPage;
   const currentPosts = users.slice(indexOfFirstPosts, indexOfLastPost);
-  console.log(indexOfFirstPosts);
-  console.log(indexOfFirstPosts);
 
   // CHANGE PAGE
 
   const paginate = (pageNumber) => setPage(pageNumber);
+
+  // PROCESS HANDLER
+
+  const process = useCallback(async (event) => {
+    const data = await getAllUserPure();
+    let convertData = {};
+    console.log(data);
+
+    for (let user_id in data) {
+      console.log(user_id);
+      convertData = {
+        [user_id]: {
+          ...data[user_id],
+          totalContribution:
+            +data[user_id].totalContribution +
+            +data[user_id].monthlyContribution,
+          lastPaid:
+            new Date().getFullYear() +
+            '/' +
+            (new Date().getMonth() + 1) +
+            '/' +
+            new Date().getDate(),
+          contributionCount: data[user_id].contributionCount + 1,
+        },
+      };
+      // PUT LOGIN HERE
+      updatedData(convertData);
+    }
+    setUpdated(true);
+    setShowModal((modal) => !modal);
+    setTimeout(() => {
+      setUpdated(false);
+    }, 5000);
+  }, []);
 
   return (
     <section
@@ -42,9 +76,12 @@ const ContributionManagement = () => {
             <h1 className="">Contribution Management </h1>
           </div>
           <div className="col-2 pt-2">
-            {showModal
-              ? '<AddUser onClick={() => setShowModal((show) => !show)} />'
-              : null}
+            {showModal ? (
+              <AreYouSureModal
+                onClick={() => setShowModal((show) => !show)}
+                yesHandler={process}
+              />
+            ) : null}
             <button className="btn btn-dark" onClick={() => setShowModal(true)}>
               Process
             </button>
@@ -58,45 +95,32 @@ const ContributionManagement = () => {
                 <th>Last Name</th>
                 <th>First Name</th>
                 <th>Middle Name</th>
-                <th>Suffix</th>
-                <th>Gender</th>
-                <th>Civil Status</th>
-                <th>Birth Date</th>
-                <th>Contact No.</th>
-                <th>Email</th>
-                <th>Nationality</th>
-                <th>Password</th>
+
                 <th>Total Contribution</th>
-                <th>Account Status</th>
-                <th>Loan Status</th>
+                {/* need to make logic for this */}
+                <th>Contribution Count</th>
+                <th>Last Paid</th>
               </tr>
             </thead>
             <tbody>
               {users &&
-                currentPosts.map((user, index) => {
+                currentPosts.map((user) => {
                   return (
                     <tr>
-                      <td>{}</td>
                       <td>{user.id}</td>
                       <td>{user.lastName}</td>
                       <td>{user.firstName}</td>
-                      <td>{user.middleName}</td>
-                      <td>{user.suffix ? user.suffix : 'N/A'}</td>
-                      <td>{user.gender}</td>
-                      <td>{user.civilStatus}</td>
-                      <td>{user.birthDate}</td>
-                      <td>{user.contactNumber}</td>
-                      <td>{user.email}</td>
-                      <td>{user.nationality}</td>
-                      <td>{user.password}</td>
+                      <td>{user.lastName}</td>
+
                       <td>{user.totalContribution}</td>
-                      <td>{user.accountStatus}</td>
-                      <td>{user.loanStatus}</td>
+                      <td>{user.contributionCount}</td>
+                      <td>{user.lastPaid}</td>
                     </tr>
                   );
                 })}
             </tbody>
           </Table>
+          {/* Pagination */}
           <MyPagination
             postsPerPage={postsPerPage}
             totalPosts={users.length}
