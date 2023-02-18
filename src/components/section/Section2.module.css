@@ -1,0 +1,39 @@
+.featured-services {
+  padding: 60px 0;
+  overflow: hidden;
+  text-align: center;
+  background-color: #f6f9fe;
+}
+
+.featured-services .icon-box {
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.btn-learn {
+  padding: 10px 25px;
+  border-radius: 5px;
+  background: #fff;
+  border: solid 1px #2b4257;
+}
+
+.btn-learn:hover {
+  background: #2b4257;
+  color: #fff;
+}
+
+.section-title h3 {
+  margin: 15px 0 0 0;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.section-title span {
+  color: #ffa500;
+}

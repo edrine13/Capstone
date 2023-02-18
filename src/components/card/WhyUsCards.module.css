@@ -1,0 +1,54 @@
+.card-section:hover {
+  background: #2b4257;
+}
+
+.icon-box {
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  z-index: 1;
+  fill: #ffa500;
+}
+.icon-box::before {
+  content: '';
+  position: absolute;
+  background: #cbe0fb;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 100%;
+  transition: all 0.3s;
+  z-index: -1;
+}
+
+.icon-box:hover::before {
+  background: #2b4257;
+  top: 0;
+  border-radius: 0px;
+}
+
+/* .title a {
+  text-decoration: none;
+  color: #2b4257;
+  font-weight: 700;
+  font-size: 18px;
+} */
+.icon-box:hover {
+  color: white;
+  background: #ffa600;
+  fill: #6fa8cc;
+}
+
+.icon-box:hover .icon {
+  color: #ffa600;
+  fill: #6fa8cc;
+}
+
+.icon-box:hover .title {
+  color: #ffa600;
+  fill: #6fa8cc;
+}

@@ -1,0 +1,12 @@
+.card-link {
+  text-decoration: none;
+  color: black;
+}
+
+.image {
+  height: 300px;
+}
+
+.cardBody {
+  height: 160px;
+}

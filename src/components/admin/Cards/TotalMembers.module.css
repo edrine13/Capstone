@@ -1,0 +1,27 @@
+.totalMembers {
+  height: 100px;
+}
+
+.totalMembers h3 {
+  font-size: 20px;
+  font-family: "roboto";
+}
+
+.totalMembers p {
+  width: min-content;
+  font-size: 20px;
+  font-family: sans-serif;
+}
+
+.card-button {
+  font-weight: 600;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  width: inherit;
+  border: none;
+  text-decoration: none;
+}
+
+.card-button:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  color: white;
+}

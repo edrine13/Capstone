@@ -1,0 +1,6 @@
+@media (min-width: 768px) {
+  #side {
+    margin-left: 200px;
+    margin-right: 200px;
+  }
+}

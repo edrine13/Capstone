@@ -1,0 +1,32 @@
+.php-email-form {
+  box-shadow: 0 0 30px rgba(214, 215, 216, 0.4);
+  padding: 30px;
+}
+
+.php-email-form input {
+  padding: 10px 15px;
+}
+.contact .php-email-form input,
+.contact .php-email-form textarea {
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.contactBtn {
+  background: #2b4257;
+  border: 0;
+  padding: 10px 30px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 4px;
+  transition: 0.5s;
+}
+
+.contactBtn:hover {
+  background: #3b8af2;
+}
