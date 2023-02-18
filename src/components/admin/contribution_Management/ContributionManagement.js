@@ -13,6 +13,8 @@ const ContributionManagement = () => {
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const [updated, setUpdated] = useState(false);
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortKey, setSortKey] = useState('');
 
   useEffect(() => {
     const response = async () => {
@@ -22,6 +24,25 @@ const ContributionManagement = () => {
 
     response();
   }, [setUsers, getAllUser]);
+
+  const handleSort = (key) => {
+    const newData = [...users];
+    const order =
+      sortKey === key ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc';
+
+    newData.sort((a, b) => {
+      if (a[key] < b[key]) {
+        return order === 'asc' ? -1 : 1;
+      }
+      if (a[key] > b[key]) {
+        return order === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+    setUsers(newData);
+    setSortKey(key);
+    setSortOrder(order);
+  };
 
   const indexOfLastPost = page * postsPerPage;
   const indexOfFirstPosts = indexOfLastPost - postsPerPage;
@@ -92,26 +113,103 @@ const ContributionManagement = () => {
             <thead>
               <tr>
                 <th>id</th>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-
-                <th>Total Contribution</th>
-                {/* need to make logic for this */}
-                <th>Contribution Count</th>
-                <th>Last Paid</th>
+                <th
+                  onClick={() => handleSort('lastName')}
+                  className={sortKey === 'lastName' ? sortOrder : ''}
+                >
+                  Last Name{''}
+                  {sortKey === 'lastName' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'lastName' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('firstName')}
+                  className={sortKey === 'firstName' ? sortOrder : ''}
+                >
+                  First Name{''}
+                  {sortKey === 'firstName' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'firstName' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('middleName')}
+                  className={sortKey === 'middleName' ? sortOrder : ''}
+                >
+                  Middle Name{''}
+                  {sortKey === 'middleName' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'middleName' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('monthlyContribution')}
+                  className={sortKey === 'monthlyContribution' ? sortOrder : ''}
+                >
+                  Monthly Contribution{''}
+                  {sortKey === 'monthlyContribution' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'monthlyContribution' &&
+                    sortOrder === 'desc' && (
+                      <span className="sort-arrow down">▼</span>
+                    )}
+                </th>
+                <th
+                  onClick={() => handleSort('totalContribution')}
+                  className={sortKey === 'totalContribution' ? sortOrder : ''}
+                >
+                  Total Contribution{''}
+                  {sortKey === 'totalContribution' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'totalContribution' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('contributionCount')}
+                  className={sortKey === 'contributionCount' ? sortOrder : ''}
+                >
+                  Contribution Count{''}
+                  {sortKey === 'contributionCount' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'contributionCount' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('lastPaid')}
+                  className={sortKey === 'lastPaid' ? sortOrder : ''}
+                >
+                  Last Paid{''}
+                  {sortKey === 'lastPaid' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'lastPaid' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
               </tr>
             </thead>
             <tbody>
               {users &&
-                currentPosts.map((user) => {
+                currentPosts.map((user, index) => {
                   return (
-                    <tr>
+                    <tr key={index}>
                       <td>{user.id}</td>
                       <td>{user.lastName}</td>
                       <td>{user.firstName}</td>
-                      <td>{user.lastName}</td>
-
+                      <td>{user.middleName}</td>
+                      <td>{user.monthlyContribution}</td>
                       <td>{user.totalContribution}</td>
                       <td>{user.contributionCount}</td>
                       <td>{user.lastPaid}</td>

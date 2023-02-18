@@ -86,7 +86,7 @@ ${style.side}`}
           <Table responsive>
             <thead>
               <tr>
-                <th>id</th>
+                <th>ID</th>
                 <th>Last Name</th>
                 <th>First Name</th>
                 <th>Middle Name</th>
@@ -99,10 +99,10 @@ ${style.side}`}
             </thead>
             <tbody>
               {users &&
-                filteredList.map((user) => {
+                filteredList.map((user, index) => {
                   return (
                     <tr key={user.id}>
-                      <td>{user.id}</td>
+                      <td>{index + 1}</td>
                       <td>{user.lastName}</td>
                       <td>{user.firstName}</td>
                       <td>{user.lastName}</td>

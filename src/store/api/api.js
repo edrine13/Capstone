@@ -56,7 +56,7 @@ export const getAllUser = async () => {
         id: user_id,
         firstName: data[user_id].firstName,
         middleName: data[user_id].middleName,
-        nameSuffix: data[user_id].middleName,
+        nameSuffix: data[user_id].nameSuffix,
         gender: data[user_id].gender,
         civilStatus: data[user_id].civilStatus,
         birthDate: data[user_id].birthDate,

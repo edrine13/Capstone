@@ -7,6 +7,8 @@ import { getAllUser } from '../../../store/api/api';
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [users, setUsers] = useState([]);
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortKey, setSortKey] = useState('');
 
   console.log(users.sort());
 
@@ -18,6 +20,25 @@ const UserManagement = () => {
 
     response();
   }, [setUsers, getAllUser]);
+
+  const handleSort = (key) => {
+    const newData = [...users];
+    const order =
+      sortKey === key ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc';
+    newData.sort((a, b) => {
+      if (a[key] < b[key]) {
+        return order === 'asc' ? -1 : 1;
+      }
+      if (a[key] > b[key]) {
+        return order === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+    setUsers(newData);
+    setSortOrder(order);
+    setSortKey(key);
+  };
+
   return (
     <section
       className={`${style.userSection} 
@@ -42,30 +63,184 @@ const UserManagement = () => {
             <thead>
               <tr>
                 <th>id</th>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Suffix</th>
-                <th>Gender</th>
-                <th>Civil Status</th>
-                <th>Birth Date</th>
-                <th>Contact No.</th>
-                <th>Email</th>
-                <th>Nationality</th>
-                <th>Password</th>
-                <th>Total Contribution</th>
-                <th>Account Status</th>
-                <th>Loan Status</th>
+                <th
+                  onClick={() => handleSort('lastName')}
+                  className={sortKey === 'lastName' ? sortOrder : ''}
+                >
+                  Last Name{''}
+                  {sortKey === 'lastName' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'lastName' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('firstName')}
+                  className={sortKey === 'firstName' ? sortOrder : ''}
+                >
+                  First Name{''}
+                  {sortKey === 'firstName' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'firstName' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('middleName')}
+                  className={sortKey === 'middleName' ? sortOrder : ''}
+                >
+                  Middle Name{''}
+                  {sortKey === 'middleName' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'middleName' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('nameSuffix')}
+                  className={sortKey === 'nameSuffix' ? sortOrder : ''}
+                >
+                  Suffix{''}
+                  {sortKey === 'nameSuffix' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'nameSuffix' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('gender')}
+                  className={sortKey === 'gender' ? sortOrder : ''}
+                >
+                  Gender{''}
+                  {sortKey === 'gender' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'gender' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('civilStatus')}
+                  className={sortKey === 'civilStatus' ? sortOrder : ''}
+                >
+                  Civil Status{''}
+                  {sortKey === 'civilStatus' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'civilStatus' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('birthDate')}
+                  className={sortKey === 'birthDate' ? sortOrder : ''}
+                >
+                  Birth Date{''}
+                  {sortKey === 'birthDate' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'birthDate' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('contactNumber')}
+                  className={sortKey === 'contactNumber' ? sortOrder : ''}
+                >
+                  Contact No.{''}
+                  {sortKey === 'contactNumber' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'contactNumber' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('email')}
+                  className={sortKey === 'email' ? sortOrder : ''}
+                >
+                  Email{''}
+                  {sortKey === 'email' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'email' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('nationality')}
+                  className={sortKey === 'nationality' ? sortOrder : ''}
+                >
+                  Nationality{''}
+                  {sortKey === 'nationality' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'nationality' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('password')}
+                  className={sortKey === 'password' ? sortOrder : ''}
+                >
+                  Password{''}
+                  {sortKey === 'password' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'password' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('totalContribution')}
+                  className={sortKey === 'totalContribution' ? sortOrder : ''}
+                >
+                  Total Contribution{''}
+                  {sortKey === 'totalContribution' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'totalContribution' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('accountStatus')}
+                  className={sortKey === 'accountStatus' ? sortOrder : ''}
+                >
+                  Account Status{''}
+                  {sortKey === 'accountStatus' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'accountStatus' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('loanStatus')}
+                  className={sortKey === 'loanStatus' ? sortOrder : ''}
+                >
+                  Loan Status{''}
+                  {sortKey === 'loanStatus' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'loanStatus' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr>
+              {users.map((user, index) => (
+                <tr key={index}>
                   <td>{user.id}</td>
                   <td>{user.lastName}</td>
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
-                  <td>{user.suffix ? user.suffix : 'N/A'}</td>
+                  <td>{user.nameSuffix ? user.nameSuffix : 'N/A'}</td>
                   <td>{user.gender}</td>
                   <td>{user.civilStatus}</td>
                   <td>{user.birthDate}</td>
