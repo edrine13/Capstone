@@ -16,21 +16,40 @@ const ContributionManagement = () => {
   const [updated, setUpdated] = useState(false);
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     const response = async () => {
       const data = await getAllUser();
       setUsers(data);
+      setFilteredData(data);
     };
 
     response();
   }, [setUsers, getAllUser]);
 
+  function filterData(query) {
+    return users.filter(
+      (row) =>
+        row.lastName.toLowerCase().includes(query.toLowerCase()) ||
+        row.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        row.middleName.toLowerCase().includes(query.toLowerCase()) ||
+        row.civilStatus.toLowerCase().includes(query.toLowerCase()) ||
+        row.gender.toLowerCase() === query.toLowerCase()
+    );
+  }
+
+  function handleSearch(event) {
+    const query = event.target.value;
+    setQuery(query);
+    setFilteredData(filterData(query));
+  }
+
   const handleSort = (key) => {
-    const newData = [...users];
+    const newData = [...filteredData];
     const order =
       sortKey === key ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc';
-
     newData.sort((a, b) => {
       if (a[key] < b[key]) {
         return order === 'asc' ? -1 : 1;
@@ -40,14 +59,14 @@ const ContributionManagement = () => {
       }
       return 0;
     });
-    setUsers(newData);
-    setSortKey(key);
+    setFilteredData(newData);
     setSortOrder(order);
+    setSortKey(key);
   };
 
   const indexOfLastPost = page * postsPerPage;
   const indexOfFirstPosts = indexOfLastPost - postsPerPage;
-  const currentPosts = users.slice(indexOfFirstPosts, indexOfLastPost);
+  const currentPosts = filteredData.slice(indexOfFirstPosts, indexOfLastPost);
 
   // CHANGE PAGE
 
@@ -117,6 +136,22 @@ const ContributionManagement = () => {
           </div>
         </div>
         <section>
+          <div className="d-flex">
+            <input
+              className="form-control mr-sm-2 d-block"
+              type="search"
+              placeholder="Search Name, Gender"
+              aria-label="Search"
+              onChange={handleSearch}
+              value={query}
+            />
+            <button
+              className="btn btn-outline-success my-2 my-sm-0 d-block"
+              type="submit"
+            >
+              Search
+            </button>
+          </div>
           <Table responsive>
             <thead>
               <tr>
@@ -209,27 +244,26 @@ const ContributionManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {users &&
-                currentPosts.map((user, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{user.id}</td>
-                      <td>{user.lastName}</td>
-                      <td>{user.firstName}</td>
-                      <td>{user.middleName}</td>
-                      <td>{user.monthlyContribution}</td>
-                      <td>{user.totalContribution}</td>
-                      <td>{user.contributionCount}</td>
-                      <td>{user.lastPaid}</td>
-                    </tr>
-                  );
-                })}
+              {currentPosts.map((user, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{user.id}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.firstName}</td>
+                    <td>{user.middleName}</td>
+                    <td>{user.monthlyContribution}</td>
+                    <td>{user.totalContribution}</td>
+                    <td>{user.contributionCount}</td>
+                    <td>{user.lastPaid}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
           {/* Pagination */}
           <MyPagination
             postsPerPage={postsPerPage}
-            totalPosts={users.length}
+            totalPosts={filteredData.length}
             paginate={paginate}
           />
         </section>

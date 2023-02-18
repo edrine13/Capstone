@@ -27,8 +27,25 @@ const UserManagement = () => {
     response();
   }, [setUsers, getAllUser]);
 
+  function filterData(query) {
+    return users.filter(
+      (row) =>
+        row.lastName.toLowerCase().includes(query.toLowerCase()) ||
+        row.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        row.middleName.toLowerCase().includes(query.toLowerCase()) ||
+        row.civilStatus.toLowerCase().includes(query.toLowerCase()) ||
+        row.gender.toLowerCase() === query.toLowerCase()
+    );
+  }
+
+  function handleSearch(event) {
+    const query = event.target.value;
+    setQuery(query);
+    setFilteredData(filterData(query));
+  }
+
   const handleSort = (key) => {
-    const newData = [...users];
+    const newData = [...filteredData];
     const order =
       sortKey === key ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc';
     newData.sort((a, b) => {
@@ -40,29 +57,14 @@ const UserManagement = () => {
       }
       return 0;
     });
-    setUsers(newData);
+    setFilteredData(newData);
     setSortOrder(order);
     setSortKey(key);
   };
 
-  function filterData(query) {
-    return users.filter(
-      (row) =>
-        row.lastName.toLowerCase().includes(query.toLowerCase()) ||
-        row.firstName.toLowerCase().includes(query.toLowerCase()) ||
-        row.middleName.toLowerCase().includes(query.toLowerCase())
-    );
-  }
-
-  function handleSearch(event) {
-    const query = event.target.value;
-    setQuery(query);
-    setFilteredData(filterData(query));
-  }
-
   const indexOfLastPost = page * postsPerPage;
   const indexOfFirstPosts = indexOfLastPost - postsPerPage;
-  const currentPosts = users.slice(indexOfFirstPosts, indexOfLastPost);
+  const currentPosts = filteredData.slice(indexOfFirstPosts, indexOfLastPost);
 
   // CHANGE PAGE
 
@@ -83,17 +85,27 @@ const UserManagement = () => {
               <AddUser onClick={() => setShowModal((show) => !show)} />
             ) : null}
             <button className="btn btn-dark" onClick={() => setShowModal(true)}>
-              Add
+              Add Member
             </button>
           </div>
         </div>
         <section>
-          <input
-            type="text"
-            value={query}
-            onChange={handleSearch}
-            className="form-control mr-sm-2 d-block"
-          />
+          <div className="d-flex">
+            <input
+              className="form-control mr-sm-2 d-block"
+              type="search"
+              placeholder="Search Name, Gender"
+              aria-label="Search"
+              onChange={handleSearch}
+              value={query}
+            />
+            <button
+              className="btn btn-outline-success my-2 my-sm-0 d-block"
+              type="submit"
+            >
+              Search
+            </button>
+          </div>
           <Table responsive>
             <thead>
               <tr>
@@ -269,31 +281,30 @@ const UserManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData &&
-                currentPosts.map((user, index) => (
-                  <tr key={index}>
-                    <td>{user.id}</td>
-                    <td>{user.lastName}</td>
-                    <td>{user.firstName}</td>
-                    <td>{user.middleName}</td>
-                    <td>{user.nameSuffix ? user.nameSuffix : 'N/A'}</td>
-                    <td>{user.gender}</td>
-                    <td>{user.civilStatus}</td>
-                    <td>{user.birthDate}</td>
-                    <td>{user.contactNumber}</td>
-                    <td>{user.email}</td>
-                    <td>{user.nationality}</td>
-                    <td>{user.password}</td>
-                    <td>{user.totalContribution}</td>
-                    <td>{user.accountStatus}</td>
-                    <td>{user.loanStatus}</td>
-                  </tr>
-                ))}
+              {currentPosts.map((user, index) => (
+                <tr key={index}>
+                  <td>{user.id}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.firstName}</td>
+                  <td>{user.middleName}</td>
+                  <td>{user.nameSuffix ? user.nameSuffix : 'N/A'}</td>
+                  <td>{user.gender}</td>
+                  <td>{user.civilStatus}</td>
+                  <td>{user.birthDate}</td>
+                  <td>{user.contactNumber}</td>
+                  <td>{user.email}</td>
+                  <td>{user.nationality}</td>
+                  <td>{user.password}</td>
+                  <td>{user.totalContribution}</td>
+                  <td>{user.accountStatus}</td>
+                  <td>{user.loanStatus}</td>
+                </tr>
+              ))}
             </tbody>
           </Table>
           <MyPagination
             postsPerPage={postsPerPage}
-            totalPosts={users.length}
+            totalPosts={filteredData.length}
             paginate={paginate}
           />
         </section>

@@ -110,3 +110,35 @@ export const getAllUserPure = async () => {
     return data;
   } catch (err) {}
 };
+
+export const addLoanType = async (data) => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/loanType.json`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+  } catch (err) {}
+};
+
+export const addLoan = async (data) => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/loans.json`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+  } catch (err) {}
+};

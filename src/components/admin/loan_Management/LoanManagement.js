@@ -3,14 +3,19 @@ import style from './LoanManagement.module.css';
 import { Table } from 'react-bootstrap';
 import { getAllUser, updatedData } from '../../../store/api/api';
 import MyPagination from '../contribution_Management/MyPagination';
+import AddLoanType from './add_LoanType/AddLoanType';
+import ApprovedLoan from './add_LoanType/ApprovedLoan';
 
 const LoanManagement = () => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [postsPerPage, setPostsPerPage] = useState(5);
   const [showModal, setShowModal] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const [filteredList, setFilteredList] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [query, setQuery] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortKey, setSortKey] = useState('');
 
   // SIDE EFFECT TO GET USERS
 
@@ -18,38 +23,54 @@ const LoanManagement = () => {
     const response = async () => {
       const data = await getAllUser();
       setUsers(data);
+      setFilteredData(data);
     };
 
     response();
   }, [setUsers, getAllUser]);
 
-  // SEARCH
-  const filterBySearch = (event) => {
-    // Access input value
-    const query = event.target.value;
-    console.log(query);
-    // Create copy of item list
-
-    // Include all elements which includes the search query
-    const updatedList = users.filter(
-      (item) =>
-        item.lastName.toLowerCase().includes(query) ||
-        item.firstName.toLowerCase().includes(query) ||
-        item.middleName.toLowerCase().includes(query)
+  function filterData(query) {
+    return users.filter(
+      (row) =>
+        row.lastName.toLowerCase().includes(query.toLowerCase()) ||
+        row.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        row.middleName.toLowerCase().includes(query.toLowerCase()) ||
+        row.civilStatus.toLowerCase().includes(query.toLowerCase()) ||
+        row.gender.toLowerCase() === query.toLowerCase()
     );
+  }
 
-    // Trigger render with updated values
-    console.log(updatedList);
-    setFilteredList(updatedList);
+  function handleSearch(event) {
+    const query = event.target.value;
+    setQuery(query);
+    setFilteredData(filterData(query));
+  }
+
+  const handleSort = (key) => {
+    const newData = [...filteredData];
+    const order =
+      sortKey === key ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc';
+    newData.sort((a, b) => {
+      if (a[key] < b[key]) {
+        return order === 'asc' ? -1 : 1;
+      }
+      if (a[key] > b[key]) {
+        return order === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+    setFilteredData(newData);
+    setSortOrder(order);
+    setSortKey(key);
   };
 
-  // TO CHANGE PAGE
-  const paginate = (pageNumber) => setPage(pageNumber);
-
-  // FOR PAGINATION
   const indexOfLastPost = page * postsPerPage;
   const indexOfFirstPosts = indexOfLastPost - postsPerPage;
-  const currentPosts = users.slice(indexOfFirstPosts, indexOfLastPost);
+  const currentPosts = filteredData.slice(indexOfFirstPosts, indexOfLastPost);
+
+  // CHANGE PAGE
+
+  const paginate = (pageNumber) => setPage(pageNumber);
   return (
     <section
       className={`${style.userSection} 
@@ -61,8 +82,19 @@ ${style.side}`}
             <h1 className="">Loan Management </h1>
           </div>
           <div className="col-2 pt-2">
+            {showModal ? (
+              <AddLoanType onClick={() => setShowModal((show) => !show)} />
+            ) : null}
             <button className="btn btn-dark" onClick={() => setShowModal(true)}>
-              Process
+              Add Loan Type
+            </button>
+          </div>
+          <div className="col-2 pt-2">
+            {showModal ? (
+              <ApprovedLoan onClick={() => setShowModal((show) => !show)} />
+            ) : null}
+            <button className="btn btn-dark" onClick={() => setShowModal(true)}>
+              Encode Approved Loan
             </button>
           </div>
         </div>
@@ -72,9 +104,10 @@ ${style.side}`}
             <input
               className="form-control mr-sm-2 d-block"
               type="search"
-              placeholder="Search Name"
+              placeholder="Search Name, Gender"
               aria-label="Search"
-              onChange={filterBySearch}
+              onChange={handleSearch}
+              value={query}
             />
             <button
               className="btn btn-outline-success my-2 my-sm-0 d-block"
@@ -86,19 +119,119 @@ ${style.side}`}
           <Table responsive>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-
-                <th>Total Contribution</th>
-                {/* need to make logic for this */}
-                <th>Contribution Count</th>
-                <th>Last Paid</th>
+                <th>Member ID</th>
+                <th
+                  onClick={() => handleSort('lastName')}
+                  className={sortKey === 'lastName' ? sortOrder : ''}
+                >
+                  Last Name{''}
+                  {sortKey === 'lastName' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'lastName' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('firstName')}
+                  className={sortKey === 'firstName' ? sortOrder : ''}
+                >
+                  First Name{''}
+                  {sortKey === 'firstName' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'firstName' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('middleName')}
+                  className={sortKey === 'middleName' ? sortOrder : ''}
+                >
+                  Middle Name{''}
+                  {sortKey === 'middleName' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'middleName' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('nameSuffix')}
+                  className={sortKey === 'nameSuffix' ? sortOrder : ''}
+                >
+                  Suffix
+                  {sortKey === 'nameSuffix' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'nameSuffix' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('loanType')}
+                  className={sortKey === 'loanType' ? sortOrder : ''}
+                >
+                  Loan Type
+                  {sortKey === 'loanType' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'loanType' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('loanAmount')}
+                  className={sortKey === 'loanAmount' ? sortOrder : ''}
+                >
+                  Loan Amount
+                  {sortKey === 'loanAmount' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'loanAmount' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('monthsPayable')}
+                  className={sortKey === 'monthsPayable' ? sortOrder : ''}
+                >
+                  Months Payable
+                  {sortKey === 'monthsPayable' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'monthsPayable' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('balance')}
+                  className={sortKey === 'balance' ? sortOrder : ''}
+                >
+                  Balance
+                  {sortKey === 'balance' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'balance' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('dateCreated')}
+                  className={sortKey === 'dateCreated' ? sortOrder : ''}
+                >
+                  Date Created
+                  {sortKey === 'dateCreated' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'dateCreated' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
               </tr>
             </thead>
             <tbody>
-              {filteredList.map((user, index) => {
+              {currentPosts.map((user, index) => {
                 return (
                   <tr key={user.id}>
                     <td>{user.id}</td>
@@ -117,7 +250,7 @@ ${style.side}`}
           {/* Pagination */}
           <MyPagination
             postsPerPage={postsPerPage}
-            totalPosts={users.length}
+            totalPosts={filteredData.length}
             paginate={paginate}
           />
         </section>
