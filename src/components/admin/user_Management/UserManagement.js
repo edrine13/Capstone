@@ -3,12 +3,17 @@ import style from './UserManagement.module.css';
 import Table from 'react-bootstrap/Table';
 import AddUser from './add_User/AddUser';
 import { getAllUser } from '../../../store/api/api';
+import MyPagination from '../contribution_Management/MyPagination';
 
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [users, setUsers] = useState([]);
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(5);
 
   console.log(users.sort());
 
@@ -16,6 +21,7 @@ const UserManagement = () => {
     const response = async () => {
       const data = await getAllUser();
       setUsers(data);
+      setFilteredData(data);
     };
 
     response();
@@ -39,6 +45,29 @@ const UserManagement = () => {
     setSortKey(key);
   };
 
+  function filterData(query) {
+    return users.filter(
+      (row) =>
+        row.lastName.toLowerCase().includes(query.toLowerCase()) ||
+        row.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        row.middleName.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+
+  function handleSearch(event) {
+    const query = event.target.value;
+    setQuery(query);
+    setFilteredData(filterData(query));
+  }
+
+  const indexOfLastPost = page * postsPerPage;
+  const indexOfFirstPosts = indexOfLastPost - postsPerPage;
+  const currentPosts = users.slice(indexOfFirstPosts, indexOfLastPost);
+
+  // CHANGE PAGE
+
+  const paginate = (pageNumber) => setPage(pageNumber);
+
   return (
     <section
       className={`${style.userSection} 
@@ -59,6 +88,12 @@ const UserManagement = () => {
           </div>
         </div>
         <section>
+          <input
+            type="text"
+            value={query}
+            onChange={handleSearch}
+            className="form-control mr-sm-2 d-block"
+          />
           <Table responsive>
             <thead>
               <tr>
@@ -234,27 +269,33 @@ const UserManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user, index) => (
-                <tr key={index}>
-                  <td>{user.id}</td>
-                  <td>{user.lastName}</td>
-                  <td>{user.firstName}</td>
-                  <td>{user.middleName}</td>
-                  <td>{user.nameSuffix ? user.nameSuffix : 'N/A'}</td>
-                  <td>{user.gender}</td>
-                  <td>{user.civilStatus}</td>
-                  <td>{user.birthDate}</td>
-                  <td>{user.contactNumber}</td>
-                  <td>{user.email}</td>
-                  <td>{user.nationality}</td>
-                  <td>{user.password}</td>
-                  <td>{user.totalContribution}</td>
-                  <td>{user.accountStatus}</td>
-                  <td>{user.loanStatus}</td>
-                </tr>
-              ))}
+              {filteredData &&
+                currentPosts.map((user, index) => (
+                  <tr key={index}>
+                    <td>{user.id}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.firstName}</td>
+                    <td>{user.middleName}</td>
+                    <td>{user.nameSuffix ? user.nameSuffix : 'N/A'}</td>
+                    <td>{user.gender}</td>
+                    <td>{user.civilStatus}</td>
+                    <td>{user.birthDate}</td>
+                    <td>{user.contactNumber}</td>
+                    <td>{user.email}</td>
+                    <td>{user.nationality}</td>
+                    <td>{user.password}</td>
+                    <td>{user.totalContribution}</td>
+                    <td>{user.accountStatus}</td>
+                    <td>{user.loanStatus}</td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
+          <MyPagination
+            postsPerPage={postsPerPage}
+            totalPosts={users.length}
+            paginate={paginate}
+          />
         </section>
       </div>
     </section>

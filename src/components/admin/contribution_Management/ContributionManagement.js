@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Table } from 'react-bootstrap';
 import style from './ContributionManagement.module.css';
 import { getAllUser, updatedData } from '../../../store/api/api';
+import ReloadPage from '../../../helper/ReloadPage';
 
 import MyPagination from './MyPagination';
 import AreYouSureModal from './AreYouSureModal';
@@ -96,6 +97,7 @@ const ContributionManagement = () => {
           <div className="col-10">
             <h1 className="">Contribution Management </h1>
           </div>
+
           <div className="col-2 pt-2">
             {showModal ? (
               <AreYouSureModal
@@ -103,7 +105,13 @@ const ContributionManagement = () => {
                 yesHandler={process}
               />
             ) : null}
-            <button className="btn btn-dark" onClick={() => setShowModal(true)}>
+
+            <button
+              className="btn btn-dark"
+              onClick={() => {
+                setShowModal(true);
+              }}
+            >
               Process
             </button>
           </div>

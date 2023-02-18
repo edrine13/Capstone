@@ -72,6 +72,9 @@ export const getAllUser = async () => {
           ? data[user_id].contributionCount
           : 1,
         monthlyContribution: data[user_id].monthlyContribution,
+        monthlyLoanPayment: data[user_id].monthlyLoanPayment
+          ? data[user_id].monthlyLoanPayment
+          : 0,
       });
     }
     return convertData;

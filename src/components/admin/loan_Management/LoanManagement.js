@@ -98,21 +98,20 @@ ${style.side}`}
               </tr>
             </thead>
             <tbody>
-              {users &&
-                filteredList.map((user, index) => {
-                  return (
-                    <tr key={user.id}>
-                      <td>{index + 1}</td>
-                      <td>{user.lastName}</td>
-                      <td>{user.firstName}</td>
-                      <td>{user.lastName}</td>
+              {filteredList.map((user, index) => {
+                return (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.firstName}</td>
+                    <td>{user.lastName}</td>
 
-                      <td>{user.totalContribution}</td>
-                      <td>{user.contributionCount}</td>
-                      <td>{user.lastPaid}</td>
-                    </tr>
-                  );
-                })}
+                    <td>{user.totalContribution}</td>
+                    <td>{user.contributionCount}</td>
+                    <td>{user.lastPaid}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
           {/* Pagination */}
