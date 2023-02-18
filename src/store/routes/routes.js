@@ -18,6 +18,9 @@ import {
   Navigate,
 } from 'react-router-dom';
 import LoanManagementPage from '../../page/LoanManagementPage';
+import FaqsPage from '../../page/FaqsPage';
+import PrivacyPage from '../../page/PrivacyPage';
+import TermsPage from '../../page/TermsPage';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
@@ -26,6 +29,9 @@ const useCreatedRoutes = () => {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<About />} />
+        <Route path="faqs" element={<FaqsPage />}></Route>
+        <Route path="privacy" element={<PrivacyPage />}></Route>
+        <Route path="terms" element={<TermsPage />}></Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         {isLoggedIn ? (

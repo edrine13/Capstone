@@ -14,7 +14,7 @@
   fill: #ffa500;
 }
 .icon-box::before {
-  content: "";
+  content: '';
   position: absolute;
   background: #cbe0fb;
   right: 0;
@@ -31,15 +31,24 @@
   border-radius: 0px;
 }
 
-.title a {
+/* .title a {
   text-decoration: none;
-  color: #ffa600;
-
+  color: #2b4257;
   font-weight: 700;
   font-size: 18px;
-}
+} */
 .icon-box:hover {
   color: white;
   background: #ffa600;
+  fill: #6fa8cc;
+}
+
+.icon-box:hover .icon {
+  color: #ffa600;
+  fill: #6fa8cc;
+}
+
+.icon-box:hover .title {
+  color: #ffa600;
   fill: #6fa8cc;
 }
