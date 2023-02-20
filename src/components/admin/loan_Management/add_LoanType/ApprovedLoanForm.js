@@ -7,11 +7,8 @@ const inputIsNotEmpty = (input) => input !== '';
 const AddLoanType = (props) => {
   // STATE FOR ALL INPUTS
   // CAN USE "REACT-HOOK-FORMS" later if we made it in time
+  const [users, setUsers] = useState([]);
   const [memberID, setMemberID] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [nameSuffix, setNameSuffix] = useState('');
   const [loanType, setLoanType] = useState('');
   const [loanAmount, setLoanAmount] = useState('');
   const [payableIn, setPayableIn] = useState('');
@@ -135,22 +132,10 @@ const AddLoanType = (props) => {
     }
 
     try {
-      const response = await addLoan({
-        memberID,
-        lastName,
-        firstName,
-        middleName,
-        nameSuffix,
-        loanType,
-        loanAmount,
-        payableIn,
-        monthlyLoanPayment,
-        date,
-        balance: loanAmount,
-        paidAmount: 0,
-      });
+      const data = await getAllUserPure();
+      let convertData = [];
 
-      setIsSubmitted(true);
+      for (let user_id in data) setIsSubmitted(true);
 
       if (response) {
         throw new Error(response.message);

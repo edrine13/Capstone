@@ -20,16 +20,6 @@ const ContributionManagement = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [query, setQuery] = useState('');
 
-  const [tSeqNo, setTSeqNo] = useState('');
-  const [memberID, setMemberID] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [nameSuffix, setNameSuffix] = useState('');
-  const [transacType, setTransacType] = useState('');
-  const [paymentAmount, setPaymentAmount] = useState('');
-  const [date, setDate] = useState('');
-
   useEffect(() => {
     const response = async () => {
       const data = await getAllUser();
