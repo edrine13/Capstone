@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { addLoan } from '../../../../store/api/api';
+import React, { useEffect, useState } from 'react';
+import { addLoan, getAllUser } from '../../../../store/api/api';
 import LoadingSpinner from '../../../../UI/LoadingSpinner';
 
 const inputIsNotEmpty = (input) => input !== '';
@@ -8,6 +8,11 @@ const AddLoanType = (props) => {
   // STATE FOR ALL INPUTS
   // CAN USE "REACT-HOOK-FORMS" later if we made it in time
   const [users, setUsers] = useState([]);
+  const [member, setMember] = useState(null);
+  const [lastName, setLastName] = useState('');
+  const [middleName, setMiddleName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [nameSuffix, setNameSuffix] = useState('');
   const [memberID, setMemberID] = useState('');
   const [loanType, setLoanType] = useState('');
   const [loanAmount, setLoanAmount] = useState('');
@@ -83,6 +88,22 @@ const AddLoanType = (props) => {
     setDate(event.target.value);
   };
   // Submit Handler
+
+  useEffect(() => {
+    const response = async () => {
+      const data = await getAllUser();
+      const userExists = data.findIndex((users) => users.id === memberID);
+      console.log(userExists);
+
+      setIsSubmitted(true);
+      setMember(data[userExists]);
+      console.log(data[userExists]);
+      console.log(member);
+    };
+
+    response();
+  }, [setMember, getAllUser]);
+
   const approvedLoanHandler = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -132,14 +153,6 @@ const AddLoanType = (props) => {
     }
 
     try {
-      const data = await getAllUserPure();
-      let convertData = [];
-
-      for (let user_id in data) setIsSubmitted(true);
-
-      if (response) {
-        throw new Error(response.message);
-      }
     } catch (err) {
       setIsLoading(false);
       setIsError(err);
@@ -206,9 +219,9 @@ const AddLoanType = (props) => {
                 className={`form-control my-3 p-2 ${
                   !validInput.lastName ? 'is-invalid' : ''
                 }`}
-                placeholder="Last Name..."
+                placeholder="Last Name"
                 onChange={lastNameInputHandler}
-                value={lastName}
+                value={member ? member.lastName : lastName}
               />
             </div>
 
