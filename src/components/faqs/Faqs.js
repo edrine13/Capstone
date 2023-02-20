@@ -121,7 +121,7 @@ export default function Faqs() {
               {activeIndex === 3 && <li>Business Permit</li>}
               {activeIndex === 3 && <li>Utility Bill</li>}
               {activeIndex === 3 && <li>latest ITR (optional)</li>}
-              {activeIndex === 3 && <li>3 Trade Referrences</li>}
+              {activeIndex === 3 && <li>3 Trade References</li>}
             </ol>
           </div>
         </div>

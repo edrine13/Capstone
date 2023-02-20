@@ -2,12 +2,12 @@ import React, { useState, useContext } from 'react';
 import style from './Header.module.css';
 import Logo from './Logo';
 import { Link } from 'react-router-dom';
-
-const AuthHeader = ({ onLogout }) => {
-  const [added, setAdded] = useState(false);
-
-  const onClickHandler = () => {
-    setAdded(!added);
+import authContext from '../../store/context/auth-context';
+const AuthHeader = () => {
+  // CONTEXT
+  const authCtx = useContext(authContext);
+  const logoutHandler = () => {
+    authCtx.logout();
   };
   return (
     <nav
@@ -21,24 +21,35 @@ const AuthHeader = ({ onLogout }) => {
           </Link>
         </li>
         <li>
-          <Link to="/" className={` ${style.link} `}>
+          <Link to="/about-us" className={` ${style.link} `}>
             About Us
           </Link>
         </li>
+
+        {authCtx.isLoggedIn ? (
+          <li>
+            <Link to={authCtx.role} className={` ${style.link} `}>
+              Profile
+            </Link>
+          </li>
+        ) : (
+          ''
+        )}
+
         <li>
-          <Link to="/" className={` ${style.link} `}>
-            Contact Us
-          </Link>
-        </li>
-        <li>
-          <Link to="/" className={` ${style.link} `}>
-            Profile
-          </Link>
-        </li>
-        <li>
-          <Link to="/" className={` ${style.link} `} onClick={onLogout}>
-            Logout
-          </Link>
+          {authCtx.isLoggedIn ? (
+            <Link to="/" className={` ${style.link} `} onClick={logoutHandler}>
+              Logout
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className={` ${style.link} `}
+              onClick={logoutHandler}
+            >
+              login
+            </Link>
+          )}
         </li>
       </ul>
     </nav>

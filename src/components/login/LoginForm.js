@@ -114,6 +114,9 @@ const LoginForm = ({ onLogin }) => {
             : 'Failed to send request'
         );
       }
+      // GET ROLE
+      authCtx.setRole(role);
+
       // AUTH TIMER
 
       const expiresIn = new Date(new Date().getTime() + +res.expiresIn * 1000);

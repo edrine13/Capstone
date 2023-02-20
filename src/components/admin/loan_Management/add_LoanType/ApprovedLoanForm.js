@@ -89,21 +89,6 @@ const AddLoanType = (props) => {
   };
   // Submit Handler
 
-  useEffect(() => {
-    const response = async () => {
-      const data = await getAllUser();
-      const userExists = data.findIndex((users) => users.id === memberID);
-      console.log(userExists);
-
-      setIsSubmitted(true);
-      setMember(data[userExists]);
-      console.log(data[userExists]);
-      console.log(member);
-    };
-
-    response();
-  }, [setMember, getAllUser]);
-
   const approvedLoanHandler = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -153,6 +138,13 @@ const AddLoanType = (props) => {
     }
 
     try {
+      const data = await getAllUser();
+      const userExists = data.findIndex((users) => users.id === memberID);
+      console.log(userExists);
+
+      setMember(data[userExists]);
+      console.log(data[userExists]);
+      console.log(member);
     } catch (err) {
       setIsLoading(false);
       setIsError(err);

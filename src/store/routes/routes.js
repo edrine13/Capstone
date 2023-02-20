@@ -21,6 +21,7 @@ import LoanManagementPage from '../../page/LoanManagementPage';
 import FaqsPage from '../../page/FaqsPage';
 import PrivacyPage from '../../page/PrivacyPage';
 import TermsPage from '../../page/TermsPage';
+import Error404Page from '../../page/Error404Page';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
@@ -29,9 +30,9 @@ const useCreatedRoutes = () => {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<About />} />
-        <Route path="faqs" element={<FaqsPage />}></Route>
-        <Route path="privacy" element={<PrivacyPage />}></Route>
-        <Route path="terms" element={<TermsPage />}></Route>
+        <Route path="faqs" element={<FaqsPage />} />
+        <Route path="privacy" element={<PrivacyPage />} />
+        <Route path="terms" element={<TermsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         {isLoggedIn ? (
@@ -52,6 +53,7 @@ const useCreatedRoutes = () => {
             <Route path="loan-management" element={<LoanManagementPage />} />
           </Route>
         ) : null}
+        <Route path="*" element={<Error404Page />} />
       </Route>
     )
   );
