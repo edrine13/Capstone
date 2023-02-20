@@ -10,6 +10,7 @@ import { getAllUserPure } from '../../../store/api/api';
 
 const ContributionManagement = () => {
   const [users, setUsers] = useState([]);
+  const [transac, setTransac] = useState([]);
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
@@ -18,6 +19,16 @@ const ContributionManagement = () => {
   const [sortKey, setSortKey] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [query, setQuery] = useState('');
+
+  const [tSeqNo, setTSeqNo] = useState('');
+  const [memberID, setMemberID] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [middleName, setMiddleName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [nameSuffix, setNameSuffix] = useState('');
+  const [transacType, setTransacType] = useState('');
+  const [paymentAmount, setPaymentAmount] = useState('');
+  const [date, setDate] = useState('');
 
   useEffect(() => {
     const response = async () => {
@@ -89,9 +100,9 @@ const ContributionManagement = () => {
             +data[user_id].monthlyContribution,
           lastPaid:
             new Date().getFullYear() +
-            '/' +
+            '-' +
             (new Date().getMonth() + 1) +
-            '/' +
+            '-' +
             new Date().getDate(),
           contributionCount: data[user_id].contributionCount + 1,
         },

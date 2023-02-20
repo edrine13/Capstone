@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import style from './LoanManagement.module.css';
 import { Table } from 'react-bootstrap';
-import { getAllUser, updatedData } from '../../../store/api/api';
+import { getAllLoan, updatedLoans } from '../../../store/api/api';
 import MyPagination from '../contribution_Management/MyPagination';
 import AddLoanType from './add_LoanType/AddLoanType';
 import ApprovedLoan from './add_LoanType/ApprovedLoan';
+import AreYouSureModal from './AreYouSureModal';
+import { getAllLoanPure } from '../../../store/api/api';
 
 const LoanManagement = () => {
   const [users, setUsers] = useState([]);
+  const [transac, setTransac] = useState([]);
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
   const [showModal, setShowModal] = useState(false);
@@ -16,18 +19,20 @@ const LoanManagement = () => {
   const [query, setQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
 
   // SIDE EFFECT TO GET USERS
 
   useEffect(() => {
     const response = async () => {
-      const data = await getAllUser();
+      const data = await getAllLoan();
       setUsers(data);
       setFilteredData(data);
     };
 
     response();
-  }, [setUsers, getAllUser]);
+  }, [setUsers, getAllLoan]);
 
   function filterData(query) {
     return users.filter(
@@ -71,6 +76,32 @@ const LoanManagement = () => {
   // CHANGE PAGE
 
   const paginate = (pageNumber) => setPage(pageNumber);
+
+  const process = useCallback(async (event) => {
+    const data = await getAllLoanPure();
+    let convertData = {};
+    console.log(data);
+
+    for (let loan_id in data) {
+      console.log(loan_id);
+      convertData = {
+        [loan_id]: {
+          ...data[loan_id],
+          balance: +data[loan_id].balance - +data[loan_id].monthlyLoanPayment,
+          paidAmount:
+            +data[loan_id].paidAmount + +data[loan_id].monthlyLoanPayment,
+        },
+      };
+      // PUT LOGIN HERE
+      updatedLoans(convertData);
+    }
+    setUpdated(true);
+    setShowModal2((modal) => !modal);
+    setTimeout(() => {
+      setUpdated(false);
+    }, 5000);
+  }, []);
+
   return (
     <section
       className={`${style.userSection} 
@@ -90,11 +121,31 @@ ${style.side}`}
             </button>
           </div>
           <div className="col-2 pt-2">
-            {showModal ? (
-              <ApprovedLoan onClick={() => setShowModal((show) => !show)} />
+            {showModal1 ? (
+              <ApprovedLoan onClick={() => setShowModal1((show) => !show)} />
             ) : null}
-            <button className="btn btn-dark" onClick={() => setShowModal(true)}>
+            <button
+              className="btn btn-dark"
+              onClick={() => setShowModal1(true)}
+            >
               Encode Approved Loan
+            </button>
+          </div>
+          <div className="col-2 pt-2">
+            {showModal2 ? (
+              <AreYouSureModal
+                onClick={() => setShowModal2((show) => !show)}
+                yesHandler={process}
+              />
+            ) : null}
+
+            <button
+              className="btn btn-dark"
+              onClick={() => {
+                setShowModal2(true);
+              }}
+            >
+              Collect Loan Payments
             </button>
           </div>
         </div>
@@ -205,6 +256,18 @@ ${style.side}`}
                   )}
                 </th>
                 <th
+                  onClick={() => handleSort('paidAmount')}
+                  className={sortKey === 'paidAmount' ? sortOrder : ''}
+                >
+                  Paid Amount
+                  {sortKey === 'paidAmount' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'paidAmount' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
                   onClick={() => handleSort('balance')}
                   className={sortKey === 'balance' ? sortOrder : ''}
                 >
@@ -234,14 +297,17 @@ ${style.side}`}
               {currentPosts.map((user, index) => {
                 return (
                   <tr key={user.id}>
-                    <td>{user.id}</td>
+                    <td>{user.memberID}</td>
                     <td>{user.lastName}</td>
                     <td>{user.firstName}</td>
                     <td>{user.lastName}</td>
-
-                    <td>{user.totalContribution}</td>
-                    <td>{user.contributionCount}</td>
-                    <td>{user.lastPaid}</td>
+                    <td>{user.nameSuffix ? user.nameSuffix : 'N/A'}</td>
+                    <td>{user.loanType}</td>
+                    <td>{user.loanAmount}</td>
+                    <td>{user.payableIn}</td>
+                    <td>{user.paidAmount}</td>
+                    <td>{user.balance}</td>
+                    <td>{user.date}</td>
                   </tr>
                 );
               })}

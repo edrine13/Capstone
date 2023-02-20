@@ -67,23 +67,23 @@ const AddLoanType = (props) => {
   };
   //   Loan Type Input Handler
   const loanTypeInputHandler = (event) => {
-    setNameSuffix(event.target.value);
+    setLoanType(event.target.value);
   };
   //   Loan Amount Input Handler
   const loanAmountInputHandler = (event) => {
-    setNameSuffix(event.target.value);
+    setLoanAmount(event.target.value);
   };
   //   Payable In Input Handler
   const payableInInputHandler = (event) => {
-    setNameSuffix(event.target.value);
+    setPayableIn(event.target.value);
   };
   //   Monthly Loan Payment Input Handler
   const monthlyLoanPaymentInputHandler = (event) => {
-    setNameSuffix(event.target.value);
+    setMonthlyLoanPayment(event.target.value);
   };
   //   Date Input Handler
   const dateInputHandler = (event) => {
-    setNameSuffix(event.target.value);
+    setDate(event.target.value);
   };
   // Submit Handler
   const approvedLoanHandler = async (event) => {
@@ -146,6 +146,8 @@ const AddLoanType = (props) => {
         payableIn,
         monthlyLoanPayment,
         date,
+        balance: loanAmount,
+        paidAmount: 0,
       });
 
       setIsSubmitted(true);

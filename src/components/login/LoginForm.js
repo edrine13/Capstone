@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom/dist';
 import roleContext from '../../store/context/role-context';
 const inputIsNotEmpty = (input) => input !== '' && input.trim().length >= 7;
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin }) => {
   const [isError, setIsError] = useState(null);
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [passwordIsValid, setPasswordIsValid] = useState(true);

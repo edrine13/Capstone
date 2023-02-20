@@ -1,7 +1,7 @@
-import React from "react";
-import style from "./ContactSection.module.css";
-import ContactInfo from "../contact/ContactInfo";
-import ContactForm from "../contact/ContactForm";
+import React from 'react';
+import style from './ContactSection.module.css';
+import ContactInfo from '../contact/ContactInfo';
+import ContactForm from '../contact/ContactForm';
 
 const ContactSection = () => {
   return (
@@ -9,7 +9,7 @@ const ContactSection = () => {
       <div className="container" data-aos="fade-up">
         <div className="section-title text-center mb-4">
           <h3>
-            <span className={style["contactUs-Title"]}>Contact Us</span>
+            <span className={style['contactUs-Title']}>Contact Us</span>
           </h3>
         </div>
 

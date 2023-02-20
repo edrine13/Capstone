@@ -3,7 +3,7 @@ import style from './Header.module.css';
 import Logo from './Logo';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+const AuthHeader = ({ onLogout }) => {
   const [added, setAdded] = useState(false);
 
   const onClickHandler = () => {
@@ -26,13 +26,18 @@ const Header = () => {
           </Link>
         </li>
         <li>
-          <Link to="/contact-us" className={` ${style.link} `}>
+          <Link to="/" className={` ${style.link} `}>
             Contact Us
           </Link>
         </li>
         <li>
-          <Link to="/login" className={` ${style.link} `}>
-            Login
+          <Link to="/" className={` ${style.link} `}>
+            Profile
+          </Link>
+        </li>
+        <li>
+          <Link to="/" className={` ${style.link} `} onClick={onLogout}>
+            Logout
           </Link>
         </li>
       </ul>
@@ -40,4 +45,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AuthHeader;

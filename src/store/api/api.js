@@ -142,3 +142,83 @@ export const addLoan = async (data) => {
     }
   } catch (err) {}
 };
+
+export const getAllLoan = async () => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/loans.json`
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+
+    const data = await response.json();
+
+    let convertData = [];
+
+    for (let loan_id in data) {
+      convertData.push({
+        memberID: data[loan_id].memberID,
+        lastName: data[loan_id].lastName,
+        id: loan_id,
+        firstName: data[loan_id].firstName,
+        middleName: data[loan_id].middleName,
+        nameSuffix: data[loan_id].nameSuffix,
+        loanType: data[loan_id].loanType,
+        loanAmount: data[loan_id].loanAmount,
+        payableIn: data[loan_id].payableIn,
+        monthlyLoanPayment: data[loan_id].monthlyLoanPayment,
+        date: data[loan_id].date,
+        balance: data[loan_id].balance,
+        paidAmount: data[loan_id].paidAmount,
+      });
+    }
+    return convertData;
+  } catch (err) {}
+};
+
+export const getAllLoanPure = async () => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/loans.json`
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (err) {}
+};
+
+export const updatedLoans = async (data) => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/loans.json`,
+      {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to process the action');
+    }
+  } catch (err) {}
+};
+
+export const addTransac = async (data) => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/transcations.json`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+  } catch (err) {}
+};

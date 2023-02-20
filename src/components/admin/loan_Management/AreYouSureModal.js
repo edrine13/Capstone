@@ -5,7 +5,7 @@ const AreYouSureModal = (props) => {
   return (
     <>
       <Modal onClick={props.onClick}>
-        <h1>Are you sure you want to Collect Contribution?</h1>
+        <h1>Are you sure you want to Collect Loan Payments?</h1>
         <div className="d-flex justify-content-center">
           <button
             type="button"
