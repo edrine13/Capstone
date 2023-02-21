@@ -4,6 +4,8 @@ import Table from 'react-bootstrap/Table';
 import AddUser from './add_User/AddUser';
 import { getAllUser } from '../../../store/api/api';
 import MyPagination from '../contribution_Management/MyPagination';
+import EditUserModal from './edit/EditUserModal';
+import DataEditor from './edit/DataEditor';
 
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
@@ -278,6 +280,7 @@ const UserManagement = () => {
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
