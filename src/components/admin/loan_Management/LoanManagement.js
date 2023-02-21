@@ -7,7 +7,7 @@ import AddLoanType from './add_LoanType/AddLoanType';
 import ApprovedLoan from './add_LoanType/ApprovedLoan';
 import AreYouSureModal from './AreYouSureModal';
 import { getAllUserPure } from '../../../store/api/api';
-import LoadingSpinner from '../../../UI/LoadingSpinner';
+import { Alert } from 'react-bootstrap';
 
 const LoanManagement = () => {
   const [users, setUsers] = useState([]);
@@ -15,12 +15,15 @@ const LoanManagement = () => {
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
 
-  const [updated, setUpdated] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [query, setQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // STATE FOR ALERTS
+  const [updated, setUpdated] = useState(false);
+  const [paymentsUpdated, setPaymentsUpdated] = useState(false);
 
   console.log(users);
 
@@ -53,6 +56,7 @@ const LoanManagement = () => {
     );
   }
 
+  // FUNCTION FOR SEARCH
   function handleSearch(event) {
     const query = event.target.value;
     setQuery(query);
@@ -60,7 +64,6 @@ const LoanManagement = () => {
   }
 
   // FOR SORTING
-
   const handleSort = (key) => {
     const newData = [...filteredData];
     const order =
@@ -126,6 +129,7 @@ const LoanManagement = () => {
       }
     }
     console.log(convertData);
+    setPaymentsUpdated(true);
 
     setUpdated(true);
 
@@ -135,9 +139,17 @@ const LoanManagement = () => {
 
     setTimeout(() => {
       setUpdated(false);
+      setPaymentsUpdated(false);
     }, 5000);
   }, []);
   console.log(users);
+
+  let alertMessage = '';
+  if (updated) {
+    alertMessage = 'Loan has been approved!';
+  } else if (paymentsUpdated) {
+    alertMessage = 'Payments has been collected';
+  }
 
   return (
     <section
@@ -146,6 +158,13 @@ ${style.side}`}
     >
       <div className="container-fluid text-center p-5">
         <div className="row">
+          {updated || paymentsUpdated ? (
+            <Alert key="success" variant="success">
+              {alertMessage}
+            </Alert>
+          ) : (
+            ''
+          )}
           <div className="col-10">
             <h1 className="">Loan Management </h1>
           </div>
@@ -187,8 +206,10 @@ ${style.side}`}
             </button>
           </div>
         </div>
+
         <section>
           {/* SEARCH BAR */}
+
           <div className="d-flex">
             <input
               className="form-control mr-sm-2 d-block"
