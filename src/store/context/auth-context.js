@@ -41,12 +41,13 @@ let timerGlobal = null;
 export const AuthContextProvider = (props) => {
   const retrieveToken = tokenData();
   let localToken;
+  let roleItem = localStorage.getItem('role');
   if (retrieveToken) {
     localToken = localStorage.getItem('token');
   }
 
   const [token, setToken] = useState(localToken);
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState(roleItem);
   const userIsloggedIn = !!token;
   console.log(!!token);
 
@@ -77,6 +78,7 @@ export const AuthContextProvider = (props) => {
   };
 
   const roleHandler = (role) => {
+    localStorage.setItem('role', role);
     setRole(role);
   };
 

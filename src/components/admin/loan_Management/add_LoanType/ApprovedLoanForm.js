@@ -1,24 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { addLoan, getAllUser } from '../../../../store/api/api';
 import LoadingSpinner from '../../../../UI/LoadingSpinner';
 
 const inputIsNotEmpty = (input) => input !== '';
+const validAmount = (input) => input !== '' && input >= 300;
+const validPayableIn = (input) => input !== '' && input > 0;
 
 const AddLoanType = (props) => {
   // STATE FOR ALL INPUTS
   // CAN USE "REACT-HOOK-FORMS" later if we made it in time
   const [users, setUsers] = useState([]);
   const [member, setMember] = useState(null);
-  const [lastName, setLastName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [nameSuffix, setNameSuffix] = useState('');
+
   const [memberID, setMemberID] = useState('');
   const [loanType, setLoanType] = useState('');
   const [loanAmount, setLoanAmount] = useState('');
   const [payableIn, setPayableIn] = useState('');
   const [monthlyLoanPayment, setMonthlyLoanPayment] = useState('');
   const [date, setDate] = useState('');
+  const [userExists, setUserExists] = useState(false);
+  console.log(member);
+  console.log(memberID);
+  console.log(users);
+
+  useEffect(() => {
+    const response = async () => {
+      const data = await getAllUser();
+      setUsers(data);
+    };
+    response();
+  }, [setUsers]);
 
   // API ERROR CHECKER
   const [isError, setIsError] = useState('');
@@ -45,28 +56,13 @@ const AddLoanType = (props) => {
     date: true,
   });
 
+  // FIND IF MEMBER HAVE THE EXACT ID
+
   // Member ID Input Handler
   const memberIDInputHandler = (event) => {
     setMemberID(event.target.value);
   };
 
-  // Last Name Input Handler
-  const lastNameInputHandler = (event) => {
-    setLastName(event.target.value);
-  };
-
-  //   Middle Name input handler
-  const middleNameInputHandler = (event) => {
-    setMiddleName(event.target.value);
-  };
-  //   First Name Input Handler
-  const firstNameInputHandler = (event) => {
-    setFirstName(event.target.value);
-  };
-  //   Suffix Input Handler
-  const suffixInputHandler = (event) => {
-    setNameSuffix(event.target.value);
-  };
   //   Loan Type Input Handler
   const loanTypeInputHandler = (event) => {
     setLoanType(event.target.value);
@@ -87,6 +83,19 @@ const AddLoanType = (props) => {
   const dateInputHandler = (event) => {
     setDate(event.target.value);
   };
+
+  // CHECK IF USER IS VALID
+  const checkIfValid = () => {
+    const userExists = users.findIndex((user) => user.id === memberID);
+
+    setMember(users[userExists]);
+    if (userExists >= 0) {
+      setUserExists(true);
+    } else {
+      setUserExists(false);
+    }
+  };
+
   // Submit Handler
 
   const approvedLoanHandler = async (event) => {
@@ -95,36 +104,30 @@ const AddLoanType = (props) => {
 
     // setting all input a check
     const memberIDIsValid = inputIsNotEmpty(memberID);
-    const lastNameIsValid = inputIsNotEmpty(lastName);
-    const firstNameIsValid = inputIsNotEmpty(firstName);
-    const middleNameIsValid = inputIsNotEmpty(middleName);
+
     const loanTypeIsValid = inputIsNotEmpty(loanType);
-    const loanAmountIsValid = inputIsNotEmpty(loanAmount);
-    const payableInIsValid = inputIsNotEmpty(payableIn);
-    const monthlyLoanPaymentIsValid = inputIsNotEmpty(monthlyLoanPayment);
+    const loanAmountIsValid = validAmount(loanAmount);
+    const payableInIsValid = validPayableIn(payableIn);
+    const monthlyLoanPaymentIsValid = validAmount(monthlyLoanPayment);
     const dateIsValid = inputIsNotEmpty(date);
 
     // OVERALL INPUT CHECK IF VALID
 
     const inputIsValid =
       memberIDIsValid &&
-      lastNameIsValid &&
-      firstNameIsValid &&
-      middleNameIsValid &&
       loanTypeIsValid &&
       loanAmountIsValid &&
       payableInIsValid &&
       monthlyLoanPaymentIsValid &&
-      dateIsValid;
+      dateIsValid &&
+      userExists;
 
     setInputIsValid(inputIsValid);
 
     // Validation input again for user experience
     setValidInput({
       memberID: memberIDIsValid,
-      lastName: lastNameIsValid,
-      firstName: firstNameIsValid,
-      middleName: middleNameIsValid,
+
       loanType: loanTypeIsValid,
       loanAmount: loanAmountIsValid,
       payableIn: payableInIsValid,
@@ -138,13 +141,17 @@ const AddLoanType = (props) => {
     }
 
     try {
-      const data = await getAllUser();
-      const userExists = data.findIndex((users) => users.id === memberID);
-      console.log(userExists);
-
-      setMember(data[userExists]);
-      console.log(data[userExists]);
-      console.log(member);
+      addLoan({
+        id: memberID,
+        loanType,
+        loanAmount,
+        payableIn,
+        monthlyLoanPayment,
+        date,
+        balance: loanAmount,
+        loanStatus: 'active',
+        paidAmount: 0,
+      });
     } catch (err) {
       setIsLoading(false);
       setIsError(err);
@@ -155,9 +162,7 @@ const AddLoanType = (props) => {
     setIsLoading(false);
 
     setMemberID('');
-    setLastName('');
-    setFirstName('');
-    setMiddleName('');
+
     setLoanType('');
     setLoanAmount('');
     setPayableIn('');
@@ -167,6 +172,7 @@ const AddLoanType = (props) => {
       setIsSubmitted(false);
     }, 5000);
   };
+  console.log(userExists);
 
   return (
     <form onSubmit={approvedLoanHandler}>
@@ -192,99 +198,61 @@ const AddLoanType = (props) => {
                 id="memberID"
                 className={`form-control my-3 p-2 ${
                   !validInput.memberID ? 'is-invalid' : ''
-                }`}
+                } ${userExists ? 'is-valid' : ''}`}
                 placeholder="Loan ID"
                 onChange={memberIDInputHandler}
                 value={memberID}
               />
+              <button
+                type="button"
+                onClick={checkIfValid}
+                className="btn btn-success"
+              >
+                Check User
+              </button>
             </div>
             {/* Last Name Input */}
             <div className="col-4">
-              <label htmlFor="lastName" className="d-block">
-                Last Name
-              </label>
-
-              <input
-                type="text"
-                name="lastName"
-                id="lastName"
-                className={`form-control my-3 p-2 ${
-                  !validInput.lastName ? 'is-invalid' : ''
-                }`}
-                placeholder="Last Name"
-                onChange={lastNameInputHandler}
-                value={member ? member.lastName : lastName}
-              />
+              <label>Last Name</label>
+              <h4>{member ? member.lastName : 'No member Found'}</h4>
             </div>
 
             {/* Middle Name input */}
             <div className="col-4">
-              <label htmlFor="middleName" className="d-block">
-                Middle Name
-              </label>
-              <input
-                type="text"
-                name="middleName"
-                id="middleName"
-                className={`form-control my-3 p-2 ${
-                  !validInput.middleName ? 'is-invalid' : ''
-                }`}
-                placeholder="Middle Name.."
-                onChange={middleNameInputHandler}
-                value={middleName}
-              />
+              <label>Middle Name </label>
+              <label>(Blank if none)</label>
+              <h4>{member ? member.middleName : 'No member Found'}</h4>
             </div>
 
             {/* First Name input */}
             <div className="col-4">
-              <label htmlFor="firstName" className="d-block">
-                First Name
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                id="firstName"
-                className={`form-control my-3 p-2 ${
-                  !validInput.firstName ? 'is-invalid' : ''
-                }`}
-                placeholder="First Name..."
-                onChange={firstNameInputHandler}
-                value={firstName}
-              />
+              <label>First Name</label>
+              <h4>{member ? member.firstName : 'No member Found'}</h4>
             </div>
 
             {/* Suffix Input */}
             <div className="col-4">
-              <label htmlFor="suffix" className="d-block">
-                Suffix (Optional)
-              </label>
-              <input
-                type="text"
-                name="suffix"
-                id="suffix"
-                className={`form-control my-3 p-2 `}
-                placeholder="Jr, Sr, etc..."
-                onChange={suffixInputHandler}
-                value={nameSuffix}
-              />
+              <label>Suffix (Blank if none)</label>
+              <h4>{member ? member.suffix : 'No member Found'}</h4>
             </div>
 
             {/* Loan Type input */}
             <div className="col-4">
-              <label htmlFor="loanType" className="d-block">
+              <label htmlFor="loanType" className="d-block mb-1">
                 Loan Type
               </label>
-              <input
-                type="text"
-                name="loanType"
-                id="loanType"
-                className={`form-control my-3 p-2 ${
-                  !validInput.loanType ? 'is-invalid' : ''
-                }`}
-                placeholder="Loan Type"
+              <select
+                className="form-select"
+                aria-label="Default select example"
                 onChange={loanTypeInputHandler}
                 value={loanType}
-              />
+              >
+                <option selected value="shortTerm">
+                  Short Term
+                </option>
+                <option value="longTerm">Long Term</option>
+                <option value="EmergencyLoan">Emergency Loan</option>
+              </select>
             </div>
 
             {/* Loan Amount input */}
@@ -293,7 +261,7 @@ const AddLoanType = (props) => {
                 Loan Amount
               </label>
               <input
-                type="text"
+                type="number"
                 name="loanAmount"
                 id="loanAmount"
                 className={`form-control my-3 p-2 ${
@@ -311,7 +279,7 @@ const AddLoanType = (props) => {
                 Payable In
               </label>
               <input
-                type="text"
+                type="number"
                 name="payableIn"
                 id="payableIn"
                 className={`form-control my-3 p-2 ${
@@ -329,7 +297,7 @@ const AddLoanType = (props) => {
                 Monthly Loan Payment
               </label>
               <input
-                type="text"
+                type="number"
                 name="monthlyLoanPayment"
                 id="monthlyLoanPayment"
                 className={`form-control my-3 p-2 ${

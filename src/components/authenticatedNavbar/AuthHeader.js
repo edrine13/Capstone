@@ -9,6 +9,7 @@ const AuthHeader = () => {
   const logoutHandler = () => {
     authCtx.logout();
   };
+  console.log(authCtx.role);
   return (
     <nav
       className={` navbar-light bg-light fixed-top d-flex justify-between px-7 ${style.nav} `}
@@ -28,7 +29,7 @@ const AuthHeader = () => {
 
         {authCtx.isLoggedIn ? (
           <li>
-            <Link to={authCtx.role} className={` ${style.link} `}>
+            <Link to={`/${authCtx.role}`} className={` ${style.link} `}>
               Profile
             </Link>
           </li>

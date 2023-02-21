@@ -6,19 +6,25 @@ import MyPagination from '../contribution_Management/MyPagination';
 import AddLoanType from './add_LoanType/AddLoanType';
 import ApprovedLoan from './add_LoanType/ApprovedLoan';
 import AreYouSureModal from './AreYouSureModal';
-import { getAllLoanPure } from '../../../store/api/api';
+import { getAllUserPure } from '../../../store/api/api';
 
 const LoanManagement = () => {
   const [users, setUsers] = useState([]);
-  const [transac, setTransac] = useState([]);
+
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
-  const [showModal, setShowModal] = useState(false);
+
   const [updated, setUpdated] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [query, setQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
+  const [userLoan, setUserLoans] = useState([]);
+  console.log(users);
+
+  // STATE FOR MODAL
+
+  const [showModal, setShowModal] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
 
@@ -32,7 +38,7 @@ const LoanManagement = () => {
     };
 
     response();
-  }, [setUsers, getAllLoan]);
+  }, [setUsers, setFilteredData]);
 
   function filterData(query) {
     return users.filter(
@@ -50,6 +56,8 @@ const LoanManagement = () => {
     setQuery(query);
     setFilteredData(filterData(query));
   }
+
+  // FOR SORTING
 
   const handleSort = (key) => {
     const newData = [...filteredData];
@@ -69,38 +77,51 @@ const LoanManagement = () => {
     setSortKey(key);
   };
 
+  // FOR PAGINATION
+
   const indexOfLastPost = page * postsPerPage;
   const indexOfFirstPosts = indexOfLastPost - postsPerPage;
   const currentPosts = filteredData.slice(indexOfFirstPosts, indexOfLastPost);
+
+  console.log(currentPosts);
 
   // CHANGE PAGE
 
   const paginate = (pageNumber) => setPage(pageNumber);
 
   const process = useCallback(async (event) => {
-    const data = await getAllLoanPure();
+    const data = await getAllUserPure();
     let convertData = {};
-    console.log(data);
 
-    for (let loan_id in data) {
-      console.log(loan_id);
-      convertData = {
-        [loan_id]: {
-          ...data[loan_id],
-          balance: +data[loan_id].balance - +data[loan_id].monthlyLoanPayment,
-          paidAmount:
-            +data[loan_id].paidAmount + +data[loan_id].monthlyLoanPayment,
-        },
-      };
-      // PUT LOGIN HERE
-      updatedLoans(convertData);
+    for (let user_id in data) {
+      for (let loan_id in data[user_id].loan) {
+        console.log(
+          +data[user_id].loan[loan_id].monthlyLoanPayment -
+            +data[user_id].loan[loan_id].balance
+        );
+        convertData = {
+          [loan_id]: {
+            ...data[user_id].loan[loan_id],
+            paidAmount:
+              +data[user_id].loan[loan_id].paidAmount +
+              +data[user_id].loan[loan_id].monthlyLoanPayment,
+            balance:
+              +data[user_id].loan[loan_id].balance -
+              +data[user_id].loan[loan_id].monthlyLoanPayment,
+          },
+        };
+        // PUT LOGIN HERE
+        await updatedLoans(convertData, user_id);
+      }
     }
+    console.log(convertData);
     setUpdated(true);
     setShowModal2((modal) => !modal);
     setTimeout(() => {
       setUpdated(false);
     }, 5000);
   }, []);
+  console.log(users);
 
   return (
     <section
@@ -293,11 +314,12 @@ ${style.side}`}
                 </th>
               </tr>
             </thead>
+
             <tbody>
               {currentPosts.map((user, index) => {
                 return (
                   <tr key={user.id}>
-                    <td>{user.memberID}</td>
+                    <td>{user.id}</td>
                     <td>{user.lastName}</td>
                     <td>{user.firstName}</td>
                     <td>{user.lastName}</td>
@@ -313,6 +335,7 @@ ${style.side}`}
               })}
             </tbody>
           </Table>
+
           {/* Pagination */}
           <MyPagination
             postsPerPage={postsPerPage}
