@@ -1,7 +1,7 @@
 const Disbursement = () => {
   return (
     <div className="container col-md-8">
-      <h2 class="mt-3">DISBURSEMENT OF LOAN PROCEEDS</h2>
+      <h2 className="mt-3">DISBURSEMENT OF LOAN PROCEEDS</h2>
       <ul>
         <li>
           After accepting the loan contract, you may check your Link Coop

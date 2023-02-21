@@ -1,7 +1,7 @@
 const LoanAppProcess = () => {
   return (
     <div className="container col-md-8">
-      <h2 class="mt-3">LOAN APPLICATION PROCESS</h2>
+      <h2 className="mt-3">LOAN APPLICATION PROCESS</h2>
       <ul>
         <li>
           You must provide the basic loan terms that you are applying for.

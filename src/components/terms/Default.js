@@ -1,7 +1,7 @@
 const Default = () => {
   return (
     <div className="container col-md-8">
-      <h2 class="mt-3">DEFAULT</h2>
+      <h2 className="mt-3">DEFAULT</h2>
       <ul>
         <li>
           f your PDC was not honored by our depository banks, we shall inform

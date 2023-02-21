@@ -13,7 +13,7 @@ const AddLoanType = (props) => {
   const [member, setMember] = useState(null);
 
   const [memberID, setMemberID] = useState('');
-  const [loanType, setLoanType] = useState('');
+  const [loanType, setLoanType] = useState('shortTerm');
   const [loanAmount, setLoanAmount] = useState('');
   const [payableIn, setPayableIn] = useState('');
   const [monthlyLoanPayment, setMonthlyLoanPayment] = useState('');
@@ -67,18 +67,22 @@ const AddLoanType = (props) => {
   const loanTypeInputHandler = (event) => {
     setLoanType(event.target.value);
   };
+
   //   Loan Amount Input Handler
   const loanAmountInputHandler = (event) => {
     setLoanAmount(event.target.value);
   };
+
   //   Payable In Input Handler
   const payableInInputHandler = (event) => {
     setPayableIn(event.target.value);
   };
+
   //   Monthly Loan Payment Input Handler
   const monthlyLoanPaymentInputHandler = (event) => {
     setMonthlyLoanPayment(event.target.value);
   };
+
   //   Date Input Handler
   const dateInputHandler = (event) => {
     setDate(event.target.value);
@@ -96,7 +100,7 @@ const AddLoanType = (props) => {
     }
   };
 
-  // Submit Handler
+  // Submit Handler /////////////////////////////////////////////////////
 
   const approvedLoanHandler = async (event) => {
     event.preventDefault();
@@ -185,160 +189,162 @@ const AddLoanType = (props) => {
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="row">
-            {/* Member ID Input */}
-            <div className="col-4">
-              <label htmlFor="memberID" className="d-block">
-                Member ID
-              </label>
+          <>
+            <div className="row">
+              {/* Member ID Input */}
+              <div className="col-4">
+                <label htmlFor="memberID" className="d-block">
+                  Member ID
+                </label>
 
-              <input
-                type="text"
-                name="memberID"
-                id="memberID"
-                className={`form-control my-3 p-2 ${
-                  !validInput.memberID ? 'is-invalid' : ''
-                } ${userExists ? 'is-valid' : ''}`}
-                placeholder="Loan ID"
-                onChange={memberIDInputHandler}
-                value={memberID}
-              />
+                <input
+                  type="text"
+                  name="memberID"
+                  id="memberID"
+                  className={`form-control my-3 p-2 ${
+                    !validInput.memberID ? 'is-invalid' : ''
+                  } ${userExists ? 'is-valid' : ''}`}
+                  placeholder="Loan ID"
+                  onChange={memberIDInputHandler}
+                  value={memberID}
+                />
+                <button
+                  type="button"
+                  onClick={checkIfValid}
+                  className="btn btn-success"
+                >
+                  Check User
+                </button>
+              </div>
+              {/* Last Name Input */}
+              <div className="col-4">
+                <label>Last Name</label>
+                <h4>{member ? member.lastName : 'No member Found'}</h4>
+              </div>
+
+              {/* Middle Name input */}
+              <div className="col-4">
+                <label>Middle Name </label>
+                <label>(Blank if none)</label>
+                <h4>{member ? member.middleName : 'No member Found'}</h4>
+              </div>
+
+              {/* First Name input */}
+              <div className="col-4">
+                <label>First Name</label>
+                <h4>{member ? member.firstName : 'No member Found'}</h4>
+              </div>
+
+              {/* Suffix Input */}
+              <div className="col-4">
+                <label>Suffix (Blank if none)</label>
+                <h4>{member ? member.suffix : 'No member Found'}</h4>
+              </div>
+
+              {/* Loan Type input */}
+              <div className="col-4">
+                <label htmlFor="loanType" className="d-block mb-1">
+                  Loan Type
+                </label>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={loanTypeInputHandler}
+                  value={loanType}
+                >
+                  <option selected value="shortTerm">
+                    Short Term
+                  </option>
+                  <option value="longTerm">Long Term</option>
+                  <option value="EmergencyLoan">Emergency Loan</option>
+                </select>
+              </div>
+
+              {/* Loan Amount input */}
+              <div className="col-4">
+                <label htmlFor="loanAmount" className="d-block">
+                  Loan Amount
+                </label>
+                <input
+                  type="number"
+                  name="loanAmount"
+                  id="loanAmount"
+                  className={`form-control my-3 p-2 ${
+                    !validInput.loanAmount ? 'is-invalid' : ''
+                  }`}
+                  placeholder="Loan Amount"
+                  onChange={loanAmountInputHandler}
+                  value={loanAmount}
+                />
+              </div>
+
+              {/* Payable In input */}
+              <div className="col-4">
+                <label htmlFor="payableIn" className="d-block">
+                  Payable In
+                </label>
+                <input
+                  type="number"
+                  name="payableIn"
+                  id="payableIn"
+                  className={`form-control my-3 p-2 ${
+                    !validInput.payableIn ? 'is-invalid' : ''
+                  }`}
+                  placeholder="Payable In"
+                  onChange={payableInInputHandler}
+                  value={payableIn}
+                />
+              </div>
+
+              {/* Monthly Loan Payment In input */}
+              <div className="col-4">
+                <label htmlFor="monthlyLoanPayment" className="d-block">
+                  Monthly Loan Payment
+                </label>
+                <input
+                  type="number"
+                  name="monthlyLoanPayment"
+                  id="monthlyLoanPayment"
+                  className={`form-control my-3 p-2 ${
+                    !validInput.monthlyLoanPayment ? 'is-invalid' : ''
+                  }`}
+                  placeholder="Monthly Loan Payment"
+                  onChange={monthlyLoanPaymentInputHandler}
+                  value={monthlyLoanPayment}
+                />
+              </div>
+              {/* Date */}
+
+              <div className="col-4">
+                <label htmlFor="date" className="d-block">
+                  Date
+                </label>
+                <input
+                  type="date"
+                  name="date"
+                  id="date"
+                  className={`form-control my-3 p-2 ${
+                    !validInput.date ? 'is-invalid' : ''
+                  }`}
+                  onChange={dateInputHandler}
+                  format={'DD-MM-YYYY'}
+                  value={date}
+                />
+              </div>
+            </div>
+            <div className="d-flex justify-content-between">
               <button
-                type="button"
-                onClick={checkIfValid}
-                className="btn btn-success"
+                type="submit"
+                className={`btn btn-success ${isLoading ? 'disabled' : ''}`}
               >
-                Check User
+                Add
+              </button>
+              <button className="btn btn-danger ms-2" onClick={props.onClick}>
+                Close
               </button>
             </div>
-            {/* Last Name Input */}
-            <div className="col-4">
-              <label>Last Name</label>
-              <h4>{member ? member.lastName : 'No member Found'}</h4>
-            </div>
-
-            {/* Middle Name input */}
-            <div className="col-4">
-              <label>Middle Name </label>
-              <label>(Blank if none)</label>
-              <h4>{member ? member.middleName : 'No member Found'}</h4>
-            </div>
-
-            {/* First Name input */}
-            <div className="col-4">
-              <label>First Name</label>
-              <h4>{member ? member.firstName : 'No member Found'}</h4>
-            </div>
-
-            {/* Suffix Input */}
-            <div className="col-4">
-              <label>Suffix (Blank if none)</label>
-              <h4>{member ? member.suffix : 'No member Found'}</h4>
-            </div>
-
-            {/* Loan Type input */}
-            <div className="col-4">
-              <label htmlFor="loanType" className="d-block mb-1">
-                Loan Type
-              </label>
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                onChange={loanTypeInputHandler}
-                value={loanType}
-              >
-                <option selected value="shortTerm">
-                  Short Term
-                </option>
-                <option value="longTerm">Long Term</option>
-                <option value="EmergencyLoan">Emergency Loan</option>
-              </select>
-            </div>
-
-            {/* Loan Amount input */}
-            <div className="col-4">
-              <label htmlFor="loanAmount" className="d-block">
-                Loan Amount
-              </label>
-              <input
-                type="number"
-                name="loanAmount"
-                id="loanAmount"
-                className={`form-control my-3 p-2 ${
-                  !validInput.loanAmount ? 'is-invalid' : ''
-                }`}
-                placeholder="Loan Amount"
-                onChange={loanAmountInputHandler}
-                value={loanAmount}
-              />
-            </div>
-
-            {/* Payable In input */}
-            <div className="col-4">
-              <label htmlFor="payableIn" className="d-block">
-                Payable In
-              </label>
-              <input
-                type="number"
-                name="payableIn"
-                id="payableIn"
-                className={`form-control my-3 p-2 ${
-                  !validInput.payableIn ? 'is-invalid' : ''
-                }`}
-                placeholder="Payable In"
-                onChange={payableInInputHandler}
-                value={payableIn}
-              />
-            </div>
-
-            {/* Monthly Loan Payment In input */}
-            <div className="col-4">
-              <label htmlFor="monthlyLoanPayment" className="d-block">
-                Monthly Loan Payment
-              </label>
-              <input
-                type="number"
-                name="monthlyLoanPayment"
-                id="monthlyLoanPayment"
-                className={`form-control my-3 p-2 ${
-                  !validInput.monthlyLoanPayment ? 'is-invalid' : ''
-                }`}
-                placeholder="Monthly Loan Payment"
-                onChange={monthlyLoanPaymentInputHandler}
-                value={monthlyLoanPayment}
-              />
-            </div>
-            {/* Date */}
-
-            <div className="col-4">
-              <label htmlFor="date" className="d-block">
-                Date
-              </label>
-              <input
-                type="date"
-                name="date"
-                id="date"
-                className={`form-control my-3 p-2 ${
-                  !validInput.date ? 'is-invalid' : ''
-                }`}
-                onChange={dateInputHandler}
-                format={'DD-MM-YYYY'}
-                value={date}
-              />
-            </div>
-          </div>
+          </>
         )}
-        <div className="d-flex justify-content-between">
-          <button
-            type="submit"
-            className={`btn btn-success ${isLoading ? 'disabled' : ''}`}
-          >
-            Add
-          </button>
-          <button className="btn btn-danger ms-2" onClick={props.onClick}>
-            Close
-          </button>
-        </div>
       </div>
     </form>
   );

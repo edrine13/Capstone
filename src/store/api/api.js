@@ -178,40 +178,42 @@ export const getAllLoan = async () => {
           balance: data[user_id].loan[loan_id].balance,
           loanStatus: data[user_id].loan[loan_id].loanStatus,
           paidAmount: data[user_id].loan[loan_id].paidAmount,
+          civilStatus: data[user_id].civilStatus,
+          gender: data[user_id].gender,
         });
 
         // CHECK IF THE USER STILL HAVE BALANCE IF NOT, TURN LPO STATUS TO INACTIVE OR PAID
 
-        if (data[user_id].loan[loan_id].balance < 0) {
-          try {
-            const response = await fetch(
-              `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${user_id}/loan.json`,
-              {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  [user_id]: {
-                    loan: {
-                      [loan_id]: {
-                        ...data[user_id].loan[loan_id],
-                        loanStatus: 'Paid',
-                        balance: 0,
-                      },
-                    },
-                  },
-                }),
-              }
-            );
-            if (!response.ok) {
-              throw new Error('Unable to patch data');
-            }
+        // if (data[user_id].loan[loan_id].balance < 0) {
+        //   try {
+        //     console.log(data[user_id].loan[loan_id].balance);
+        //     const response = await fetch(
+        //       `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${user_id}/loan.json`,
+        //       {
+        //         method: 'PATCH',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({
+        //           [loan_id]: {
+        //             ...data[user_id].loan[loan_id],
+        //             paidAmount:
+        //               +data[user_id].loan[loan_id].paidAmount +
+        //               +data[user_id].loan[loan_id].monthlyLoanPayment,
+        //             balance:
+        //               +data[user_id].loan[loan_id].balance -
+        //               +data[user_id].loan[loan_id].monthlyLoanPayment,
+        //           },
+        //         }),
+        //       }
+        //     );
+        //     if (!response.ok) {
+        //       throw new Error('Unable to patch data');
+        //     }
 
-            const data = response.json();
-          } catch (err) {
-            console.log(err.message);
-            console.log(data.message);
-          }
-        }
+        //     const data = await response.json();
+        //   } catch (err) {
+        //     console.log(data);
+        //   }
+        // }
       }
     }
     console.log(data);
