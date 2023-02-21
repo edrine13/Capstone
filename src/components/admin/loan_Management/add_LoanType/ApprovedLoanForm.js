@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { addLoan, getAllUser } from '../../../../store/api/api';
 import LoadingSpinner from '../../../../UI/LoadingSpinner';
 
@@ -88,22 +88,6 @@ const AddLoanType = (props) => {
     setDate(event.target.value);
   };
   // Submit Handler
-
-  useEffect(() => {
-    const response = async () => {
-      const data = await getAllUser();
-      const userExists = data.findIndex((users) => users.id === memberID);
-      console.log(userExists);
-
-      setIsSubmitted(true);
-      setMember(data[userExists]);
-      console.log(data[userExists]);
-      console.log(member);
-    };
-
-    response();
-  }, [setMember, getAllUser]);
-
   const approvedLoanHandler = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -153,6 +137,15 @@ const AddLoanType = (props) => {
     }
 
     try {
+      const data = await getAllUser();
+      const userExists = data.findIndex((users) => users.id === memberID);
+      console.log(userExists);
+
+      setIsSubmitted(true);
+      setMember(data[userExists]);
+      console.log(data[userExists]);
+      console.log(member);
+      console.log(member.lastName);
     } catch (err) {
       setIsLoading(false);
       setIsError(err);
@@ -163,9 +156,6 @@ const AddLoanType = (props) => {
     setIsLoading(false);
 
     setMemberID('');
-    setLastName('');
-    setFirstName('');
-    setMiddleName('');
     setLoanType('');
     setLoanAmount('');
     setPayableIn('');
@@ -221,7 +211,7 @@ const AddLoanType = (props) => {
                 }`}
                 placeholder="Last Name"
                 onChange={lastNameInputHandler}
-                value={member ? member.lastName : lastName}
+                value={lastName}
               />
             </div>
 

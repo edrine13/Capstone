@@ -21,6 +21,10 @@ import LoanManagementPage from '../../page/LoanManagementPage';
 import FaqsPage from '../../page/FaqsPage';
 import PrivacyPage from '../../page/PrivacyPage';
 import TermsPage from '../../page/TermsPage';
+import UserProfilePage from '../../page/UserProfilePage';
+import UserLoanPage from '../../page/UserLoanPage';
+import UserContributionPage from '../../page/UserContributionPage';
+import User from '../../components/user/User';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
@@ -34,10 +38,17 @@ const useCreatedRoutes = () => {
         <Route path="terms" element={<TermsPage />}></Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
+
         {isLoggedIn ? (
-          <Route path="/members/*" element={<UserPage Aside={<AsideUser />} />}>
+          <Route
+            path="/members/*"
+            element={<UserPage AsideUser={<AsideUser />} />}
+          >
             <Route index element={<Navigate to={'overview'} />} />
-            <Route path="profile" element={null} />
+            <Route path="overview" element={<User />} />
+            <Route path="profile" element={<UserProfilePage />} />
+            <Route path="loans" element={<UserLoanPage />} />
+            <Route path="contribution" element={<UserContributionPage />} />
           </Route>
         ) : null}
         {isLoggedIn ? (
