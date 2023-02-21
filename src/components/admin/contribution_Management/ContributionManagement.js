@@ -98,7 +98,7 @@ const ContributionManagement = () => {
         },
       };
       // PUT LOGIN HERE
-      updatedData(convertData);
+      await updatedData(convertData);
     }
     setUpdated(true);
     setShowModal((modal) => !modal);

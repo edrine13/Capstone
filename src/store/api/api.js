@@ -75,6 +75,7 @@ export const getAllUser = async () => {
         monthlyLoanPayment: data[user_id].monthlyLoanPayment
           ? data[user_id].monthlyLoanPayment
           : 0,
+        loans: data[user_id].loan,
       });
     }
     return convertData;
@@ -127,10 +128,12 @@ export const addLoanType = async (data) => {
   } catch (err) {}
 };
 
+// ADD LOAN FOR A MEMBER
+
 export const addLoan = async (data) => {
   try {
     const response = await fetch(
-      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/loans.json`,
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${data.id}/loan.json`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -146,7 +149,7 @@ export const addLoan = async (data) => {
 export const getAllLoan = async () => {
   try {
     const response = await fetch(
-      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/loans.json`
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members.json`
     );
     if (!response.ok) {
       throw new Error('Failed to send data');
@@ -156,45 +159,86 @@ export const getAllLoan = async () => {
 
     let convertData = [];
 
-    for (let loan_id in data) {
-      convertData.push({
-        memberID: data[loan_id].memberID,
-        lastName: data[loan_id].lastName,
-        id: loan_id,
-        firstName: data[loan_id].firstName,
-        middleName: data[loan_id].middleName,
-        nameSuffix: data[loan_id].nameSuffix,
-        loanType: data[loan_id].loanType,
-        loanAmount: data[loan_id].loanAmount,
-        payableIn: data[loan_id].payableIn,
-        monthlyLoanPayment: data[loan_id].monthlyLoanPayment,
-        date: data[loan_id].date,
-        balance: data[loan_id].balance,
-        paidAmount: data[loan_id].paidAmount,
-      });
+    for (let user_id in data) {
+      for (let loan_id in data[user_id].loan) {
+        convertData.push({
+          id: user_id,
+          lastName: data[user_id].lastName,
+          loanId: user_id,
+          firstName: data[user_id].firstName,
+          middleName: data[user_id].middleName,
+          nameSuffix: data[user_id].nameSuffix
+            ? data[user_id].nameSuffix
+            : 'N/A',
+          loanType: data[user_id].loan[loan_id].loanType,
+          loanAmount: data[user_id].loan[loan_id].loanAmount,
+          payableIn: data[user_id].loan[loan_id].payableIn,
+          monthlyLoanPayment: data[user_id].loan[loan_id].monthlyLoanPayment,
+          date: data[user_id].loan[loan_id].date,
+          balance: data[user_id].loan[loan_id].balance,
+          loanStatus: data[user_id].loan[loan_id].loanStatus,
+          paidAmount: data[user_id].loan[loan_id].paidAmount,
+        });
+
+        // CHECK IF THE USER STILL HAVE BALANCE IF NOT, TURN LPO STATUS TO INACTIVE OR PAID
+
+        if (data[user_id].loan[loan_id].balance < 0) {
+          try {
+            const response = await fetch(
+              `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${user_id}/loan.json`,
+              {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  [user_id]: {
+                    loan: {
+                      [loan_id]: {
+                        ...data[user_id].loan[loan_id],
+                        loanStatus: 'Paid',
+                        balance: 0,
+                      },
+                    },
+                  },
+                }),
+              }
+            );
+            if (!response.ok) {
+              throw new Error('Unable to patch data');
+            }
+
+            const data = response.json();
+          } catch (err) {
+            console.log(err.message);
+            console.log(data.message);
+          }
+        }
+      }
     }
+    console.log(data);
     return convertData;
   } catch (err) {}
 };
+//  API TO GET ALL LOANS
+// export const getAllLoanPure = async () => {
+//   try {
+//     const response = await fetch(
+//       `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/loans.json`
+//     );
+//     if (!response.ok) {
+//       throw new Error('Failed to send data');
+//     }
 
-export const getAllLoanPure = async () => {
+//     const data = await response.json();
+//     return data;
+//   } catch (err) {}
+// };
+
+// API TO UPDATE ALL LOANS
+
+export const updatedLoans = async (data, id) => {
   try {
     const response = await fetch(
-      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/loans.json`
-    );
-    if (!response.ok) {
-      throw new Error('Failed to send data');
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (err) {}
-};
-
-export const updatedLoans = async (data) => {
-  try {
-    const response = await fetch(
-      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/loans.json`,
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${id}/loan.json`,
       {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -207,18 +251,18 @@ export const updatedLoans = async (data) => {
   } catch (err) {}
 };
 
-export const addTransac = async (data) => {
-  try {
-    const response = await fetch(
-      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/transcations.json`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      }
-    );
-    if (!response.ok) {
-      throw new Error('Failed to send data');
-    }
-  } catch (err) {}
-};
+// export const addTransac = async (data) => {
+//   try {
+//     const response = await fetch(
+//       `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/transcations.json`,
+//       {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify(data),
+//       }
+//     );
+//     if (!response.ok) {
+//       throw new Error('Failed to send data');
+//     }
+//   } catch (err) {}
+// };

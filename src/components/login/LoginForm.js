@@ -3,7 +3,7 @@ import style from './LoginForm.module.css';
 import { Link } from 'react-router-dom';
 import authContext from '../../store/context/auth-context';
 import { useNavigate } from 'react-router-dom/dist';
-import roleContext from '../../store/context/role-context';
+
 const inputIsNotEmpty = (input) => input !== '' && input.trim().length >= 7;
 
 const LoginForm = ({ onLogin }) => {
@@ -23,7 +23,6 @@ const LoginForm = ({ onLogin }) => {
   const roleRef = useRef('');
 
   const authCtx = useContext(authContext);
-  const roleCtx = useContext(roleContext);
 
   // Submit Handler
 
@@ -114,6 +113,9 @@ const LoginForm = ({ onLogin }) => {
             : 'Failed to send request'
         );
       }
+      // GET ROLE
+      authCtx.setRole(role);
+
       // AUTH TIMER
 
       const expiresIn = new Date(new Date().getTime() + +res.expiresIn * 1000);
