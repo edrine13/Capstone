@@ -7,6 +7,7 @@ import AddLoanType from './add_LoanType/AddLoanType';
 import ApprovedLoan from './add_LoanType/ApprovedLoan';
 import AreYouSureModal from './AreYouSureModal';
 import { getAllUserPure } from '../../../store/api/api';
+import LoadingSpinner from '../../../UI/LoadingSpinner';
 
 const LoanManagement = () => {
   const [users, setUsers] = useState([]);
@@ -19,7 +20,8 @@ const LoanManagement = () => {
   const [query, setQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
-  const [userLoan, setUserLoans] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   console.log(users);
 
   // STATE FOR MODAL
@@ -90,33 +92,47 @@ const LoanManagement = () => {
   const paginate = (pageNumber) => setPage(pageNumber);
 
   const process = useCallback(async (event) => {
+    setIsLoading(true);
     const data = await getAllUserPure();
     let convertData = {};
 
     for (let user_id in data) {
       for (let loan_id in data[user_id].loan) {
-        console.log(
-          +data[user_id].loan[loan_id].monthlyLoanPayment -
-            +data[user_id].loan[loan_id].balance
-        );
-        convertData = {
-          [loan_id]: {
-            ...data[user_id].loan[loan_id],
-            paidAmount:
-              +data[user_id].loan[loan_id].paidAmount +
-              +data[user_id].loan[loan_id].monthlyLoanPayment,
-            balance:
-              +data[user_id].loan[loan_id].balance -
-              +data[user_id].loan[loan_id].monthlyLoanPayment,
-          },
-        };
+        if (+data[user_id].loan[loan_id].balance >= 1) {
+          convertData = {
+            [loan_id]: {
+              ...data[user_id].loan[loan_id],
+              paidAmount:
+                +data[user_id].loan[loan_id].paidAmount +
+                +data[user_id].loan[loan_id].monthlyLoanPayment,
+              balance:
+                +data[user_id].loan[loan_id].balance -
+                +data[user_id].loan[loan_id].monthlyLoanPayment,
+            },
+          };
+        } else {
+          convertData = {
+            [loan_id]: {
+              ...data[user_id].loan[loan_id],
+              loanStatus: 'paid',
+
+              balance: 0,
+            },
+          };
+        }
+
         // PUT LOGIN HERE
         await updatedLoans(convertData, user_id);
       }
     }
     console.log(convertData);
+
     setUpdated(true);
+
     setShowModal2((modal) => !modal);
+
+    setIsLoading(false);
+
     setTimeout(() => {
       setUpdated(false);
     }, 5000);
@@ -157,6 +173,7 @@ ${style.side}`}
               <AreYouSureModal
                 onClick={() => setShowModal2((show) => !show)}
                 yesHandler={process}
+                isLoading={isLoading}
               />
             ) : null}
 
@@ -181,12 +198,6 @@ ${style.side}`}
               onChange={handleSearch}
               value={query}
             />
-            <button
-              className="btn btn-outline-success my-2 my-sm-0 d-block"
-              type="submit"
-            >
-              Search
-            </button>
           </div>
           <Table responsive>
             <thead>
@@ -318,7 +329,7 @@ ${style.side}`}
             <tbody>
               {currentPosts.map((user, index) => {
                 return (
-                  <tr key={user.id}>
+                  <tr key={index}>
                     <td>{user.id}</td>
                     <td>{user.lastName}</td>
                     <td>{user.firstName}</td>

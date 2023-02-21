@@ -1,7 +1,7 @@
 const LoanAppRejection = () => {
   return (
     <div className="container col-md-8">
-      <h2 class="mt-3">LOAN APPLICATION REJECTION</h2>
+      <h2 className="mt-3">LOAN APPLICATION REJECTION</h2>
       <ul>
         <li>
           Link Coop reserves the right to reject loan applications at our sole
