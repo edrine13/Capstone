@@ -25,6 +25,10 @@ import Error404Page from '../../page/Error404Page';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
+  const authCtx = useContext(authContext);
+
+  const memberIsLoggedIn = authCtx.role === 'members';
+  const adminIsLoggedIn = authCtx.role === 'admin';
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -35,13 +39,13 @@ const useCreatedRoutes = () => {
         <Route path="terms" element={<TermsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
-        {isLoggedIn ? (
+        {isLoggedIn && memberIsLoggedIn ? (
           <Route path="/members/*" element={<UserPage Aside={<AsideUser />} />}>
             <Route index element={<Navigate to={'overview'} />} />
             <Route path="profile" element={null} />
           </Route>
         ) : null}
-        {isLoggedIn ? (
+        {isLoggedIn && adminIsLoggedIn ? (
           <Route path="/admin/*" element={<AdminPage Aside={<Aside />} />}>
             <Route index element={<Navigate to={'overview'} />} />
             <Route path="overview" element={<Admin />} />
