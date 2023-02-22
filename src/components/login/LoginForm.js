@@ -3,7 +3,7 @@ import style from './LoginForm.module.css';
 import { Link } from 'react-router-dom';
 import authContext from '../../store/context/auth-context';
 import { useNavigate } from 'react-router-dom/dist';
-
+import userContext from '../../store/context/users-context';
 const inputIsNotEmpty = (input) => input !== '' && input.trim().length >= 7;
 
 const LoginForm = ({ onLogin }) => {
@@ -23,6 +23,7 @@ const LoginForm = ({ onLogin }) => {
   const roleRef = useRef('');
 
   const authCtx = useContext(authContext);
+  const userCtx = useContext(userContext);
 
   // Submit Handler
 
@@ -65,6 +66,7 @@ const LoginForm = ({ onLogin }) => {
       const getUser = await user.json();
 
       let convertData = [];
+      let convertUser = [];
 
       for (let user_id in getUser) {
         convertData.push({
@@ -72,9 +74,18 @@ const LoginForm = ({ onLogin }) => {
 
           id: user_id,
         });
+        convertUser.push({
+          email: getUser[user_id].email,
+          firstName: getUser[user_id].firstName,
+          lastName: getUser[user_id].lastName,
+        });
       }
+      console.log(convertData);
 
       // CHECK IF USER EXIST IN DESIGNED ROLE
+      const dataExist = convertUser.find((user) => user.email === emailAddress);
+
+      userCtx.userHandler(dataExist);
 
       const userExist = convertData.find((user) => user.email === emailAddress);
       console.log(userExist);

@@ -40,7 +40,9 @@ let timerGlobal = null;
 
 export const AuthContextProvider = (props) => {
   const retrieveToken = tokenData();
+
   let localToken;
+
   let roleItem = localStorage.getItem('role');
   if (retrieveToken) {
     localToken = localStorage.getItem('token');
