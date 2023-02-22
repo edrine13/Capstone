@@ -51,8 +51,7 @@ const LoanManagement = () => {
         row.lastName.toLowerCase().includes(query.toLowerCase()) ||
         row.firstName.toLowerCase().includes(query.toLowerCase()) ||
         row.middleName.toLowerCase().includes(query.toLowerCase()) ||
-        row.civilStatus.toLowerCase().includes(query.toLowerCase()) ||
-        row.gender.toLowerCase() === query.toLowerCase()
+        row.loanType.toLowerCase().includes(query.toLowerCase())
     );
   }
 
@@ -214,7 +213,7 @@ ${style.side}`}
             <input
               className="form-control mr-sm-2 d-block"
               type="search"
-              placeholder="Search Name, Gender"
+              placeholder="Search Name, Loan Type"
               aria-label="Search"
               onChange={handleSearch}
               value={query}
@@ -312,6 +311,18 @@ ${style.side}`}
                   onClick={() => handleSort('paidAmount')}
                   className={sortKey === 'paidAmount' ? sortOrder : ''}
                 >
+                  Monthly Payment
+                  {sortKey === 'paidAmount' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'paidAmount' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort('paidAmount')}
+                  className={sortKey === 'paidAmount' ? sortOrder : ''}
+                >
                   Paid Amount
                   {sortKey === 'paidAmount' && sortOrder === 'asc' && (
                     <span className="sort-arrow up">▲</span>
@@ -354,11 +365,12 @@ ${style.side}`}
                     <td>{user.id}</td>
                     <td>{user.lastName}</td>
                     <td>{user.firstName}</td>
-                    <td>{user.lastName}</td>
+                    <td>{user.middleName}</td>
                     <td>{user.nameSuffix ? user.nameSuffix : 'N/A'}</td>
                     <td>{user.loanType}</td>
                     <td>{user.loanAmount}</td>
                     <td>{user.payableIn}</td>
+                    <td>{user.monthlyLoanPayment}</td>
                     <td>{user.paidAmount}</td>
                     <td>{user.balance}</td>
                     <td>{user.date}</td>
