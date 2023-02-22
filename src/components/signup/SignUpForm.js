@@ -1,6 +1,7 @@
-import React from "react";
-import style from "./SignUpForm.module.css";
-import GoogleButton from "react-google-button";
+import React from 'react';
+import style from './SignUpForm.module.css';
+
+import { Link } from 'react-router-dom';
 
 const SignUpForm = () => {
   return (
@@ -9,17 +10,17 @@ const SignUpForm = () => {
         <input
           type="name"
           placeholder="Last Name"
-          className={`${style["signUp-Form"]} form-control `}
+          className={`${style['signUp-Form']} form-control `}
         />
         <input
           type="name"
           placeholder="Mid. Name"
-          className={`${style["signUp-Form"]} form-control `}
+          className={`${style['signUp-Form']} form-control `}
         />
         <input
           type="name"
           placeholder="First Name"
-          className={`${style["signUp-Form"]} form-control `}
+          className={`${style['signUp-Form']} form-control `}
         />
       </div>
 
@@ -66,23 +67,6 @@ const SignUpForm = () => {
 
         <p className="ml-5">OR</p>
       </div>
-
-      {/* GOOGLE BUTTON added by NPM */}
-      <div className="col-lg-7 m-auto">
-        <GoogleButton
-          label="Sign up with Google"
-          type="light" // can be light or dark
-          onClick={() => {
-            console.log("Google button clicked");
-          }}
-          className={` mt-3 mb-5 m-auto`}
-        />
-      </div>
-
-      <a href="#">Forgot Password</a>
-      <p>
-        Dont have an account? <a href="signup.html">Register here</a>
-      </p>
     </form>
   );
 };

@@ -1,14 +1,12 @@
 import React from 'react';
 import User from '../components/user/User';
-
+import { Outlet } from 'react-router-dom';
 import Aside from '../components/user/aside/AsideUser';
 
 const UserPage = (props) => {
-  const Active = 'admin';
   return (
     <React.Fragment>
-      <Aside />
-      <User />
+      {props.AsideUser} <Outlet />
     </React.Fragment>
   );
 };

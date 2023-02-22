@@ -85,6 +85,7 @@ const LoginForm = ({ onLogin }) => {
       // CHECK IF USER EXIST IN DESIGNED ROLE
       const dataExist = convertUser.find((user) => user.email === emailAddress);
 
+      console.log(dataExist);
       userCtx.userHandler(dataExist);
 
       const userExist = convertData.find((user) => user.email === emailAddress);

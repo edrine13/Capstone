@@ -253,18 +253,33 @@ export const updatedLoans = async (data, id) => {
   } catch (err) {}
 };
 
-// export const addTransac = async (data) => {
-//   try {
-//     const response = await fetch(
-//       `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/transcations.json`,
-//       {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(data),
-//       }
-//     );
-//     if (!response.ok) {
-//       throw new Error('Failed to send data');
-//     }
-//   } catch (err) {}
-// };
+export const addLoanTransaction = async (data, id) => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${id}/transactions/loan.json`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+  } catch (err) {}
+};
+export const addContributionTransaction = async (data, id) => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${id}/transactions/contribution.json`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+  } catch (err) {}
+};

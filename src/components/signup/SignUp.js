@@ -1,7 +1,7 @@
-import React from "react";
-import SignUpForm from "./SignUpForm";
-import style from "./SignUp.module.css";
-import logoImg from "../../images/logo2.png";
+import React from 'react';
+import SignUpForm from './SignUpForm';
+import style from './SignUp.module.css';
+import logoImg from '../../images/logo2.png';
 
 const SignUp = () => {
   return (
@@ -13,7 +13,9 @@ const SignUp = () => {
           className={`style["image-fluid"] m-auto `}
           alt="logo of company link coop"
         />
+
         <h4 className="py-3 max-w-sm">Sign Up</h4>
+
         <SignUpForm />
       </div>
     </section>

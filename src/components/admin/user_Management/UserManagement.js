@@ -278,6 +278,7 @@ const UserManagement = () => {
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>

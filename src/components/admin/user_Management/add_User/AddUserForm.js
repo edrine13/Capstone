@@ -41,7 +41,6 @@ const AddUserForm = (props) => {
     lastName: true,
     middleName: true,
     firstName: true,
-
     contactNumber: true,
     email: true,
     civilStatus: true,

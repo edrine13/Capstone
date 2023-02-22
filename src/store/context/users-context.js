@@ -6,11 +6,15 @@ const userContext = React.createContext({
 });
 
 export default userContext;
+const name = localStorage.getItem('name');
 
 export const UserContextProvider = (props) => {
-  const name = localStorage.getItem('name') || [];
+  let savedName = '';
 
-  let savedName = name ? JSON.parse(name) : '';
+  if (name) {
+    savedName = JSON.parse(name);
+    console.log(name);
+  }
 
   const [userData, setUserData] = useState(savedName);
 

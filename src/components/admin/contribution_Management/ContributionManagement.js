@@ -6,7 +6,10 @@ import ReloadPage from '../../../helper/ReloadPage';
 
 import MyPagination from './MyPagination';
 import AreYouSureModal from './AreYouSureModal';
-import { getAllUserPure } from '../../../store/api/api';
+import {
+  getAllUserPure,
+  addContributionTransaction,
+} from '../../../store/api/api';
 
 const ContributionManagement = () => {
   const [users, setUsers] = useState([]);
@@ -88,6 +91,7 @@ const ContributionManagement = () => {
           totalContribution:
             +data[user_id].totalContribution +
             +data[user_id].monthlyContribution,
+
           lastPaid:
             new Date().getFullYear() +
             '-' +
@@ -97,6 +101,14 @@ const ContributionManagement = () => {
           contributionCount: data[user_id].contributionCount + 1,
         },
       };
+      addContributionTransaction(
+        {
+          tSeqNo: Date.now(),
+          paidAmount: +data[user_id].monthlyContribution,
+          date: new Date().toISOString().split('T')[0],
+        },
+        user_id
+      );
       // PUT LOGIN HERE
       await updatedData(convertData);
     }
