@@ -121,7 +121,7 @@ export default function Faqs() {
               {activeIndex === 3 && <li>Business Permit</li>}
               {activeIndex === 3 && <li>Utility Bill</li>}
               {activeIndex === 3 && <li>latest ITR (optional)</li>}
-              {activeIndex === 3 && <li>3 Trade Referrences</li>}
+              {activeIndex === 3 && <li>3 Trade References</li>}
             </ol>
           </div>
         </div>
@@ -151,7 +151,7 @@ export default function Faqs() {
           </div>
         </div>
         <div className={`card ${style['cursor-pointer']} mb-2`}>
-          <div class="card-header">
+          <div className="card-header">
             <h6
               onClick={() => handleClick(5)}
               className="d-flex justify-content-between"
@@ -175,8 +175,8 @@ export default function Faqs() {
             {activeIndex === 5 && <></>}
           </div>
         </div>
-        <div class={`card ${style['cursor-pointer']} mb-2`}>
-          <div class="card-header">
+        <div className={`card ${style['cursor-pointer']} mb-2`}>
+          <div className="card-header">
             <h6
               onClick={() => handleClick(6)}
               className="d-flex justify-content-between"

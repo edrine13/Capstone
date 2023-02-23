@@ -6,10 +6,12 @@ const authContext = React.createContext({
   login: (token) => {},
   logout: () => {},
   role: '',
+  setRole: (role) => {},
 });
 // Just a helper to calculate the timer
 const timerHelper = (expiresIn) => {
   const latestDate = new Date().getTime();
+
   const timer = new Date(expiresIn).getTime();
 
   const timeExp = timer - latestDate;
@@ -38,12 +40,16 @@ let timerGlobal = null;
 
 export const AuthContextProvider = (props) => {
   const retrieveToken = tokenData();
+
   let localToken;
+
+  let roleItem = localStorage.getItem('role');
   if (retrieveToken) {
     localToken = localStorage.getItem('token');
   }
 
   const [token, setToken] = useState(localToken);
+  const [role, setRole] = useState(roleItem);
   const userIsloggedIn = !!token;
   console.log(!!token);
 
@@ -73,6 +79,11 @@ export const AuthContextProvider = (props) => {
     timerGlobal = setTimeout(logoutHandler, tokenTimer);
   };
 
+  const roleHandler = (role) => {
+    localStorage.setItem('role', role);
+    setRole(role);
+  };
+
   useEffect(() => {
     if (retrieveToken) {
       timerGlobal = setTimeout(logoutHandler, retrieveToken.time);
@@ -84,6 +95,8 @@ export const AuthContextProvider = (props) => {
     isLoggedIn: userIsloggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    role,
+    setRole: roleHandler,
   };
 
   return (

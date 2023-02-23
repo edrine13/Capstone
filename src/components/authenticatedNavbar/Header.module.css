@@ -1,0 +1,38 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5rem;
+  color: black;
+  background: #f8f9fa;
+}
+
+.nav ul {
+  display: flex;
+}
+
+.nav ul li {
+  margin-left: 20px;
+  padding-top: 5px;
+}
+.link {
+  color: black;
+  display: block;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3px;
+  padding: 0 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #222222;
+  white-space: nowrap;
+  transition: 0.3s;
+  position: relative;
+  text-decoration: none;
+}
+.link:hover,
+.active {
+  background: #2b4257;
+  color: #f4f4f4;
+  border-radius: 5px;
+  text-decoration: none;
+}

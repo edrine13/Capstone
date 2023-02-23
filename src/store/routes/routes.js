@@ -21,26 +21,43 @@ import LoanManagementPage from '../../page/LoanManagementPage';
 import FaqsPage from '../../page/FaqsPage';
 import PrivacyPage from '../../page/PrivacyPage';
 import TermsPage from '../../page/TermsPage';
+import Error404Page from '../../page/Error404Page';
+import UserProfilePage from '../../page/UserProfilePage';
+import UserLoanPage from '../../page/UserLoanPage';
+import UserContributionPage from '../../page/UserContributionPage';
+import User from '../../components/user/User';
+import UserOverviewPage from '../../page/UserOverviewPage';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
+  const authCtx = useContext(authContext);
+
+  const memberIsLoggedIn = authCtx.role === 'members';
+  const adminIsLoggedIn = authCtx.role === 'admin';
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<About />} />
-        <Route path="faqs" element={<FaqsPage />}></Route>
-        <Route path="privacy" element={<PrivacyPage />}></Route>
-        <Route path="terms" element={<TermsPage />}></Route>
+        <Route path="faqs" element={<FaqsPage />} />
+        <Route path="privacy" element={<PrivacyPage />} />
+        <Route path="terms" element={<TermsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
-        {isLoggedIn ? (
-          <Route path="/members/*" element={<UserPage Aside={<AsideUser />} />}>
+
+        {isLoggedIn && memberIsLoggedIn ? (
+          <Route
+            path="/members/*"
+            element={<UserPage AsideUser={<AsideUser />} />}
+          >
             <Route index element={<Navigate to={'overview'} />} />
-            <Route path="profile" element={null} />
+            <Route path="overview" element={<UserOverviewPage />} />
+            <Route path="profile" element={<UserProfilePage />} />
+            <Route path="loans" element={<UserLoanPage />} />
+            <Route path="contribution" element={<UserContributionPage />} />
           </Route>
         ) : null}
-        {isLoggedIn ? (
+        {isLoggedIn && adminIsLoggedIn ? (
           <Route path="/admin/*" element={<AdminPage Aside={<Aside />} />}>
             <Route index element={<Navigate to={'overview'} />} />
             <Route path="overview" element={<Admin />} />
@@ -52,6 +69,7 @@ const useCreatedRoutes = () => {
             <Route path="loan-management" element={<LoanManagementPage />} />
           </Route>
         ) : null}
+        <Route path="*" element={<Error404Page />} />
       </Route>
     )
   );

@@ -6,10 +6,14 @@ import ReloadPage from '../../../helper/ReloadPage';
 
 import MyPagination from './MyPagination';
 import AreYouSureModal from './AreYouSureModal';
-import { getAllUserPure } from '../../../store/api/api';
+import {
+  getAllUserPure,
+  addContributionTransaction,
+} from '../../../store/api/api';
 
 const ContributionManagement = () => {
   const [users, setUsers] = useState([]);
+  const [transac, setTransac] = useState([]);
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
@@ -76,10 +80,40 @@ const ContributionManagement = () => {
 
   const process = useCallback(async (event) => {
     const data = await getAllUserPure();
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    const d = new Date();
     let convertData = {};
     console.log(data);
 
     for (let user_id in data) {
+      const monthNames = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
+      const d = new Date();
       console.log(user_id);
       convertData = {
         [user_id]: {
@@ -87,17 +121,28 @@ const ContributionManagement = () => {
           totalContribution:
             +data[user_id].totalContribution +
             +data[user_id].monthlyContribution,
+
           lastPaid:
             new Date().getFullYear() +
-            '/' +
+            '-' +
             (new Date().getMonth() + 1) +
-            '/' +
+            '-' +
             new Date().getDate(),
           contributionCount: data[user_id].contributionCount + 1,
         },
       };
+      addContributionTransaction(
+        {
+          tSeqNo: Date.now(),
+          paidAmount: +data[user_id].monthlyContribution,
+          date: new Date().toISOString().split('T')[0],
+          monthCovered:
+            monthNames[d.getMonth()] + '-' + new Date().getFullYear(),
+        },
+        user_id
+      );
       // PUT LOGIN HERE
-      updatedData(convertData);
+      await updatedData(convertData);
     }
     setUpdated(true);
     setShowModal((modal) => !modal);

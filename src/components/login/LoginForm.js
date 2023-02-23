@@ -3,10 +3,10 @@ import style from './LoginForm.module.css';
 import { Link } from 'react-router-dom';
 import authContext from '../../store/context/auth-context';
 import { useNavigate } from 'react-router-dom/dist';
-import roleContext from '../../store/context/role-context';
+import userContext from '../../store/context/users-context';
 const inputIsNotEmpty = (input) => input !== '' && input.trim().length >= 7;
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin }) => {
   const [isError, setIsError] = useState(null);
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [passwordIsValid, setPasswordIsValid] = useState(true);
@@ -23,7 +23,7 @@ const LoginForm = () => {
   const roleRef = useRef('');
 
   const authCtx = useContext(authContext);
-  const roleCtx = useContext(roleContext);
+  const userCtx = useContext(userContext);
 
   // Submit Handler
 
@@ -66,6 +66,7 @@ const LoginForm = () => {
       const getUser = await user.json();
 
       let convertData = [];
+      let convertUser = [];
 
       for (let user_id in getUser) {
         convertData.push({
@@ -73,9 +74,22 @@ const LoginForm = () => {
 
           id: user_id,
         });
+        convertUser.push({
+          email: getUser[user_id].email,
+          firstName: getUser[user_id].firstName,
+          lastName: getUser[user_id].lastName,
+          middleName: getUser[user_id].middleName,
+          suffix: getUser[user_id].suffix,
+          birthDate: getUser[user_id].birthDate,
+        });
       }
+      console.log(convertData);
 
       // CHECK IF USER EXIST IN DESIGNED ROLE
+      const dataExist = convertUser.find((user) => user.email === emailAddress);
+
+      console.log(dataExist);
+      userCtx.userHandler(dataExist);
 
       const userExist = convertData.find((user) => user.email === emailAddress);
       console.log(userExist);
@@ -114,13 +128,16 @@ const LoginForm = () => {
             : 'Failed to send request'
         );
       }
+      // GET ROLE
+      authCtx.setRole(role);
+
       // AUTH TIMER
 
       const expiresIn = new Date(new Date().getTime() + +res.expiresIn * 1000);
       authCtx.login(res.idToken, expiresIn.toISOString());
       Navigate(`/${role}`, { replace: true });
     } catch (err) {
-      setIsError(err.message);
+      setIsError('Incorrect password');
     }
   };
 

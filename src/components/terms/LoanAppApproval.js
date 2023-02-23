@@ -1,7 +1,7 @@
 const LoanAppApproval = () => {
   return (
     <div className="container col-md-8">
-      <h2 class="mt-3">LOAN APPLICATION APPROVAL & CREDIT CHECKING</h2>
+      <h2 className="mt-3">LOAN APPLICATION APPROVAL & CREDIT CHECKING</h2>
       <ul>
         <li>Link Coop will verify your loan application.</li>
         <li>

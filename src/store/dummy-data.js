@@ -13,20 +13,39 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 export const DummyData = [
   {
     id: 1,
-    icon: <FontAwesomeIcon icon={faThumbsUp} size="3x" />,
+    icon: (
+      <FontAwesomeIcon
+        icon={faThumbsUp}
+        className={style['svg-logo']}
+        size="3x"
+      />
+    ),
     title: 'Easy and Convenient',
     description:
       'Too busy? Apply anytime, anywhere. Link Coop is fast and online. You can apply for a loan using your mobile phone or desktop.',
   },
   {
     id: 2,
-    icon: <FontAwesomeIcon icon={faHandHoldingDollar} size="3x" />,
+    icon: (
+      <FontAwesomeIcon
+        icon={faHandHoldingDollar}
+        className={style['svg-logo']}
+        size="3x"
+      />
+    ),
     title: 'Flexible Payment Options',
-    description: 'Payments can be adjusted to your preferred payment schedule.',
+    description:
+      'Too busy? Apply anytime, anywhere. Link Coop is fast and online. You can apply for a loan using your mobile phone or desktop.',
   },
   {
     id: 3,
-    icon: <FontAwesomeIcon icon={faCircleCheck} size="3x" />,
+    icon: (
+      <FontAwesomeIcon
+        icon={faCircleCheck}
+        className={style['svg-logo']}
+        size="3x"
+      />
+    ),
     title: 'Safe and Secure',
     description:
       'Your information is safe with us. We take information confidentiality seriously. ',

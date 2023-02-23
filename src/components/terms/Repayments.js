@@ -1,7 +1,7 @@
 const Repayments = () => {
   return (
     <div className="container col-md-8">
-      <h2 class="mt-3">REPAYMENTS</h2>
+      <h2 className="mt-3">REPAYMENTS</h2>
       <ul>
         <li>
           The amount of the monthly or other scheduled repayments payable to

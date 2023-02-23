@@ -1,0 +1,273 @@
+[33mcommit 2930238b86125795d3fa30117081a735c9739276[m[33m ([m[1;36mHEAD -> [m[1;32msantos[m[33m)[m
+Merge: b5e48a7 280eafe
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 22 18:27:43 2023 +0800
+
+    trash commit do not go here
+
+[33mcommit b5e48a7532a55da8dfef22f0d98bd002b728dbaa[m[33m ([m[1;31morigin/santos[m[33m)[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 22 18:08:28 2023 +0800
+
+    fixed login error if wrong password
+
+[33mcommit b553f9fbb9bbd9db6230680f300805f9e64e8f5c[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 22 17:13:02 2023 +0800
+
+    added user context
+
+[33mcommit 2d2bb0d170dcdddb246494c2e333f1e3d1a771ce[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 22 13:57:37 2023 +0800
+
+    fixed login issue where admin can access members
+
+[33mcommit d663910db9c03f7c7257c9314d79046de660a1a3[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 22 13:40:58 2023 +0800
+
+    changed some typo and fixed some bugs
+
+[33mcommit cfae024c0779257d0f9505328df8469d2d6b03c4[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 22 01:40:09 2023 +0800
+
+    alert in loan management has been added
+
+[33mcommit dacbc6dd79741f9f2fcc8ff7f80da9b8735175b3[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 22 01:22:23 2023 +0800
+
+    fixed some bugs
+
+[33mcommit 9f5fcdeabbeb1f7112fc2e9db169a2c51f7e2591[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 22 00:02:43 2023 +0800
+
+    added collect loan payments and fixed some bugs
+
+[33mcommit 22160f049a8d087ae5b08131433300adb5e70af2[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Mon Feb 20 21:56:43 2023 +0800
+
+    added error page fixed some link
+
+[33mcommit 5fcc6a94e567f9ebd0f1b751a5589e9996ba3cb2[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Mon Feb 20 15:41:32 2023 +0800
+
+    memberLastName
+
+[33mcommit aec10a50489ada217b72de271159b09f24f0e885[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Mon Feb 20 14:45:52 2023 +0800
+
+    asd
+
+[33mcommit ada4fe787b65a57647a0a40b8ac252272af19cbb[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Mon Feb 20 13:59:47 2023 +0800
+
+    transactions
+
+[33mcommit 9f7936425eacade2a8cd21718bbe02be41c4ef52[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Sun Feb 19 07:12:00 2023 +0800
+
+    startingLoanManagement
+
+[33mcommit 1a5c84cd2a51236388e41305b347ef70c5824f1e[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Sun Feb 19 04:34:21 2023 +0800
+
+    test
+
+[33mcommit 21af1793bffbbbb8e9b725cb26471edc2e0a5ac3[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Sat Feb 18 18:05:45 2023 +0800
+
+    sorting, faqs, privacy, terms
+
+[33mcommit 87bf50eae60c422df1512db50b19f21c31e7743c[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Sat Feb 18 17:23:08 2023 +0800
+
+    sorting
+
+[33mcommit f8d25387241ffb128fb3ffd76a7f057d942f323b[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Fri Feb 17 01:07:02 2023 +0800
+
+    added loan management and added filter search
+
+[33mcommit 46228bd0116d51980ae1a815dbcaf10784705c30[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Thu Feb 16 17:38:34 2023 +0800
+
+    added pagination
+
+[33mcommit ac47450fc9e9fbf46850567bc31be521192b57c9[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 15 23:48:25 2023 +0800
+
+    added contribution management table
+
+[33mcommit 6f07d4cd3a45efe3ff6abc84369f84ebb1c66c6f[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 15 18:33:26 2023 +0800
+
+    fixed login page admin and members auth
+
+[33mcommit 808898c1dad460631c9e7fb85032de6fcec6bb44[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 15 15:35:02 2023 +0800
+
+    updated some status in adduserform
+
+[33mcommit 2d6302471ee5df9e523acaa77e2c986a00f98af8[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 15 14:40:33 2023 +0800
+
+    added error handling in loginform and fixed some bugs
+
+[33mcommit df3d7b8485b78c7a24114a2363bdebed4a6cab6c[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Tue Feb 14 16:34:23 2023 +0800
+
+    added loading spinner and alert for submitted
+
+[33mcommit eec5c04289f90648fa54d49d9e3f9e88b7f325c1[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Mon Feb 13 23:36:36 2023 +0800
+
+    removed suffix
+
+[33mcommit 2117db34600b0f5519828a7061f4514c248839e1[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Mon Feb 13 22:37:34 2023 +0800
+
+    added input error checker
+
+[33mcommit fa62f1db460008f16877bb7c8df48c3b51a8282e[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Mon Feb 13 18:08:09 2023 +0800
+
+    added add user and fixed some buggs
+
+[33mcommit e312ee1cb4703c4a83753fb89a36ae0db24e8682[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Mon Feb 13 03:43:49 2023 +0800
+
+    added add button and modal ui
+
+[33mcommit de3c7f1fd022b7ac9a90580fbd5056b9e0ba70b7[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Sun Feb 12 22:21:14 2023 +0800
+
+    added user and admin route and pages
+
+[33mcommit 865ea2d4e74d02dd7ce2eb31f99976caba719a9f[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Fri Feb 10 22:35:20 2023 +0800
+
+    updated something
+
+[33mcommit 280eafe327ae436da962b0067b456c9d653a38b3[m[33m ([m[1;31morigin/edrine[m[33m)[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Fri Feb 10 18:23:28 2023 +0800
+
+    bago ang sakuna
+
+[33mcommit e504f1ff643d424a23fc45eb5b4edac1daf2d4bf[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Fri Feb 10 13:45:22 2023 +0800
+
+    pull
+
+[33mcommit 46ce6eac38ce8f5a854cdb67ec5e4466b0a0a395[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Fri Feb 10 01:35:20 2023 +0800
+
+    added sign-in and sign-up fixed some bugs
+
+[33mcommit 87f5502b8cc4cfd01381d41826a88811b372e344[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Thu Feb 9 14:40:48 2023 +0800
+
+    icons
+
+[33mcommit 6288fa98da35507762a8b79030d107218469a2b6[m
+Merge: 7c24579 b2fc502
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Thu Feb 9 13:55:26 2023 +0800
+
+    Merge branch 'santos' of https://github.com/edrine13/Capstone into santos
+
+[33mcommit 7c24579f6b1b5e000dcb29485ccb6499f01f7ef2[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Thu Feb 9 13:54:03 2023 +0800
+
+    icons
+
+[33mcommit a173f7eefb7db68b07b10f5f10f8e0d752797a1d[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Thu Feb 9 00:08:44 2023 +0800
+
+    stating overview
+
+[33mcommit b2fc5028551c2ed11be7985297b6a73ccb8650df[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 8 23:32:03 2023 +0800
+
+    finished landing page
+
+[33mcommit 8505418113369063c414889631b4473e7e1050e4[m
+Merge: 0dcd2e8 4393b87
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Wed Feb 8 22:20:25 2023 +0800
+
+    Merge branch 'santos' of https://github.com/edrine13/Capstone into edrine
+
+[33mcommit 0dcd2e8ccc5ed1cd2fb40ff0ecda4e9cf1352fa3[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Wed Feb 8 22:17:43 2023 +0800
+
+    before merge
+
+[33mcommit 4393b87cb53ee6f821e37325fc80cc17e8a8852e[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Wed Feb 8 17:58:48 2023 +0800
+
+    added footer and fixed some ui and css
+
+[33mcommit 2e7c55fcfc8c54ddd4857836c604843ca1d758b0[m
+Merge: b50da1a 73f4a50
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Tue Feb 7 16:29:30 2023 +0800
+
+    adik si reyn
+
+[33mcommit b50da1a868da095fecae61198a70046fd3ad2a99[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Tue Feb 7 16:28:40 2023 +0800
+
+    before merging
+
+[33mcommit 73f4a50e92c625db7a72bd9d9f92d51e8e168583[m
+Author: Jeorge Santos <jemjem.santos03@gmail.com>
+Date:   Tue Feb 7 16:21:18 2023 +0800
+
+    added section 4 or team section
+
+[33mcommit 801ffde43df3c42e44d8819839e7d33b76ff7ce1[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Mon Jan 23 22:54:17 2023 +0800
+
+    1
+
+[33mcommit 41114ec84d0074a0146f04b07058d1f26835d3cd[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: edrine13 <edrine.rubio@gmail.com>
+Date:   Mon Jan 23 17:37:35 2023 +0800
+
+    Initialize project using Create React App

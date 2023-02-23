@@ -5,3 +5,8 @@
 .icon {
   color: black;
 }
+
+.icon-box:hover .icon {
+  color: #ffa600;
+  fill: #6fa8cc;
+}

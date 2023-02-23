@@ -1,7 +1,7 @@
 const PayrollDeduction = () => {
   return (
     <div className="container col-md-8">
-      <h2 class="mt-3">
+      <h2 className="mt-3">
         PAYROLL DEDUCTION OR AUTO-DEBIT ARRANGEMENT FOR INDIVIDUAL BORROWERS
       </h2>
       <ul>

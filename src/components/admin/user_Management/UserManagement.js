@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import style from './UserManagement.module.css';
 import Table from 'react-bootstrap/Table';
 import AddUser from './add_User/AddUser';
-import { getAllUser } from '../../../store/api/api';
+import {
+  getAllUser,
+  updatedData,
+  getAllUserPure,
+} from '../../../store/api/api';
 import MyPagination from '../contribution_Management/MyPagination';
+import Modal from '../../../UI/modal';
 
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
@@ -14,8 +19,8 @@ const UserManagement = () => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
-
-  console.log(users.sort());
+  const [editUser, setEditUser] = useState('');
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     const response = async () => {
@@ -69,6 +74,28 @@ const UserManagement = () => {
   // CHANGE PAGE
 
   const paginate = (pageNumber) => setPage(pageNumber);
+
+  const handleView = (user) => {
+    setEditUser(user);
+    setShowForm(true);
+    console.log(editUser);
+  };
+
+  const closeForm = () => {
+    setShowForm(false);
+  };
+
+  const updateMember = useCallback(async (user) => {
+    const data = await getAllUserPure();
+    let convertData = {};
+    convertData = {
+      [editUser.id]: {
+        ...data[editUser.id],
+        lastName: editUser.lastName,
+        firstName: editUser.firstName,
+      },
+    };
+  }, []);
 
   return (
     <section
@@ -278,6 +305,7 @@ const UserManagement = () => {
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -298,6 +326,16 @@ const UserManagement = () => {
                   <td>{user.totalContribution}</td>
                   <td>{user.accountStatus}</td>
                   <td>{user.loanStatus}</td>
+                  <td>
+                    <div>
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => handleView(user)}
+                      >
+                        View
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

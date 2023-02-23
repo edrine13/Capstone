@@ -1,33 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import style from './LoanManagement.module.css';
 import { Table } from 'react-bootstrap';
-import { getAllUser, updatedData } from '../../../store/api/api';
+import { getAllLoan, updatedLoans } from '../../../store/api/api';
 import MyPagination from '../contribution_Management/MyPagination';
 import AddLoanType from './add_LoanType/AddLoanType';
 import ApprovedLoan from './add_LoanType/ApprovedLoan';
+import AreYouSureModal from './AreYouSureModal';
+import { getAllUserPure, addLoanTransaction } from '../../../store/api/api';
+import { Alert } from 'react-bootstrap';
+import userContext from '../../../store/context/users-context';
 
 const LoanManagement = () => {
   const [users, setUsers] = useState([]);
+
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
-  const [showModal, setShowModal] = useState(false);
-  const [updated, setUpdated] = useState(false);
+
   const [filteredData, setFilteredData] = useState([]);
   const [query, setQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // STATE FOR ALERTS
+  const [updated, setUpdated] = useState(false);
+  const [paymentsUpdated, setPaymentsUpdated] = useState(false);
+
+  console.log(users);
+
+  // STATE FOR MODAL
+
+  const [showModal, setShowModal] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+
+  // STATE FOR CONFIRMATION
+  const [loanConfirmation, setLoanConfirmation] = useState(false);
+
+  // CONTEXT
+  const userCtx = useContext(userContext);
+  const userId = useContext(userContext).userLoanData;
 
   // SIDE EFFECT TO GET USERS
 
   useEffect(() => {
     const response = async () => {
-      const data = await getAllUser();
+      const data = await getAllLoan();
       setUsers(data);
       setFilteredData(data);
     };
 
     response();
-  }, [setUsers, getAllUser]);
+  }, [setUsers, setFilteredData]);
 
   function filterData(query) {
     return users.filter(
@@ -35,17 +59,105 @@ const LoanManagement = () => {
         row.lastName.toLowerCase().includes(query.toLowerCase()) ||
         row.firstName.toLowerCase().includes(query.toLowerCase()) ||
         row.middleName.toLowerCase().includes(query.toLowerCase()) ||
-        row.civilStatus.toLowerCase().includes(query.toLowerCase()) ||
-        row.gender.toLowerCase() === query.toLowerCase()
+        row.loanType.toLowerCase().includes(query.toLowerCase())
     );
   }
 
+  // FUNCTION FOR SEARCH
   function handleSearch(event) {
     const query = event.target.value;
     setQuery(query);
     setFilteredData(filterData(query));
   }
 
+  const collectHandler = async (id) => {
+    userCtx.loanHandler(id);
+
+    setShowModal2((show) => !show);
+
+    if (!loanConfirmation) {
+      setLoanConfirmation(true);
+      return;
+    }
+    setIsLoading(true);
+
+    const data = await getAllUserPure();
+    let convertData = {};
+
+    for (let user_id in data) {
+      console.log(id);
+      for (let loan_id in data[id].loan) {
+        console.log(id);
+        if (+data[id].loan[loan_id].balance >= 1) {
+          convertData = {
+            [loan_id]: {
+              ...data[id].loan[loan_id],
+              paidAmount:
+                +data[id].loan[loan_id].payableInvisible === 1
+                  ? +data[id].loan[loan_id].paidAmount +
+                    +data[id].loan[loan_id].balance
+                  : Math.ceil(
+                      +data[id].loan[loan_id].paidAmount +
+                        Math.floor(
+                          +data[id].loan[loan_id].loanAmount /
+                            +data[id].loan[loan_id].payableIn
+                        )
+                    ),
+              balance:
+                +data[id].loan[loan_id].payableInvisible === 1
+                  ? 0
+                  : Math.ceil(
+                      +data[id].loan[loan_id].balance -
+                        Math.floor(
+                          +data[id].loan[loan_id].loanAmount /
+                            +data[id].loan[loan_id].payableIn
+                        )
+                    ),
+              payableInvisible: +data[id].loan[loan_id].payableInvisible - 1,
+            },
+          };
+
+          addLoanTransaction(
+            {
+              tSeqNo: Date.now(),
+              paidAmount: +data[id].loan[loan_id].paidAmount,
+              date: new Date().toISOString().split('T')[0],
+              loanType: +data[id].loan[loan_id].loanType,
+              amount: +data[id].loan[loan_id].amount,
+              loanId: loan_id,
+            },
+            id
+          );
+        } else {
+          convertData = {
+            [loan_id]: {
+              ...data[id].loan[loan_id],
+              loanStatus: 'paid',
+
+              balance: 0,
+            },
+          };
+        }
+
+        // PUT LOGIN HERE
+        await updatedLoans(convertData, id);
+      }
+    }
+    console.log(convertData);
+    setPaymentsUpdated(true);
+
+    setUpdated(true);
+
+    setIsLoading(false);
+    setLoanConfirmation(false);
+
+    setTimeout(() => {
+      setUpdated(false);
+      setPaymentsUpdated(false);
+    }, 5000);
+  };
+
+  // FOR SORTING
   const handleSort = (key) => {
     const newData = [...filteredData];
     const order =
@@ -64,13 +176,31 @@ const LoanManagement = () => {
     setSortKey(key);
   };
 
+  // FOR PAGINATION
+
   const indexOfLastPost = page * postsPerPage;
   const indexOfFirstPosts = indexOfLastPost - postsPerPage;
   const currentPosts = filteredData.slice(indexOfFirstPosts, indexOfLastPost);
 
+  console.log(currentPosts);
+
   // CHANGE PAGE
 
   const paginate = (pageNumber) => setPage(pageNumber);
+
+  const process = (event) => {
+    setLoanConfirmation(true);
+  };
+  console.log(users);
+
+  let alertMessage = '';
+  if (updated) {
+    alertMessage =
+      'Loan has been approved! Please refresh the page to see changes';
+  } else if (paymentsUpdated) {
+    alertMessage = 'Payments has been collected! Please refresh to see changes';
+  }
+
   return (
     <section
       className={`${style.userSection} 
@@ -78,6 +208,13 @@ ${style.side}`}
     >
       <div className="container-fluid text-center p-5">
         <div className="row">
+          {updated || paymentsUpdated ? (
+            <Alert key="success" variant="success">
+              {alertMessage}
+            </Alert>
+          ) : (
+            ''
+          )}
           <div className="col-10">
             <h1 className="">Loan Management </h1>
           </div>
@@ -90,31 +227,37 @@ ${style.side}`}
             </button>
           </div>
           <div className="col-2 pt-2">
-            {showModal ? (
-              <ApprovedLoan onClick={() => setShowModal((show) => !show)} />
+            {showModal1 ? (
+              <ApprovedLoan onClick={() => setShowModal1((show) => !show)} />
             ) : null}
-            <button className="btn btn-dark" onClick={() => setShowModal(true)}>
+            <button
+              className="btn btn-dark"
+              onClick={() => setShowModal1(true)}
+            >
               Encode Approved Loan
             </button>
           </div>
         </div>
+
         <section>
           {/* SEARCH BAR */}
+
           <div className="d-flex">
             <input
               className="form-control mr-sm-2 d-block"
               type="search"
-              placeholder="Search Name, Gender"
+              placeholder="Search Name, Loan Type"
               aria-label="Search"
               onChange={handleSearch}
               value={query}
             />
-            <button
-              className="btn btn-outline-success my-2 my-sm-0 d-block"
-              type="submit"
-            >
-              Search
-            </button>
+            {showModal2 ? (
+              <AreYouSureModal
+                onClick={() => setShowModal2((show) => !show)}
+                yesHandler={() => collectHandler(userId)}
+                isLoading={isLoading}
+              />
+            ) : null}
           </div>
           <Table responsive>
             <thead>
@@ -204,6 +347,19 @@ ${style.side}`}
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
+
+                <th
+                  onClick={() => handleSort('paidAmount')}
+                  className={sortKey === 'paidAmount' ? sortOrder : ''}
+                >
+                  Paid Amount
+                  {sortKey === 'paidAmount' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'paidAmount' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
                 <th
                   onClick={() => handleSort('balance')}
                   className={sortKey === 'balance' ? sortOrder : ''}
@@ -228,25 +384,41 @@ ${style.side}`}
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
+                <th>Action</th>
               </tr>
             </thead>
+
             <tbody>
               {currentPosts.map((user, index) => {
                 return (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
+                  <tr key={index}>
+                    <td>{index + 1}</td>
                     <td>{user.lastName}</td>
                     <td>{user.firstName}</td>
-                    <td>{user.lastName}</td>
+                    <td>{user.middleName}</td>
+                    <td>{user.nameSuffix ? user.nameSuffix : 'N/A'}</td>
+                    <td>{user.loanType}</td>
+                    <td>{user.loanAmount}</td>
+                    <td>{user.payableIn}</td>
 
-                    <td>{user.totalContribution}</td>
-                    <td>{user.contributionCount}</td>
-                    <td>{user.lastPaid}</td>
+                    <td>{user.paidAmount}</td>
+                    <td>{user.balance}</td>
+                    <td>{user.date}</td>
+
+                    <td>
+                      <button
+                        className="btn btn-dark"
+                        onClick={() => collectHandler(user.id)}
+                      >
+                        Collect
+                      </button>
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </Table>
+
           {/* Pagination */}
           <MyPagination
             postsPerPage={postsPerPage}
