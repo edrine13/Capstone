@@ -1,0 +1,19 @@
+.userSection {
+  background: #f6f9fe;
+  height: 90vh;
+}
+
+.bg {
+  background: white;
+  border: 1px solid black;
+}
+
+.bg h2 {
+  font-size: 20px;
+}
+
+@media (min-width: 768px) {
+  .side {
+    margin-left: 200px !important;
+  }
+}

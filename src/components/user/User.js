@@ -16,16 +16,18 @@ const User = () => {
           <h2 className="text-center">
             Welcome back {`${userCtx.firstName} ${userCtx.lastName}`}
           </h2>
+
           <UserWelcomeCard />
           <div className="row">
             <div className="col-lg-6 mt-5">
               <div className="card text-center">
                 <UserContributionCard />
               </div>
-              <div className="col-lg-6 mt-5">
-                <div className="card text-center">
-                  <UserLoansCard />
-                </div>
+            </div>
+
+            <div className="col-lg-6 mt-5">
+              <div className="card text-center">
+                <UserLoansCard />
               </div>
             </div>
           </div>

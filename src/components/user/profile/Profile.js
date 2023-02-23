@@ -1,8 +1,9 @@
 import React from 'react';
+import style from './Profile.module.css';
 
 const Profile = () => {
   return (
-    <div className="mt-5 container">
+    <div className={`mt-5 container ${style.side} ${style.userSection}`}>
       <h1 className="text-center">PROFILE</h1>
       <h4 className="mt-5">Basic Info</h4>
       <div className="d-flex row">

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import style from './UserContribution.module.css';
 
 const UserContributions = () => {
   return (
-    <div className="mt-5 container">
+    <div className={`mt-5 container ${style.side} ${style.userSection}`}>
       <h1 className="text-center">Your Contributions</h1>
       <div className="d-flex row">
         <label className="mt-2">Initial Contribution Date:</label>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import style from './UserLoan.module.css';
 
 const UserLoan = () => {
   return (
-    <div className="mt-5 container">
+    <div className={`mt-5 container ${style.side} ${style.userSection}`}>
       <div className="mt-5">
         <h1>Your Loans</h1>
         <Table>
