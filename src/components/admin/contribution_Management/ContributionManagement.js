@@ -80,6 +80,21 @@ const ContributionManagement = () => {
 
   const process = useCallback(async (event) => {
     const data = await getAllUserPure();
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    const d = new Date();
     let convertData = {};
     console.log(data);
 
@@ -106,6 +121,8 @@ const ContributionManagement = () => {
           tSeqNo: Date.now(),
           paidAmount: +data[user_id].monthlyContribution,
           date: new Date().toISOString().split('T')[0],
+          monthCovered:
+            monthNames[d.getMonth()] + '-' + new Date().getFullYear(),
         },
         user_id
       );
