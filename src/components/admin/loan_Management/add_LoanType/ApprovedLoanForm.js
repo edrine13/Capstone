@@ -281,7 +281,7 @@ const AddLoanType = (props) => {
               {/* Payable In input */}
               <div className="col-4">
                 <label htmlFor="payableIn" className="d-block">
-                  Payable In
+                  Payable In (Monthly)
                 </label>
                 <input
                   type="number"
@@ -290,7 +290,7 @@ const AddLoanType = (props) => {
                   className={`form-control my-3 p-2 ${
                     !validInput.payableIn ? 'is-invalid' : ''
                   }`}
-                  placeholder="Payable In"
+                  placeholder="How many months?"
                   onChange={payableInInputHandler}
                   value={payableIn}
                 />

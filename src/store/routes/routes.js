@@ -27,10 +27,13 @@ import UserLoanPage from '../../page/UserLoanPage';
 import UserContributionPage from '../../page/UserContributionPage';
 import User from '../../components/user/User';
 import UserOverviewPage from '../../page/UserOverviewPage';
-import EditUserForm from '../../components/admin/user_Management/edit/EditUserForm';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
+  const authCtx = useContext(authContext);
+
+  const memberIsLoggedIn = authCtx.role === 'members';
+  const adminIsLoggedIn = authCtx.role === 'admin';
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -41,8 +44,8 @@ const useCreatedRoutes = () => {
         <Route path="terms" element={<TermsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/edit" element={<EditUserForm />} />
-        {isLoggedIn ? (
+
+        {isLoggedIn && memberIsLoggedIn ? (
           <Route
             path="/members/*"
             element={<UserPage AsideUser={<AsideUser />} />}
@@ -54,7 +57,7 @@ const useCreatedRoutes = () => {
             <Route path="contribution" element={<UserContributionPage />} />
           </Route>
         ) : null}
-        {isLoggedIn ? (
+        {isLoggedIn && adminIsLoggedIn ? (
           <Route path="/admin/*" element={<AdminPage Aside={<Aside />} />}>
             <Route index element={<Navigate to={'overview'} />} />
             <Route path="overview" element={<Admin />} />

@@ -16,6 +16,7 @@ const Layout = (props) => {
   return (
     <>
       {isLoggedIn ? <AuthHeader onLogout={handleLogout} /> : <Header />}
+
       <main style={style}>
         <Outlet />
       </main>

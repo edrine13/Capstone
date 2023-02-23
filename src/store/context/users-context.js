@@ -1,18 +1,38 @@
 import React, { useState } from 'react';
 
-const memberContext = React.createContext({
-  user: {},
+const userContext = React.createContext({
+  userHandler: (data) => {},
+  userData: [],
 });
 
-export default roleContext;
+export default userContext;
+const name = localStorage.getItem('name');
 
-export const MemberContextProvider = (props) => {
-  const [role, setRole] = useState('');
+export const UserContextProvider = (props) => {
+  let savedName = '';
 
-  const value = {};
+  if (name) {
+    savedName = JSON.parse(name);
+    console.log(name);
+  }
+
+  const [userData, setUserData] = useState(savedName);
+
+  console.log(savedName);
+
+  const userHandler = (data) => {
+    const convertedData = JSON.stringify(data);
+    localStorage.setItem('name', convertedData);
+    console.log(data);
+    setUserData(data);
+  };
+  console.log(userData);
+
+  const value = {
+    userHandler,
+    userData,
+  };
   return (
-    <memberContext.Provider value={value}>
-      {props.children}
-    </memberContext.Provider>
+    <userContext.Provider value={value}>{props.children}</userContext.Provider>
   );
 };

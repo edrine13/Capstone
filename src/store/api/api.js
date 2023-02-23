@@ -164,8 +164,9 @@ export const getAllLoan = async () => {
         convertData.push({
           id: user_id,
           lastName: data[user_id].lastName,
-          loanId: user_id,
+          loanId: loan_id,
           firstName: data[user_id].firstName,
+          email: data[user_id].email,
           middleName: data[user_id].middleName,
           nameSuffix: data[user_id].nameSuffix
             ? data[user_id].nameSuffix
@@ -216,7 +217,6 @@ export const getAllLoan = async () => {
         // }
       }
     }
-    console.log(data);
     return convertData;
   } catch (err) {}
 };
@@ -253,18 +253,115 @@ export const updatedLoans = async (data, id) => {
   } catch (err) {}
 };
 
-// export const addTransac = async (data) => {
-//   try {
-//     const response = await fetch(
-//       `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/transcations.json`,
-//       {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(data),
-//       }
-//     );
-//     if (!response.ok) {
-//       throw new Error('Failed to send data');
-//     }
-//   } catch (err) {}
-// };
+export const addLoanTransaction = async (data, id) => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${id}/transactions/loan.json`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+  } catch (err) {}
+};
+export const addContributionTransaction = async (data, id) => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${id}/transactions/contribution.json`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+  } catch (err) {}
+};
+
+export const getAllContributionTransaction = async () => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members.json`
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+
+    const data = await response.json();
+
+    let convertData = [];
+
+    for (let user_id in data) {
+      for (let loan_id in data[user_id].transactions.contribution) {
+        convertData.push({
+          id: user_id,
+          lastName: data[user_id].lastName,
+          loanId: loan_id,
+          firstName: data[user_id].firstName,
+          email: data[user_id].email,
+          middleName: data[user_id].middleName,
+          nameSuffix: data[user_id].nameSuffix
+            ? data[user_id].nameSuffix
+            : 'N/A',
+          date: data[user_id].transactions.contribution[loan_id].date,
+          tSeqNo: data[user_id].transactions.contribution[loan_id].tSeqNo,
+          paidAmount:
+            data[user_id].transactions.contribution[loan_id].paidAmount,
+          monthCovered:
+            data[user_id].transactions.contribution[loan_id].monthCovered,
+          civilStatus: data[user_id].civilStatus,
+          gender: data[user_id].gender,
+          monthlyContribution: data[user_id].monthlyContribution,
+        });
+      }
+    }
+    return convertData;
+  } catch (err) {}
+};
+
+export const getAllLoanTransaction = async () => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members.json`
+    );
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+
+    const data = await response.json();
+
+    let convertData = [];
+
+    for (let user_id in data) {
+      for (let loan_id in data[user_id].transactions.loan) {
+        convertData.push({
+          id: user_id,
+          lastName: data[user_id].lastName,
+          loanId: loan_id,
+          firstName: data[user_id].firstName,
+          email: data[user_id].email,
+          middleName: data[user_id].middleName,
+          nameSuffix: data[user_id].nameSuffix
+            ? data[user_id].nameSuffix
+            : 'N/A',
+          date: data[user_id].transactions.loan[loan_id].date,
+          tSeqNo: data[user_id].transactions.loan[loan_id].tSeqNo,
+          paidAmount: data[user_id].transactions.loan[loan_id].paidAmount,
+          monthCovered: data[user_id].transactions.loan[loan_id].monthCovered,
+          amount: data[user_id].transactions.loan[loan_id].amount,
+          loanType: data[user_id].transactions.loan[loan_id].loanType,
+          civilStatus: data[user_id].civilStatus,
+          gender: data[user_id].gender,
+          monthlyContribution: data[user_id].monthlyContribution,
+        });
+      }
+    }
+    return convertData;
+  } catch (err) {}
+};

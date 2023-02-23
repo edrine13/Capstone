@@ -6,7 +6,7 @@ import MyPagination from '../contribution_Management/MyPagination';
 import AddLoanType from './add_LoanType/AddLoanType';
 import ApprovedLoan from './add_LoanType/ApprovedLoan';
 import AreYouSureModal from './AreYouSureModal';
-import { getAllUserPure } from '../../../store/api/api';
+import { getAllUserPure, addLoanTransaction } from '../../../store/api/api';
 import { Alert } from 'react-bootstrap';
 
 const LoanManagement = () => {
@@ -112,6 +112,16 @@ const LoanManagement = () => {
                 +data[user_id].loan[loan_id].monthlyLoanPayment,
             },
           };
+          addLoanTransaction(
+            {
+              tSeqNo: Date.now(),
+              amount: +data[user_id].loan[loan_id].monthlyLoanPayment,
+              loanType: data[user_id].loan[loan_id].loanType,
+              date: new Date().toISOString().split('T')[0],
+              loanId: loan_id,
+            },
+            user_id
+          );
         } else {
           convertData = {
             [loan_id]: {

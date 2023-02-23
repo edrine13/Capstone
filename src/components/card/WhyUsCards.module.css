@@ -31,19 +31,19 @@
   border-radius: 0px;
 }
 
-/* .title a {
+.title a {
   text-decoration: none;
-  color: #2b4257;
-  font-weight: 700;
-  font-size: 18px;
-} */
+  color: black;
+}
 .icon-box:hover {
   color: white;
   background: #ffa600;
   fill: #6fa8cc;
 }
 
-.icon-box:hover .icon {
+.icon-box:hover .icon,
+.title a:hover {
+  text-decoration: none;
   color: #ffa600;
   fill: #6fa8cc;
 }

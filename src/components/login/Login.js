@@ -18,6 +18,7 @@ const Login = () => {
       <div className="col-md-7 px-5 pt-5">
         <img src={logoImg} className="signuplogo" alt="" />
         <h4 className="py-3 max-w-sm">Sign in to your Account</h4>
+
         <LoginForm onLogin={handleLogin} />
       </div>
     </section>
