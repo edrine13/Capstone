@@ -78,6 +78,9 @@ const LoginForm = ({ onLogin }) => {
           email: getUser[user_id].email,
           firstName: getUser[user_id].firstName,
           lastName: getUser[user_id].lastName,
+          middleName: getUser[user_id].middleName,
+          suffix: getUser[user_id].suffix,
+          birthDate: getUser[user_id].birthDate,
         });
       }
       console.log(convertData);
@@ -134,7 +137,7 @@ const LoginForm = ({ onLogin }) => {
       authCtx.login(res.idToken, expiresIn.toISOString());
       Navigate(`/${role}`, { replace: true });
     } catch (err) {
-      setIsError(err.message);
+      setIsError('Incorrect password');
     }
   };
 

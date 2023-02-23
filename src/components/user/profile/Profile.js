@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
 import userContext from '../../../store/context/users-context';
 import { getAllUser } from '../../../store/api/api';
+import style from './Profile.module.css';
 
 const Profile = () => {
   const [users, setUsers] = useState([]);
@@ -26,7 +27,7 @@ const Profile = () => {
   console.log(currentUser);
 
   return (
-    <div className="mt-5 container">
+    <div className={`mt-5 container ${style.side} ${style.userSection}`}>
       <h1 className="text-center">PROFILE</h1>
       <h4 className="mt-5">Basic Info</h4>
 

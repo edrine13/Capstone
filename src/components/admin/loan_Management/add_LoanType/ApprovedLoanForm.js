@@ -15,9 +15,8 @@ const AddLoanType = (props) => {
   const [memberID, setMemberID] = useState('');
   const [loanType, setLoanType] = useState('shortTerm');
   const [loanAmount, setLoanAmount] = useState('');
-  const [payableIn, setPayableIn] = useState('');
-  const [monthlyLoanPayment, setMonthlyLoanPayment] = useState('');
-  const [date, setDate] = useState('');
+  const [payableIn, setPayableIn] = useState(2);
+
   const [userExists, setUserExists] = useState(false);
   console.log(member);
   console.log(memberID);
@@ -42,6 +41,7 @@ const AddLoanType = (props) => {
 
   // CHECK STATE IF SUBMITED
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loanIsSubmitted, setLoanIsSubmitted] = useState(false);
 
   // Check if the input is valid for user experience
   const [validInput, setValidInput] = useState({
@@ -52,8 +52,6 @@ const AddLoanType = (props) => {
     loanType: true,
     loanAmount: true,
     payableIn: true,
-    monthlyLoanPayment: true,
-    date: true,
   });
 
   // FIND IF MEMBER HAVE THE EXACT ID
@@ -79,14 +77,8 @@ const AddLoanType = (props) => {
   };
 
   //   Monthly Loan Payment Input Handler
-  const monthlyLoanPaymentInputHandler = (event) => {
-    setMonthlyLoanPayment(event.target.value);
-  };
 
   //   Date Input Handler
-  const dateInputHandler = (event) => {
-    setDate(event.target.value);
-  };
 
   // CHECK IF USER IS VALID
   const checkIfValid = () => {
@@ -112,8 +104,6 @@ const AddLoanType = (props) => {
     const loanTypeIsValid = inputIsNotEmpty(loanType);
     const loanAmountIsValid = validAmount(loanAmount);
     const payableInIsValid = validPayableIn(payableIn);
-    const monthlyLoanPaymentIsValid = validAmount(monthlyLoanPayment);
-    const dateIsValid = inputIsNotEmpty(date);
 
     // OVERALL INPUT CHECK IF VALID
 
@@ -122,8 +112,6 @@ const AddLoanType = (props) => {
       loanTypeIsValid &&
       loanAmountIsValid &&
       payableInIsValid &&
-      monthlyLoanPaymentIsValid &&
-      dateIsValid &&
       userExists;
 
     setInputIsValid(inputIsValid);
@@ -135,8 +123,6 @@ const AddLoanType = (props) => {
       loanType: loanTypeIsValid,
       loanAmount: loanAmountIsValid,
       payableIn: payableInIsValid,
-      monthlyLoanPayment: monthlyLoanPaymentIsValid,
-      date: dateIsValid,
     });
 
     if (!inputIsValid) {
@@ -150,11 +136,17 @@ const AddLoanType = (props) => {
         loanType,
         loanAmount,
         payableIn,
-        monthlyLoanPayment,
-        date,
+        payableInvisible: payableIn,
+
         balance: loanAmount,
         loanStatus: 'active',
         paidAmount: 0,
+        date:
+          new Date().getFullYear() +
+          '-' +
+          (new Date().getMonth() + 1) +
+          '-' +
+          new Date().getDate(),
       });
     } catch (err) {
       setIsLoading(false);
@@ -170,22 +162,14 @@ const AddLoanType = (props) => {
     setLoanType('');
     setLoanAmount('');
     setPayableIn('');
-    setMonthlyLoanPayment('');
-    setDate('');
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 5000);
+
+    props.onClick();
   };
   console.log(userExists);
 
   return (
     <form onSubmit={approvedLoanHandler}>
       <div className="container">
-        {isSubmitted ? (
-          <div className="alert alert-success text-center" role="alert">
-            Form is submitted successfully!
-          </div>
-        ) : null}
         {isLoading ? (
           <LoadingSpinner />
         ) : (
@@ -219,26 +203,34 @@ const AddLoanType = (props) => {
               {/* Last Name Input */}
               <div className="col-4">
                 <label>Last Name</label>
-                <h4>{member ? member.lastName : 'No member Found'}</h4>
+                <h4 className="form-control my-3 p-2 ">
+                  {member ? member.lastName : 'No member Found'}
+                </h4>
               </div>
 
               {/* Middle Name input */}
               <div className="col-4">
                 <label>Middle Name </label>
                 <label>(Blank if none)</label>
-                <h4>{member ? member.middleName : 'No member Found'}</h4>
+                <h4 className="form-control my-3 p-2 ">
+                  {member ? member.middleName : 'No member Found'}
+                </h4>
               </div>
 
               {/* First Name input */}
               <div className="col-4">
                 <label>First Name</label>
-                <h4>{member ? member.firstName : 'No member Found'}</h4>
+                <h4 className="form-control my-3 p-2 ">
+                  {member ? member.firstName : 'No member Found'}
+                </h4>
               </div>
 
               {/* Suffix Input */}
               <div className="col-4">
                 <label>Suffix (Blank if none)</label>
-                <h4>{member ? member.suffix : 'No member Found'}</h4>
+                <h4 className="form-control my-3 p-2 ">
+                  {member ? member.suffix : 'No member Found'}
+                </h4>
               </div>
 
               {/* Loan Type input */}
@@ -247,7 +239,7 @@ const AddLoanType = (props) => {
                   Loan Type
                 </label>
                 <select
-                  className="form-select"
+                  className="form-select form-control my-3 p-2 "
                   aria-label="Default select example"
                   onChange={loanTypeInputHandler}
                   value={loanType}
@@ -283,54 +275,28 @@ const AddLoanType = (props) => {
                 <label htmlFor="payableIn" className="d-block">
                   Payable In (Monthly)
                 </label>
-                <input
+
+                <select
                   type="number"
                   name="payableIn"
                   id="payableIn"
-                  className={`form-control my-3 p-2 ${
-                    !validInput.payableIn ? 'is-invalid' : ''
-                  }`}
-                  placeholder="How many months?"
+                  className="form-select form-control my-3 p-2 "
+                  aria-label="Default select example"
                   onChange={payableInInputHandler}
                   value={payableIn}
-                />
+                >
+                  <option selected value={2}>
+                    2 Months
+                  </option>
+                  <option value={4}>4 Months</option>
+                  <option value={6}>6 Months</option>
+                  <option value={8}>8 Months</option>
+                </select>
               </div>
 
               {/* Monthly Loan Payment In input */}
-              <div className="col-4">
-                <label htmlFor="monthlyLoanPayment" className="d-block">
-                  Monthly Loan Payment
-                </label>
-                <input
-                  type="number"
-                  name="monthlyLoanPayment"
-                  id="monthlyLoanPayment"
-                  className={`form-control my-3 p-2 ${
-                    !validInput.monthlyLoanPayment ? 'is-invalid' : ''
-                  }`}
-                  placeholder="Monthly Loan Payment"
-                  onChange={monthlyLoanPaymentInputHandler}
-                  value={monthlyLoanPayment}
-                />
-              </div>
-              {/* Date */}
 
-              <div className="col-4">
-                <label htmlFor="date" className="d-block">
-                  Date
-                </label>
-                <input
-                  type="date"
-                  name="date"
-                  id="date"
-                  className={`form-control my-3 p-2 ${
-                    !validInput.date ? 'is-invalid' : ''
-                  }`}
-                  onChange={dateInputHandler}
-                  format={'DD-MM-YYYY'}
-                  value={date}
-                />
-              </div>
+              {/* Date */}
             </div>
             <div className="d-flex justify-content-between">
               <button

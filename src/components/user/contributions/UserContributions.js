@@ -5,6 +5,7 @@ import {
   getAllUser,
 } from '../../../store/api/api';
 import { Table } from 'react-bootstrap';
+import style from './UserContribution.module.css';
 
 const UserContributions = () => {
   const [userContri, setUserContri] = useState([]);
@@ -48,7 +49,7 @@ const UserContributions = () => {
   );
 
   return (
-    <div className="mt-5 container">
+    <div className={`mt-5 container ${style.side} ${style.userSection}`}>
       <h1 className="text-center">Your Contributions</h1>
       {currentUser.map((user, index) => {
         return (

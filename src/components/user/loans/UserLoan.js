@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useMemo } from 'react';
 import userContext from '../../../store/context/users-context';
 import { getAllLoan, getAllLoanTransaction } from '../../../store/api/api';
 import { Table } from 'react-bootstrap';
+import style from './UserLoan.module.css';
 
 const UserLoan = () => {
   const [userContri, setUserContri] = useState([]);
@@ -45,7 +46,7 @@ const UserLoan = () => {
   );
 
   return (
-    <div className="mt-5 container">
+    <div className={`mt-5 container ${style.side} ${style.userSection}`}>
       <div className="mt-5">
         <h1>Your Loans</h1>
         <Table>
