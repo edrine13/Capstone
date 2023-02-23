@@ -27,6 +27,7 @@ import UserLoanPage from '../../page/UserLoanPage';
 import UserContributionPage from '../../page/UserContributionPage';
 import User from '../../components/user/User';
 import UserOverviewPage from '../../page/UserOverviewPage';
+import EditUserForm from '../../components/admin/user_Management/edit/EditUserForm';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
@@ -40,6 +41,7 @@ const useCreatedRoutes = () => {
         <Route path="terms" element={<TermsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/edit" element={<EditUserForm />} />
         {isLoggedIn ? (
           <Route
             path="/members/*"
