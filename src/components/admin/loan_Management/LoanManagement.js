@@ -105,13 +105,31 @@ const LoanManagement = () => {
             [loan_id]: {
               ...data[user_id].loan[loan_id],
               paidAmount:
-                +data[user_id].loan[loan_id].paidAmount +
-                +data[user_id].loan[loan_id].monthlyLoanPayment,
+                +data[user_id].loan[loan_id].payableInvisible === 1
+                  ? +data[user_id].loan[loan_id].paidAmount +
+                    +data[user_id].loan[loan_id].balance
+                  : Math.ceil(
+                      +data[user_id].loan[loan_id].paidAmount +
+                        Math.floor(
+                          +data[user_id].loan[loan_id].loanAmount /
+                            +data[user_id].loan[loan_id].payableIn
+                        )
+                    ),
               balance:
-                +data[user_id].loan[loan_id].balance -
-                +data[user_id].loan[loan_id].monthlyLoanPayment,
+                +data[user_id].loan[loan_id].payableInvisible === 1
+                  ? 0
+                  : Math.ceil(
+                      +data[user_id].loan[loan_id].balance -
+                        Math.floor(
+                          +data[user_id].loan[loan_id].loanAmount /
+                            +data[user_id].loan[loan_id].payableIn
+                        )
+                    ),
+              payableInvisible:
+                +data[user_id].loan[loan_id].payableInvisible - 1,
             },
           };
+
           addLoanTransaction(
             {
               tSeqNo: Date.now(),
@@ -153,9 +171,10 @@ const LoanManagement = () => {
 
   let alertMessage = '';
   if (updated) {
-    alertMessage = 'Loan has been approved!';
+    alertMessage =
+      'Loan has been approved! Please refresh the page to see changes';
   } else if (paymentsUpdated) {
-    alertMessage = 'Payments has been collected';
+    alertMessage = 'Payments has been collected! Please refresh to see changes';
   }
 
   return (
@@ -315,18 +334,7 @@ ${style.side}`}
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
-                <th
-                  onClick={() => handleSort('paidAmount')}
-                  className={sortKey === 'paidAmount' ? sortOrder : ''}
-                >
-                  Monthly Payment
-                  {sortKey === 'paidAmount' && sortOrder === 'asc' && (
-                    <span className="sort-arrow up">▲</span>
-                  )}
-                  {sortKey === 'paidAmount' && sortOrder === 'desc' && (
-                    <span className="sort-arrow down">▼</span>
-                  )}
-                </th>
+
                 <th
                   onClick={() => handleSort('paidAmount')}
                   className={sortKey === 'paidAmount' ? sortOrder : ''}
@@ -378,7 +386,7 @@ ${style.side}`}
                     <td>{user.loanType}</td>
                     <td>{user.loanAmount}</td>
                     <td>{user.payableIn}</td>
-                    <td>{user.monthlyLoanPayment}</td>
+
                     <td>{user.paidAmount}</td>
                     <td>{user.balance}</td>
                     <td>{user.date}</td>
