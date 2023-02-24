@@ -85,7 +85,22 @@ export const getAllUser = async () => {
 export const updatedData = async (data) => {
   try {
     const response = await fetch(
-      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members.json`,
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/.json`,
+      {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to process the action');
+    }
+  } catch (err) {}
+};
+export const editData = async (data, id) => {
+  try {
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${id}.json`,
       {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },

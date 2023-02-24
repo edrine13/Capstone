@@ -9,6 +9,7 @@ import {
 } from '../../../store/api/api';
 import MyPagination from '../contribution_Management/MyPagination';
 import Modal from '../../../UI/modal';
+import DataEditor from './edit/DataEditor';
 
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
@@ -75,27 +76,26 @@ const UserManagement = () => {
 
   const paginate = (pageNumber) => setPage(pageNumber);
 
+  //////////////////////////
+
+  // FUNCTIONS FOR EDIT FORM
+
   const handleView = (user) => {
     setEditUser(user);
     setShowForm(true);
-    console.log(editUser);
+    console.log(user);
   };
 
   const closeForm = () => {
-    setShowForm(false);
+    setShowForm((showForm) => !showForm);
+  };
+  const userEditorSubmitHandler = (user) => {
+    return editUser;
   };
 
-  const updateMember = useCallback(async (user) => {
-    const data = await getAllUserPure();
-    let convertData = {};
-    convertData = {
-      [editUser.id]: {
-        ...data[editUser.id],
-        lastName: editUser.lastName,
-        firstName: editUser.firstName,
-      },
-    };
-  }, []);
+  ////////////////////////////
+
+  const updateMember = useCallback(async (user) => {}, []);
 
   return (
     <section
@@ -106,11 +106,14 @@ const UserManagement = () => {
         <div className="row">
           <div className="col-10">
             <h1 className="">User Management </h1>
+            {showForm ? (
+              <DataEditor
+                onClick={closeForm}
+                onSubmit={userEditorSubmitHandler}
+              />
+            ) : null}
           </div>
           <div className="col-2 pt-2">
-            {showModal ? (
-              <AddUser onClick={() => setShowModal((show) => !show)} />
-            ) : null}
             <button className="btn btn-dark" onClick={() => setShowModal(true)}>
               Add Member
             </button>
@@ -257,18 +260,7 @@ const UserManagement = () => {
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
-                <th
-                  onClick={() => handleSort('password')}
-                  className={sortKey === 'password' ? sortOrder : ''}
-                >
-                  Password{''}
-                  {sortKey === 'password' && sortOrder === 'asc' && (
-                    <span className="sort-arrow up">▲</span>
-                  )}
-                  {sortKey === 'password' && sortOrder === 'desc' && (
-                    <span className="sort-arrow down">▼</span>
-                  )}
-                </th>
+
                 <th
                   onClick={() => handleSort('totalContribution')}
                   className={sortKey === 'totalContribution' ? sortOrder : ''}
@@ -322,7 +314,7 @@ const UserManagement = () => {
                   <td>{user.contactNumber}</td>
                   <td>{user.email}</td>
                   <td>{user.nationality}</td>
-                  <td>{user.password}</td>
+
                   <td>{user.totalContribution}</td>
                   <td>{user.accountStatus}</td>
                   <td>{user.loanStatus}</td>
