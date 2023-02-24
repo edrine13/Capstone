@@ -210,8 +210,8 @@ const AddLoanType = (props) => {
 
               {/* Middle Name input */}
               <div className="col-4">
-                <label>Middle Name </label>
-                <label>(Blank if none)</label>
+                <label>Middle N.(Blank if none) </label>
+
                 <h4 className="form-control my-3 p-2 ">
                   {member ? member.middleName : 'No member Found'}
                 </h4>
@@ -288,9 +288,14 @@ const AddLoanType = (props) => {
                   <option selected value={2}>
                     2 Months
                   </option>
+                  <option value={3}>3 Months</option>
                   <option value={4}>4 Months</option>
+                  <option value={5}>5 Months</option>
                   <option value={6}>6 Months</option>
+                  <option value={7}>7 Months</option>
                   <option value={8}>8 Months</option>
+                  <option value={9}>9 Months</option>
+                  <option value={10}>10 Months</option>
                 </select>
               </div>
 

@@ -70,8 +70,8 @@ const LoanManagement = () => {
     setFilteredData(filterData(query));
   }
 
-  const collectHandler = async (id) => {
-    userCtx.loanHandler(id);
+  const collectHandler = async (id, loanId) => {
+    userCtx.loanHandler(id, loanId);
 
     setShowModal2((show) => !show);
 
@@ -88,50 +88,50 @@ const LoanManagement = () => {
       console.log(id);
       for (let loan_id in data[id].loan) {
         console.log(id);
-        if (+data[id].loan[loan_id].balance >= 1) {
+        if (+data[id].loan[loanId].balance >= 1) {
           convertData = {
-            [loan_id]: {
-              ...data[id].loan[loan_id],
+            [loanId]: {
+              ...data[id].loan[loanId],
               paidAmount:
-                +data[id].loan[loan_id].payableInvisible === 1
-                  ? +data[id].loan[loan_id].paidAmount +
-                    +data[id].loan[loan_id].balance
+                +data[id].loan[loanId].payableInvisible === 1
+                  ? +data[id].loan[loanId].paidAmount +
+                    +data[id].loan[loanId].balance
                   : Math.ceil(
-                      +data[id].loan[loan_id].paidAmount +
+                      +data[id].loan[loanId].paidAmount +
                         Math.floor(
-                          +data[id].loan[loan_id].loanAmount /
-                            +data[id].loan[loan_id].payableIn
+                          +data[id].loan[loanId].loanAmount /
+                            +data[id].loan[loanId].payableIn
                         )
                     ),
               balance:
-                +data[id].loan[loan_id].payableInvisible === 1
+                +data[id].loan[loanId].payableInvisible === 1
                   ? 0
                   : Math.ceil(
-                      +data[id].loan[loan_id].balance -
+                      +data[id].loan[loanId].balance -
                         Math.floor(
-                          +data[id].loan[loan_id].loanAmount /
-                            +data[id].loan[loan_id].payableIn
+                          +data[id].loan[loanId].loanAmount /
+                            +data[id].loan[loanId].payableIn
                         )
                     ),
-              payableInvisible: +data[id].loan[loan_id].payableInvisible - 1,
+              payableInvisible: +data[id].loan[loanId].payableInvisible - 1,
             },
           };
 
           addLoanTransaction(
             {
               tSeqNo: Date.now(),
-              paidAmount: +data[id].loan[loan_id].paidAmount,
+              paidAmount: +data[id].loan[loanId].paidAmount,
               date: new Date().toISOString().split('T')[0],
-              loanType: +data[id].loan[loan_id].loanType,
-              amount: +data[id].loan[loan_id].amount,
-              loanId: loan_id,
+              loanType: +data[id].loan[loanId].loanType,
+              amount: +data[id].loan[loanId].amount,
+              loanId: loanId,
             },
             id
           );
         } else {
           convertData = {
-            [loan_id]: {
-              ...data[id].loan[loan_id],
+            [loanId]: {
+              ...data[id].loan[loanId],
               loanStatus: 'paid',
 
               balance: 0,
@@ -254,7 +254,7 @@ ${style.side}`}
             {showModal2 ? (
               <AreYouSureModal
                 onClick={() => setShowModal2((show) => !show)}
-                yesHandler={() => collectHandler(userId)}
+                yesHandler={() => collectHandler(userId.id, userId.loanId)}
                 isLoading={isLoading}
               />
             ) : null}
@@ -404,11 +404,12 @@ ${style.side}`}
                     <td>{user.paidAmount}</td>
                     <td>{user.balance}</td>
                     <td>{user.date}</td>
+                    {console.log(user.loanId)}
 
                     <td>
                       <button
                         className="btn btn-dark"
-                        onClick={() => collectHandler(user.id)}
+                        onClick={() => collectHandler(user.id, user.loanId)}
                       >
                         Collect
                       </button>
