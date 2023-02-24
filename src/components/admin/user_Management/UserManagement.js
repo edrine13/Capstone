@@ -112,6 +112,9 @@ const UserManagement = () => {
                 onSubmit={userEditorSubmitHandler}
               />
             ) : null}
+            {showModal ? (
+              <AddUser onClick={() => setShowModal((show) => !show)} />
+            ) : null}
           </div>
           <div className="col-2 pt-2">
             <button className="btn btn-dark" onClick={() => setShowModal(true)}>
