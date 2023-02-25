@@ -12,7 +12,6 @@ import userContext from '../../../store/context/users-context';
 
 const LoanManagement = () => {
   const [users, setUsers] = useState([]);
-
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
 
@@ -80,7 +79,6 @@ const LoanManagement = () => {
       return;
     }
     setIsLoading(true);
-
     const data = await getAllUserPure();
     let convertData = {};
 
@@ -116,24 +114,11 @@ const LoanManagement = () => {
               payableInvisible: +data[id].loan[loanId].payableInvisible - 1,
             },
           };
-
-          addLoanTransaction(
-            {
-              tSeqNo: Date.now(),
-              paidAmount: +data[id].loan[loanId].paidAmount,
-              date: new Date().toISOString().split('T')[0],
-              loanType: +data[id].loan[loanId].loanType,
-              amount: +data[id].loan[loanId].amount,
-              loanId: loanId,
-            },
-            id
-          );
         } else {
           convertData = {
             [loanId]: {
               ...data[id].loan[loanId],
               loanStatus: 'paid',
-
               balance: 0,
             },
           };
@@ -143,6 +128,16 @@ const LoanManagement = () => {
         await updatedLoans(convertData, id);
       }
     }
+    addLoanTransaction(
+      {
+        tSeqNo: Date.now(),
+        amount: +data[id].loan[loanId].monthlyPayment,
+        date: new Date().toISOString().split('T')[0],
+        loanType: data[id].loan[loanId].loanType,
+        loanId: loanId,
+      },
+      id
+    );
     console.log(convertData);
     setPaymentsUpdated(true);
 
@@ -262,7 +257,18 @@ ${style.side}`}
           <Table responsive>
             <thead>
               <tr>
-                <th>Member ID</th>
+                <th
+                  onClick={() => handleSort('memberID')}
+                  className={sortKey === 'memberID' ? sortOrder : ''}
+                >
+                  Member ID{''}
+                  {sortKey === 'memberID' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'memberID' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
                 <th
                   onClick={() => handleSort('lastName')}
                   className={sortKey === 'lastName' ? sortOrder : ''}
@@ -372,18 +378,7 @@ ${style.side}`}
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
-                <th
-                  onClick={() => handleSort('dateCreated')}
-                  className={sortKey === 'dateCreated' ? sortOrder : ''}
-                >
-                  Date Created
-                  {sortKey === 'dateCreated' && sortOrder === 'asc' && (
-                    <span className="sort-arrow up">▲</span>
-                  )}
-                  {sortKey === 'dateCreated' && sortOrder === 'desc' && (
-                    <span className="sort-arrow down">▼</span>
-                  )}
-                </th>
+
                 <th>Action</th>
               </tr>
             </thead>
@@ -392,7 +387,7 @@ ${style.side}`}
               {currentPosts.map((user, index) => {
                 return (
                   <tr key={index}>
-                    <td>{index + 1}</td>
+                    <td>{user.memberID}</td>
                     <td>{user.lastName}</td>
                     <td>{user.firstName}</td>
                     <td>{user.middleName}</td>
@@ -403,16 +398,20 @@ ${style.side}`}
 
                     <td>{user.paidAmount}</td>
                     <td>{user.balance}</td>
-                    <td>{user.date}</td>
+
                     {console.log(user.loanId)}
 
                     <td>
-                      <button
-                        className="btn btn-dark"
-                        onClick={() => collectHandler(user.id, user.loanId)}
-                      >
-                        Collect
-                      </button>
+                      {user.balance === 0 ? (
+                        'Paid'
+                      ) : (
+                        <button
+                          className="btn btn-dark"
+                          onClick={() => collectHandler(user.id, user.loanId)}
+                        >
+                          Collect
+                        </button>
+                      )}
                     </td>
                   </tr>
                 );

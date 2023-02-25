@@ -82,9 +82,11 @@ const AddLoanType = (props) => {
 
   // CHECK IF USER IS VALID
   const checkIfValid = () => {
-    const userExists = users.findIndex((user) => user.id === memberID);
+    const userExists = users.find((obj) => obj.memberID === +memberID);
+    console.log(memberID);
+    console.log(userExists);
 
-    setMember(users[userExists]);
+    setMember(userExists);
     if (userExists >= 0) {
       setUserExists(true);
     } else {
@@ -137,8 +139,8 @@ const AddLoanType = (props) => {
         loanAmount,
         payableIn,
         payableInvisible: payableIn,
-
         balance: loanAmount,
+        monthlyPayment: loanAmount / payableIn,
         loanStatus: 'active',
         paidAmount: 0,
         date:
@@ -244,11 +246,11 @@ const AddLoanType = (props) => {
                   onChange={loanTypeInputHandler}
                   value={loanType}
                 >
-                  <option selected value="shortTerm">
+                  <option selected value="Short Term">
                     Short Term
                   </option>
-                  <option value="longTerm">Long Term</option>
-                  <option value="EmergencyLoan">Emergency Loan</option>
+                  <option value="Long Term">Long Term</option>
+                  <option value="Emergency Loan">Emergency Loan</option>
                 </select>
               </div>
 

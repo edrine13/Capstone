@@ -19,7 +19,7 @@ const UserManagement = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(5);
+  const [postsPerPage, setPostsPerPage] = useState(10);
   const [editUser, setEditUser] = useState('');
   const [showForm, setShowForm] = useState(false);
 
@@ -142,7 +142,18 @@ const UserManagement = () => {
           <Table responsive>
             <thead>
               <tr>
-                <th>id</th>
+                <th
+                  onClick={() => handleSort('memberID')}
+                  className={sortKey === 'memberID' ? sortOrder : ''}
+                >
+                  Member ID{''}
+                  {sortKey === 'memberID' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'memberID' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
                 <th
                   onClick={() => handleSort('lastName')}
                   className={sortKey === 'lastName' ? sortOrder : ''}
@@ -288,25 +299,13 @@ const UserManagement = () => {
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
-                <th
-                  onClick={() => handleSort('loanStatus')}
-                  className={sortKey === 'loanStatus' ? sortOrder : ''}
-                >
-                  Loan Status{''}
-                  {sortKey === 'loanStatus' && sortOrder === 'asc' && (
-                    <span className="sort-arrow up">▲</span>
-                  )}
-                  {sortKey === 'loanStatus' && sortOrder === 'desc' && (
-                    <span className="sort-arrow down">▼</span>
-                  )}
-                </th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {currentPosts.map((user, index) => (
                 <tr key={index}>
-                  <td>{user.id}</td>
+                  <td>{user.memberID}</td>
                   <td>{user.lastName}</td>
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
@@ -317,10 +316,8 @@ const UserManagement = () => {
                   <td>{user.contactNumber}</td>
                   <td>{user.email}</td>
                   <td>{user.nationality}</td>
-
                   <td>{user.totalContribution}</td>
                   <td>{user.accountStatus}</td>
-                  <td>{user.loanStatus}</td>
                   <td>
                     <div>
                       <button

@@ -33,6 +33,8 @@ const ContributionManagement = () => {
     response();
   }, [setUsers, getAllUser]);
 
+  console.log(users.length);
+
   function filterData(query) {
     return users.filter(
       (row) =>
@@ -292,7 +294,7 @@ const ContributionManagement = () => {
               {currentPosts.map((user, index) => {
                 return (
                   <tr key={index}>
-                    <td>{user.id}</td>
+                    <td>{user.memberID}</td>
                     <td>{user.lastName}</td>
                     <td>{user.firstName}</td>
                     <td>{user.middleName}</td>

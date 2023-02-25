@@ -32,9 +32,9 @@ const UserContributions = () => {
 
   useEffect(() => {
     const fetchUsersContri = async () => {
-      const data = await getAllContributionTransaction();
-      setUserContri(data);
-      setFilteredContri(data);
+      const datas = await getAllContributionTransaction();
+      setUserContri(datas);
+      setFilteredContri(datas);
     };
 
     fetchUsersContri();
@@ -55,7 +55,7 @@ const UserContributions = () => {
         return (
           <div className="d-flex row" key={index}>
             <label className="mt-2">
-              <b>Initial Contribution:</b> {user.monthlyContribution}
+              <b>Initial Contribution:</b> {user.initialContribution}
             </label>
             <label className="mt-2">
               <b>Last Contribution Date:</b> {user.lastPaid}

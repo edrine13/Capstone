@@ -70,12 +70,14 @@ export const getAllUser = async () => {
         lastPaid: data[user_id].lastPaid ? data[user_id].lastPaid : 'N/A',
         contributionCount: data[user_id].contributionCount
           ? data[user_id].contributionCount
-          : 1,
+          : 0,
         monthlyContribution: data[user_id].monthlyContribution,
         monthlyLoanPayment: data[user_id].monthlyLoanPayment
           ? data[user_id].monthlyLoanPayment
           : 0,
         loans: data[user_id].loan,
+        memberID: data[user_id].memberID,
+        initialContribution: data[user_id].initialContribution,
       });
     }
     return convertData;
@@ -192,10 +194,12 @@ export const getAllLoan = async () => {
           monthlyLoanPayment: data[user_id].loan[loan_id].monthlyLoanPayment,
           date: data[user_id].loan[loan_id].date,
           balance: data[user_id].loan[loan_id].balance,
-          loanStatus: data[user_id].loan[loan_id].loanStatus,
+          loanStatus:
+            data[user_id].loan[loan_id].balance === 0 ? 'Paid' : 'Active',
           paidAmount: data[user_id].loan[loan_id].paidAmount,
           civilStatus: data[user_id].civilStatus,
           gender: data[user_id].gender,
+          memberID: data[user_id].memberID,
         });
 
         // CHECK IF THE USER STILL HAVE BALANCE IF NOT, TURN LPO STATUS TO INACTIVE OR PAID
@@ -313,27 +317,34 @@ export const getAllContributionTransaction = async () => {
     let convertData = [];
 
     for (let user_id in data) {
-      for (let loan_id in data[user_id].transactions.contribution) {
-        convertData.push({
-          id: user_id,
-          lastName: data[user_id].lastName,
-          loanId: loan_id,
-          firstName: data[user_id].firstName,
-          email: data[user_id].email,
-          middleName: data[user_id].middleName,
-          nameSuffix: data[user_id].nameSuffix
-            ? data[user_id].nameSuffix
-            : 'N/A',
-          date: data[user_id].transactions.contribution[loan_id].date,
-          tSeqNo: data[user_id].transactions.contribution[loan_id].tSeqNo,
-          paidAmount:
-            data[user_id].transactions.contribution[loan_id].paidAmount,
-          monthCovered:
-            data[user_id].transactions.contribution[loan_id].monthCovered,
-          civilStatus: data[user_id].civilStatus,
-          gender: data[user_id].gender,
-          monthlyContribution: data[user_id].monthlyContribution,
-        });
+      if (
+        data[user_id].transactions &&
+        data[user_id].transactions.contribution
+      ) {
+        for (let loan_id in data[user_id].transactions.contribution) {
+          convertData.push({
+            id: user_id,
+            lastName: data[user_id].lastName,
+            loanId: loan_id,
+            firstName: data[user_id].firstName,
+            email: data[user_id].email,
+            middleName: data[user_id].middleName,
+            nameSuffix: data[user_id].nameSuffix
+              ? data[user_id].nameSuffix
+              : 'N/A',
+            date: data[user_id].transactions.contribution[loan_id].date,
+            tSeqNo: data[user_id].transactions.contribution[loan_id].tSeqNo,
+            paidAmount:
+              data[user_id].transactions.contribution[loan_id].paidAmount,
+            monthCovered:
+              data[user_id].transactions.contribution[loan_id].monthCovered,
+            civilStatus: data[user_id].civilStatus,
+            gender: data[user_id].gender,
+            monthlyContribution: data[user_id].monthlyContribution,
+            initialContribution: data[user_id].initialContribution,
+            memberID: data[user_id].memberID,
+          });
+        }
       }
     }
     return convertData;
@@ -354,27 +365,34 @@ export const getAllLoanTransaction = async () => {
     let convertData = [];
 
     for (let user_id in data) {
-      for (let loan_id in data[user_id].transactions.loan) {
-        convertData.push({
-          id: user_id,
-          lastName: data[user_id].lastName,
-          loanId: loan_id,
-          firstName: data[user_id].firstName,
-          email: data[user_id].email,
-          middleName: data[user_id].middleName,
-          nameSuffix: data[user_id].nameSuffix
-            ? data[user_id].nameSuffix
-            : 'N/A',
-          date: data[user_id].transactions.loan[loan_id].date,
-          tSeqNo: data[user_id].transactions.loan[loan_id].tSeqNo,
-          paidAmount: data[user_id].transactions.loan[loan_id].paidAmount,
-          monthCovered: data[user_id].transactions.loan[loan_id].monthCovered,
-          amount: data[user_id].transactions.loan[loan_id].amount,
-          loanType: data[user_id].transactions.loan[loan_id].loanType,
-          civilStatus: data[user_id].civilStatus,
-          gender: data[user_id].gender,
-          monthlyContribution: data[user_id].monthlyContribution,
-        });
+      if (
+        data[user_id].transactions &&
+        data[user_id].transactions.contribution
+      ) {
+        for (let loan_id in data[user_id].transactions.loan) {
+          convertData.push({
+            id: user_id,
+            lastName: data[user_id].lastName,
+            loanId: loan_id,
+            firstName: data[user_id].firstName,
+            email: data[user_id].email,
+            middleName: data[user_id].middleName,
+            nameSuffix: data[user_id].nameSuffix
+              ? data[user_id].nameSuffix
+              : 'N/A',
+            date: data[user_id].transactions.loan[loan_id].date,
+            tSeqNo: data[user_id].transactions.loan[loan_id].tSeqNo,
+            paidAmount: data[user_id].transactions.loan[loan_id].paidAmount,
+            monthCovered: data[user_id].transactions.loan[loan_id].monthCovered,
+            amount: data[user_id].transactions.loan[loan_id].amount,
+            loanType: data[user_id].transactions.loan[loan_id].loanType,
+            civilStatus: data[user_id].civilStatus,
+            gender: data[user_id].gender,
+            monthlyContribution: data[user_id].monthlyContribution,
+            memberID: data[user_id].memberID,
+            tLoanID: data[user_id].transactions.loan[loan_id].loanId,
+          });
+        }
       }
     }
     return convertData;
