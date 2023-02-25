@@ -30,6 +30,7 @@ const LoanManagement = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   // STATE FOR ALERTS
   const [updated, setUpdated] = useState(false);
@@ -77,6 +78,12 @@ const LoanManagement = () => {
     };
     response();
   }, [getAllLoan]);
+
+  // APPROVED LOAN SUBMITTED HANDLER FUNCTION
+  const isSubmittedHandler = (submitted) => {
+    console.log(submitted);
+    setIsSubmitted(submitted);
+  };
 
   function filterData(query) {
     return users.filter(
@@ -213,13 +220,8 @@ const LoanManagement = () => {
 
   const paginate = (pageNumber) => setPage(pageNumber);
 
-  const process = (event) => {
-    setLoanConfirmation(true);
-  };
-  console.log(users);
-
   let alertMessage = '';
-  if (updated) {
+  if (isSubmitted) {
     alertMessage =
       'Loan has been approved! Please refresh the page to see changes';
   } else if (paymentsUpdated) {
@@ -233,7 +235,7 @@ ${style.side}`}
     >
       <div className="container-fluid text-center p-5">
         <div className="row">
-          {updated || paymentsUpdated ? (
+          {isSubmitted || paymentsUpdated ? (
             <Alert key="success" variant="success">
               {alertMessage}
             </Alert>
@@ -253,7 +255,10 @@ ${style.side}`}
           </div>
           <div className="col-2 pt-2">
             {showModal1 ? (
-              <ApprovedLoan onClick={() => setShowModal1((show) => !show)} />
+              <ApprovedLoan
+                onClick={() => setShowModal1((show) => !show)}
+                isSubmitted={isSubmittedHandler}
+              />
             ) : null}
             <button
               className="btn btn-dark"

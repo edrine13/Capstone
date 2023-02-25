@@ -10,6 +10,7 @@ import {
   getAllUserPure,
   addContributionTransaction,
 } from '../../../store/api/api';
+import { Alert } from 'react-bootstrap';
 
 const ContributionManagement = () => {
   const [users, setUsers] = useState([]);
@@ -22,6 +23,7 @@ const ContributionManagement = () => {
   const [sortKey, setSortKey] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [query, setQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const response = async () => {
@@ -79,6 +81,7 @@ const ContributionManagement = () => {
   // PROCESS HANDLER
 
   const process = useCallback(async (event) => {
+    setIsLoading(true);
     const data = await getAllUserPure();
     const monthNames = [
       'January',
@@ -145,6 +148,7 @@ const ContributionManagement = () => {
       await updatedData(convertData);
     }
     setUpdated(true);
+    setIsLoading(false);
     setShowModal((modal) => !modal);
     setTimeout(() => {
       setUpdated(false);
@@ -158,6 +162,14 @@ const ContributionManagement = () => {
     >
       <div className="container-fluid text-center p-5">
         <div className="row">
+          {updated ? (
+            <Alert key="success" variant="success">
+              Contribution deducted successfully! Please refresh the page to see
+              changes{' '}
+            </Alert>
+          ) : (
+            ''
+          )}
           <div className="col-10">
             <h1 className="">Contribution Management </h1>
           </div>
@@ -167,6 +179,7 @@ const ContributionManagement = () => {
               <AreYouSureModal
                 onClick={() => setShowModal((show) => !show)}
                 yesHandler={process}
+                isLoading={isLoading}
               />
             ) : null}
 

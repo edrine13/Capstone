@@ -162,6 +162,10 @@ const AddLoanType = (props) => {
     setLoanType('');
     setLoanAmount('');
     setPayableIn('');
+    props.isSubmitted(true);
+    setTimeout(() => {
+      props.isSubmitted(false);
+    }, 5000);
 
     props.onClick();
   };
