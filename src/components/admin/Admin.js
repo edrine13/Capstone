@@ -1,13 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import style from './Admin.module.css';
 import TotalMembers from './Cards/TotalMembers';
 import userContext from '../../store/context/users-context';
+import { getAllUser, getAllLoan } from '../../store/api/api';
 
 const Admin = () => {
-  const activeMembers = 8012;
-  const totalActiveLoans = 812;
-  const totalMembers = 64233;
+  const [users, setUsers] = useState([]);
+  const [activeUsers, setActiveUsers] = useState([]);
+  const [loans, setLoans] = useState([]);
+
   const userCtx = useContext(userContext).userData;
+
+  useEffect(() => {
+    const response = async () => {
+      const data = await getAllUser();
+      const loanData = await getAllLoan();
+
+      const active = data.filter((user) => user.accountStatus === 'active');
+      const activeLoans = loanData.filter(
+        (loans) => loans.loanStatus === 'active'
+      );
+      console.log(active);
+      setUsers(data);
+      setActiveUsers(active);
+      setLoans(activeLoans);
+    };
+    response();
+  }, [setUsers, setActiveUsers]);
+
+  console.log(activeUsers);
+
   return (
     <section id={style.side} className="mt-5">
       <div className="container">
@@ -18,18 +40,23 @@ const Admin = () => {
         <div className="row">
           <div className="col-lg-4 mt-5">
             <div className="card text-center border-0">
-              {/* card */}{' '}
-              <TotalMembers value={totalMembers} buttonTitle={'View Members'}>
-                totalMembers
+              {/* card */}
+              <TotalMembers
+                value={users.length}
+                buttonTitle={'View Members'}
+                to={'/admin/user-management'}
+              >
+                total Members
               </TotalMembers>
             </div>
           </div>
           <div className="col-lg-4 mt-5">
-            <div className="card text-cente border-0">
+            <div className="card text-center border-0">
               <TotalMembers
                 className="bg-success"
-                value={activeMembers}
+                value={activeUsers.length}
                 buttonTitle={'View Active Members'}
+                to={'/admin/user-management'}
               >
                 Active Members
               </TotalMembers>
@@ -39,8 +66,9 @@ const Admin = () => {
             <div className="card text-center border-0">
               <TotalMembers
                 className="bg-info"
-                value={totalActiveLoans}
+                value={loans.length}
                 buttonTitle={'View Active Loans'}
+                to={'/admin/loan-management'}
               >
                 Active Loans
               </TotalMembers>
