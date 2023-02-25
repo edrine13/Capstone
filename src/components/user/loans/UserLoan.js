@@ -96,7 +96,7 @@ const UserLoan = () => {
                 <tr key={index}>
                   <td>{user.date}</td>
                   <td>{user.tSeqNo}</td>
-                  <td>{user.loanId}</td>
+                  <td>{user.tLoanID}</td>
                   <td>{user.loanType}</td>
                   <td>{user.amount}</td>
                 </tr>

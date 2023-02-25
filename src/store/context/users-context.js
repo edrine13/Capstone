@@ -33,8 +33,8 @@ export const UserContextProvider = (props) => {
     setUserData(data);
   };
 
-  const loanHandler = (id) => {
-    setUserLoanData(id);
+  const loanHandler = (id, loanId) => {
+    setUserLoanData({ id, loanId });
   };
   console.log(userData);
 

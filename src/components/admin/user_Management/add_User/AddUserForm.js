@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { addUser } from '../../../../store/api/api';
 import LoadingSpinner from '../../../../UI/LoadingSpinner';
+import {
+  getAllUser,
+  getAllUserPure,
+  addContributionTransaction,
+} from '../../../../store/api/api';
 
 const inputIsNotEmpty = (input) => input !== '';
 const contributionIsValid = (contribution) => contribution >= 200;
@@ -23,6 +28,16 @@ const AddUserForm = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Member');
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const response = async () => {
+      const data = await getAllUser();
+      setUsers(data);
+    };
+
+    response();
+  }, [setUsers, getAllUser]);
 
   // API ERROR CHECKER
   const [isError, setIsError] = useState('');
@@ -122,7 +137,6 @@ const AddUserForm = (props) => {
     const lastNameIsValid = inputIsNotEmpty(lastName);
     const middleNameIsValid = inputIsNotEmpty(middleName);
     const firstNameIsValid = inputIsNotEmpty(firstName);
-
     const contactIsValid = phoneNumIsValid(contactNumber);
     const emailIsValid = inputIsNotEmpty(email);
     const civilStatusIsValid = inputIsNotEmpty(civilStatus);
@@ -153,7 +167,6 @@ const AddUserForm = (props) => {
       lastName: lastNameIsValid,
       middleName: middleNameIsValid,
       firstName: firstNameIsValid,
-
       contactNumber: contactIsValid,
       email: emailIsValid,
       civilStatus: civilStatusIsValid,
@@ -181,6 +194,21 @@ const AddUserForm = (props) => {
     }
 
     try {
+      const monthNames = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
+      const d = new Date();
       const response = await addUser({
         lastName,
         middleName,
@@ -199,14 +227,16 @@ const AddUserForm = (props) => {
         accountStatus: 'active',
         monthlyLoanPayment: 0,
         loanStatus: 'inactive',
-        totalContribution: monthlyContribution,
-        contributionCount: 1,
+        totalContribution: 0,
+        contributionCount: 0,
+        initialContribution: monthlyContribution,
         lastPaid:
           new Date().getFullYear() +
           '/' +
           (new Date().getMonth() + 1) +
           '/' +
           new Date().getDate(),
+        memberID: 1001 + +users.length,
       });
 
       setIsSubmitted(true);

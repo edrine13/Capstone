@@ -9,6 +9,7 @@ import {
 } from '../../../store/api/api';
 import MyPagination from '../contribution_Management/MyPagination';
 import Modal from '../../../UI/modal';
+import DataEditor from './edit/DataEditor';
 
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
@@ -18,7 +19,7 @@ const UserManagement = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(5);
+  const [postsPerPage, setPostsPerPage] = useState(10);
   const [editUser, setEditUser] = useState('');
   const [showForm, setShowForm] = useState(false);
 
@@ -75,27 +76,26 @@ const UserManagement = () => {
 
   const paginate = (pageNumber) => setPage(pageNumber);
 
+  //////////////////////////
+
+  // FUNCTIONS FOR EDIT FORM
+
   const handleView = (user) => {
     setEditUser(user);
     setShowForm(true);
-    console.log(editUser);
+    console.log(user);
   };
 
   const closeForm = () => {
-    setShowForm(false);
+    setShowForm((showForm) => !showForm);
+  };
+  const userEditorSubmitHandler = (user) => {
+    return editUser;
   };
 
-  const updateMember = useCallback(async (user) => {
-    const data = await getAllUserPure();
-    let convertData = {};
-    convertData = {
-      [editUser.id]: {
-        ...data[editUser.id],
-        lastName: editUser.lastName,
-        firstName: editUser.firstName,
-      },
-    };
-  }, []);
+  ////////////////////////////
+
+  const updateMember = useCallback(async (user) => {}, []);
 
   return (
     <section
@@ -106,11 +106,17 @@ const UserManagement = () => {
         <div className="row">
           <div className="col-10">
             <h1 className="">User Management </h1>
-          </div>
-          <div className="col-2 pt-2">
+            {showForm ? (
+              <DataEditor
+                onClick={closeForm}
+                onSubmit={userEditorSubmitHandler}
+              />
+            ) : null}
             {showModal ? (
               <AddUser onClick={() => setShowModal((show) => !show)} />
             ) : null}
+          </div>
+          <div className="col-2 pt-2">
             <button className="btn btn-dark" onClick={() => setShowModal(true)}>
               Add Member
             </button>
@@ -136,7 +142,18 @@ const UserManagement = () => {
           <Table responsive>
             <thead>
               <tr>
-                <th>id</th>
+                <th
+                  onClick={() => handleSort('memberID')}
+                  className={sortKey === 'memberID' ? sortOrder : ''}
+                >
+                  Member ID{''}
+                  {sortKey === 'memberID' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'memberID' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
                 <th
                   onClick={() => handleSort('lastName')}
                   className={sortKey === 'lastName' ? sortOrder : ''}
@@ -257,18 +274,7 @@ const UserManagement = () => {
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
-                <th
-                  onClick={() => handleSort('password')}
-                  className={sortKey === 'password' ? sortOrder : ''}
-                >
-                  Password{''}
-                  {sortKey === 'password' && sortOrder === 'asc' && (
-                    <span className="sort-arrow up">▲</span>
-                  )}
-                  {sortKey === 'password' && sortOrder === 'desc' && (
-                    <span className="sort-arrow down">▼</span>
-                  )}
-                </th>
+
                 <th
                   onClick={() => handleSort('totalContribution')}
                   className={sortKey === 'totalContribution' ? sortOrder : ''}
@@ -293,25 +299,13 @@ const UserManagement = () => {
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
-                <th
-                  onClick={() => handleSort('loanStatus')}
-                  className={sortKey === 'loanStatus' ? sortOrder : ''}
-                >
-                  Loan Status{''}
-                  {sortKey === 'loanStatus' && sortOrder === 'asc' && (
-                    <span className="sort-arrow up">▲</span>
-                  )}
-                  {sortKey === 'loanStatus' && sortOrder === 'desc' && (
-                    <span className="sort-arrow down">▼</span>
-                  )}
-                </th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {currentPosts.map((user, index) => (
                 <tr key={index}>
-                  <td>{user.id}</td>
+                  <td>{user.memberID}</td>
                   <td>{user.lastName}</td>
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
@@ -322,10 +316,8 @@ const UserManagement = () => {
                   <td>{user.contactNumber}</td>
                   <td>{user.email}</td>
                   <td>{user.nationality}</td>
-                  <td>{user.password}</td>
                   <td>{user.totalContribution}</td>
                   <td>{user.accountStatus}</td>
-                  <td>{user.loanStatus}</td>
                   <td>
                     <div>
                       <button
