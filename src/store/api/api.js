@@ -235,6 +235,17 @@ export const getAllLoan = async () => {
     return convertData;
   } catch (err) {}
 };
+
+export const addLoanHistory = async (data, id) => {
+  const response = await fetch(
+    `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${id}/loanHistory.json`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }
+  );
+};
 //  API TO GET ALL LOANS
 // export const getAllLoanPure = async () => {
 //   try {
@@ -260,6 +271,21 @@ export const updatedLoans = async (data, id) => {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to process the action');
+    }
+  } catch (err) {}
+};
+
+export const deleteLoan = async (id, loanId) => {
+  try {
+    console.log(id, loanId);
+    const response = await fetch(
+      `https://capstone-b469c-default-rtdb.asia-southeast1.firebasedatabase.app/members/${id}/loan/${loanId}.json`,
+      {
+        method: 'DELETE',
       }
     );
     if (!response.ok) {

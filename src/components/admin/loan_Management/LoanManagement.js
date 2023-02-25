@@ -1,12 +1,21 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import style from './LoanManagement.module.css';
 import { Table } from 'react-bootstrap';
-import { getAllLoan, updatedLoans } from '../../../store/api/api';
+import {
+  getAllLoan,
+  updatedLoans,
+  addLoanHistory,
+  deleteLoan,
+} from '../../../store/api/api';
 import MyPagination from '../contribution_Management/MyPagination';
 import AddLoanType from './add_LoanType/AddLoanType';
 import ApprovedLoan from './add_LoanType/ApprovedLoan';
 import AreYouSureModal from './AreYouSureModal';
-import { getAllUserPure, addLoanTransaction } from '../../../store/api/api';
+import {
+  getAllUserPure,
+  addLoanTransaction,
+  add,
+} from '../../../store/api/api';
 import { Alert } from 'react-bootstrap';
 import userContext from '../../../store/context/users-context';
 
@@ -42,16 +51,32 @@ const LoanManagement = () => {
   const userId = useContext(userContext).userLoanData;
 
   // SIDE EFFECT TO GET USERS
-
   useEffect(() => {
     const response = async () => {
       const data = await getAllLoan();
+
       setUsers(data);
       setFilteredData(data);
     };
-
     response();
   }, [setUsers, setFilteredData]);
+
+  // SIDE EFFECT TO CHECK IF USER HAS LOANS THAT IS ALREADY PAID
+
+  useEffect(() => {
+    const response = async () => {
+      const loans = await getAllLoan();
+
+      const inactiveLoans = loans.filter((loan) => loan.loanStatus === 'paid');
+      console.log(inactiveLoans);
+
+      for (let i in inactiveLoans) {
+        await addLoanHistory(inactiveLoans[i], inactiveLoans[i].id);
+        await deleteLoan(inactiveLoans[i].id, inactiveLoans[i].loanId);
+      }
+    };
+    response();
+  }, [getAllLoan]);
 
   function filterData(query) {
     return users.filter(
@@ -84,65 +109,65 @@ const LoanManagement = () => {
     const data = await getAllUserPure();
     let convertData = {};
 
-    for (let user_id in data) {
-      console.log(id);
-      for (let loan_id in data[id].loan) {
-        console.log(id);
-        if (+data[id].loan[loanId].balance >= 1) {
-          convertData = {
-            [loanId]: {
-              ...data[id].loan[loanId],
-              paidAmount:
-                +data[id].loan[loanId].payableInvisible === 1
-                  ? +data[id].loan[loanId].paidAmount +
-                    +data[id].loan[loanId].balance
-                  : Math.ceil(
-                      +data[id].loan[loanId].paidAmount +
-                        Math.floor(
-                          +data[id].loan[loanId].loanAmount /
-                            +data[id].loan[loanId].payableIn
-                        )
-                    ),
-              balance:
-                +data[id].loan[loanId].payableInvisible === 1
-                  ? 0
-                  : Math.ceil(
-                      +data[id].loan[loanId].balance -
-                        Math.floor(
-                          +data[id].loan[loanId].loanAmount /
-                            +data[id].loan[loanId].payableIn
-                        )
-                    ),
-              payableInvisible: +data[id].loan[loanId].payableInvisible - 1,
-            },
-          };
+    console.log(id);
+    if (+data[id].loan[loanId].payableInvisible <= 1) {
+      {
+        convertData = {
+          [loanId]: {
+            ...data[id].loan[loanId],
+            loanStatus: 'paid',
 
-          addLoanTransaction(
-            {
-              tSeqNo: Date.now(),
-              paidAmount: +data[id].loan[loanId].paidAmount,
-              date: new Date().toISOString().split('T')[0],
-              loanType: +data[id].loan[loanId].loanType,
-              amount: +data[id].loan[loanId].amount,
-              loanId: loanId,
-            },
-            id
-          );
-        } else {
-          convertData = {
-            [loanId]: {
-              ...data[id].loan[loanId],
-              loanStatus: 'paid',
-
-              balance: 0,
-            },
-          };
-        }
-
-        // PUT LOGIN HERE
-        await updatedLoans(convertData, id);
+            balance: 0,
+          },
+        };
       }
     }
+    if (+data[id].loan[loanId].payableInvisible >= 2) {
+      convertData = {
+        [loanId]: {
+          ...data[id].loan[loanId],
+          paidAmount:
+            +data[id].loan[loanId].payableInvisible === 1
+              ? +data[id].loan[loanId].paidAmount +
+                +data[id].loan[loanId].balance
+              : Math.ceil(
+                  +data[id].loan[loanId].paidAmount +
+                    Math.floor(
+                      +data[id].loan[loanId].loanAmount /
+                        +data[id].loan[loanId].payableIn
+                    )
+                ),
+          balance:
+            +data[id].loan[loanId].payableInvisible === 1
+              ? 0
+              : Math.ceil(
+                  +data[id].loan[loanId].balance -
+                    Math.floor(
+                      +data[id].loan[loanId].loanAmount /
+                        +data[id].loan[loanId].payableIn
+                    )
+                ),
+          payableInvisible: +data[id].loan[loanId].payableInvisible - 1,
+          loanId,
+        },
+      };
+
+      addLoanTransaction(
+        {
+          tSeqNo: Date.now(),
+          paidAmount: +data[id].loan[loanId].paidAmount,
+          date: new Date().toISOString().split('T')[0],
+          loanType: +data[id].loan[loanId].loanType,
+          amount: +data[id].loan[loanId].amount,
+          loanId: loanId,
+        },
+        id
+      );
+    }
+
+    // PUT LOGIN HERE
+    await updatedLoans(convertData, id);
+
     console.log(convertData);
     setPaymentsUpdated(true);
 
