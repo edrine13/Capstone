@@ -229,7 +229,7 @@ const AddUserForm = (props) => {
         loanStatus: 'inactive',
         totalContribution: 0,
         contributionCount: 0,
-        initialContribution: monthlyContribution,
+        initialContribution: 0,
         lastPaid:
           new Date().getFullYear() +
           '/' +
