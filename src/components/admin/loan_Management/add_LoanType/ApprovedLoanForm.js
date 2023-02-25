@@ -85,13 +85,11 @@ const AddLoanType = (props) => {
     const userExists = users.find((obj) => obj.memberID === +memberID);
     console.log(memberID);
     console.log(userExists);
+    console.log(userExists.firstName);
 
     setMember(userExists);
-    if (userExists >= 0) {
-      setUserExists(true);
-    } else {
-      setUserExists(false);
-    }
+    setUserExists(true);
+    console.log(member);
   };
 
   // Submit Handler /////////////////////////////////////////////////////
@@ -102,7 +100,6 @@ const AddLoanType = (props) => {
 
     // setting all input a check
     const memberIDIsValid = inputIsNotEmpty(memberID);
-
     const loanTypeIsValid = inputIsNotEmpty(loanType);
     const loanAmountIsValid = validAmount(loanAmount);
     const payableInIsValid = validPayableIn(payableIn);
@@ -121,7 +118,6 @@ const AddLoanType = (props) => {
     // Validation input again for user experience
     setValidInput({
       memberID: memberIDIsValid,
-
       loanType: loanTypeIsValid,
       loanAmount: loanAmountIsValid,
       payableIn: payableInIsValid,
@@ -134,7 +130,7 @@ const AddLoanType = (props) => {
 
     try {
       addLoan({
-        id: memberID,
+        id: member.id,
         loanType,
         loanAmount,
         payableIn,
@@ -158,9 +154,7 @@ const AddLoanType = (props) => {
     }
 
     setIsLoading(false);
-
     setMemberID('');
-
     setLoanType('');
     setLoanAmount('');
     setPayableIn('');
@@ -190,7 +184,7 @@ const AddLoanType = (props) => {
                   className={`form-control my-3 p-2 ${
                     !validInput.memberID ? 'is-invalid' : ''
                   } ${userExists ? 'is-valid' : ''}`}
-                  placeholder="Loan ID"
+                  placeholder="Member ID"
                   onChange={memberIDInputHandler}
                   value={memberID}
                 />
