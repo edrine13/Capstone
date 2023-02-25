@@ -55,10 +55,12 @@ const LoanManagement = () => {
   function filterData(query) {
     return users.filter(
       (row) =>
+        row.memberID == query ||
         row.lastName.toLowerCase().includes(query.toLowerCase()) ||
         row.firstName.toLowerCase().includes(query.toLowerCase()) ||
         row.middleName.toLowerCase().includes(query.toLowerCase()) ||
-        row.loanType.toLowerCase().includes(query.toLowerCase())
+        row.loanType.toLowerCase().includes(query.toLowerCase()) ||
+        row.loanStatus.toLowerCase().includes(query.toLowerCase())
     );
   }
 
@@ -378,7 +380,6 @@ ${style.side}`}
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
-
                 <th>Action</th>
               </tr>
             </thead>
@@ -395,7 +396,6 @@ ${style.side}`}
                     <td>{user.loanType}</td>
                     <td>{user.loanAmount}</td>
                     <td>{user.payableIn}</td>
-
                     <td>{user.paidAmount}</td>
                     <td>{user.balance}</td>
 
