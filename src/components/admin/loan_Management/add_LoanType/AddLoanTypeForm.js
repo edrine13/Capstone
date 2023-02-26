@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { addLoanType } from '../../../../store/api/api';
 import LoadingSpinner from '../../../../UI/LoadingSpinner';
+import { globalLoanID } from '../globals';
 
 const inputIsNotEmpty = (input) => input !== '';
 

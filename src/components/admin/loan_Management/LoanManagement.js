@@ -18,6 +18,7 @@ import {
 } from '../../../store/api/api';
 import { Alert } from 'react-bootstrap';
 import userContext from '../../../store/context/users-context';
+import { globalLoanID } from './globals';
 
 const LoanManagement = () => {
   const [users, setUsers] = useState([]);
@@ -416,7 +417,7 @@ ${style.side}`}
               {currentPosts.map((user, index) => {
                 return (
                   <tr key={index}>
-                    <td>{index + 1}</td>
+                    <td>{user.memberID}</td>
                     <td>{user.lastName}</td>
                     <td>{user.firstName}</td>
                     <td>{user.middleName}</td>
@@ -431,12 +432,16 @@ ${style.side}`}
                     {console.log(user.loanId)}
 
                     <td>
-                      <button
-                        className="btn btn-dark"
-                        onClick={() => collectHandler(user.id, user.loanId)}
-                      >
-                        Collect
-                      </button>
+                      {user.balance === 0 ? (
+                        'Paid'
+                      ) : (
+                        <button
+                          className="btn btn-dark"
+                          onClick={() => collectHandler(user.id, user.loanId)}
+                        >
+                          Collect
+                        </button>
+                      )}
                     </td>
                   </tr>
                 );
