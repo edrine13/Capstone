@@ -128,6 +128,17 @@ const LoanManagement = () => {
           },
         };
       }
+      addLoanTransaction(
+        {
+          tSeqNo: Date.now(),
+          paidAmount: +data[id].loan[loanId].paidAmount,
+          date: new Date().toISOString().split('T')[0],
+          loanType: +data[id].loan[loanId].loanType,
+          amount: +data[id].loan[loanId].amount,
+          loanId: loanId,
+        },
+        id
+      );
     }
     if (+data[id].loan[loanId].payableInvisible >= 2) {
       convertData = {

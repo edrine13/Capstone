@@ -27,6 +27,8 @@ import UserLoanPage from '../../page/UserLoanPage';
 import UserContributionPage from '../../page/UserContributionPage';
 import User from '../../components/user/User';
 import UserOverviewPage from '../../page/UserOverviewPage';
+import LoadingSpinner from '../../UI/LoadingSpinner';
+import { Suspense } from 'react';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
@@ -61,7 +63,14 @@ const useCreatedRoutes = () => {
           <Route path="/admin/*" element={<AdminPage Aside={<Aside />} />}>
             <Route index element={<Navigate to={'overview'} />} />
             <Route path="overview" element={<Admin />} />
-            <Route path="user-management" element={<UserManagementPage />} />
+            <Route
+              path="user-management"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <UserManagementPage />
+                </Suspense>
+              }
+            />
             <Route
               path="contribution-management"
               element={<ContributionManagementPage />}

@@ -10,6 +10,7 @@ import {
 import MyPagination from '../contribution_Management/MyPagination';
 import Modal from '../../../UI/modal';
 import DataEditor from './edit/DataEditor';
+import LoadingSpinner from '../../../UI/LoadingSpinner';
 
 const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
@@ -94,8 +95,6 @@ const UserManagement = () => {
   };
 
   ////////////////////////////
-
-  const updateMember = useCallback(async (user) => {}, []);
 
   return (
     <section
@@ -288,18 +287,7 @@ const UserManagement = () => {
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
-                <th
-                  onClick={() => handleSort('loanStatus')}
-                  className={sortKey === 'loanStatus' ? sortOrder : ''}
-                >
-                  Loan Status{''}
-                  {sortKey === 'loanStatus' && sortOrder === 'asc' && (
-                    <span className="sort-arrow up">▲</span>
-                  )}
-                  {sortKey === 'loanStatus' && sortOrder === 'desc' && (
-                    <span className="sort-arrow down">▼</span>
-                  )}
-                </th>
+
                 <th>Actions</th>
               </tr>
             </thead>
@@ -320,7 +308,7 @@ const UserManagement = () => {
 
                   <td>{user.totalContribution}</td>
                   <td>{user.accountStatus}</td>
-                  <td>{user.loanStatus}</td>
+
                   <td>
                     <div>
                       <button
