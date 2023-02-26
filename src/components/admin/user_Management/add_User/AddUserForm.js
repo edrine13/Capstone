@@ -25,7 +25,6 @@ const AddUserForm = (props) => {
   const [birthDate, setBirthDate] = useState('');
   const [nationality, setNationality] = useState('');
   const [monthlyContribution, setMonthlyContribution] = useState('');
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Member');
   const [users, setUsers] = useState([]);
@@ -62,7 +61,6 @@ const AddUserForm = (props) => {
     birthDate: true,
     nationality: true,
     monthlyContribution: true,
-    username: true,
     password: true,
   });
 
@@ -118,11 +116,6 @@ const AddUserForm = (props) => {
     setMonthlyContribution(event.target.value);
   };
 
-  //   Username Input Handler
-  const usernameInputHandler = (event) => {
-    setUsername(event.target.value);
-  };
-
   //   Password Input Handler
   const passwordInputHandler = (event) => {
     setPassword(event.target.value);
@@ -143,7 +136,6 @@ const AddUserForm = (props) => {
     const birthDateIsValid = inputIsNotEmpty(birthDate);
     const nationalityIsValid = inputIsNotEmpty(nationality);
     const monthlyContributionIsValid = contributionIsValid(monthlyContribution);
-    const userNameIsValid = inputIsNotEmpty(username);
     const passwordIsValid = inputIsNotEmpty(password);
 
     // OVERALL INPUT CHECK IF VALID
@@ -157,7 +149,6 @@ const AddUserForm = (props) => {
       civilStatusIsValid &&
       nationalityIsValid &&
       monthlyContributionIsValid &&
-      userNameIsValid &&
       passwordIsValid;
 
     setInputIsValid(inputIsValid);
@@ -173,7 +164,6 @@ const AddUserForm = (props) => {
       birthDate: birthDateIsValid,
       nationality: nationalityIsValid,
       monthlyContribution: monthlyContributionIsValid,
-      username: userNameIsValid,
       password: passwordIsValid,
       loanStatus: 'inactive',
       accountStatus: 'active',
@@ -221,7 +211,6 @@ const AddUserForm = (props) => {
         birthDate,
         nationality,
         monthlyContribution,
-        username,
         password,
         role,
         accountStatus: 'active',
@@ -229,7 +218,7 @@ const AddUserForm = (props) => {
         loanStatus: 'inactive',
         totalContribution: 0,
         contributionCount: 0,
-        initialContribution: 0,
+        initialContribution: monthlyContribution,
         lastPaid:
           new Date().getFullYear() +
           '/' +
@@ -258,14 +247,12 @@ const AddUserForm = (props) => {
     setMiddleName('');
     setContactNumber('');
     setEmail('');
-
     setGender('Male');
     setCivilStatus('');
     setBirthDate('');
     setNationality('');
     setNationality('');
     setPassword('');
-    setUsername('');
     setRole('Member');
     setMonthlyContribution('');
     setTimeout(() => {
@@ -304,24 +291,6 @@ const AddUserForm = (props) => {
               />
             </div>
 
-            {/* Middle Name input */}
-            <div className="col-4">
-              <label htmlFor="middleName" className="d-block">
-                Middle Name
-              </label>
-              <input
-                type="text"
-                name="middleName"
-                id="middleName"
-                className={`form-control my-3 p-2 ${
-                  !validInput.middleName ? 'is-invalid' : ''
-                }`}
-                placeholder="Middle Name.."
-                onChange={middleNameInputHandler}
-                value={middleName}
-              />
-            </div>
-
             {/* First Name input */}
             <div className="col-4">
               <label htmlFor="firstName" className="d-block">
@@ -337,6 +306,24 @@ const AddUserForm = (props) => {
                 placeholder="First Name..."
                 onChange={firstNameInputHandler}
                 value={firstName}
+              />
+            </div>
+
+            {/* Middle Name input */}
+            <div className="col-4">
+              <label htmlFor="middleName" className="d-block">
+                Middle Name
+              </label>
+              <input
+                type="text"
+                name="middleName"
+                id="middleName"
+                className={`form-control my-3 p-2 ${
+                  !validInput.middleName ? 'is-invalid' : ''
+                }`}
+                placeholder="Middle Name.."
+                onChange={middleNameInputHandler}
+                value={middleName}
               />
             </div>
 
@@ -465,24 +452,6 @@ const AddUserForm = (props) => {
               />
             </div>
 
-            {/* USERNAME*/}
-            <div className="col-4">
-              <label htmlFor="userName" className="d-block">
-                Username
-              </label>
-              <input
-                type="text"
-                name="userName"
-                id="userName"
-                className={`form-control my-3 p-2 ${
-                  !validInput.username ? 'is-invalid' : ''
-                }`}
-                placeholder="Username"
-                onChange={usernameInputHandler}
-                value={username}
-              />
-            </div>
-
             {/* PASSWORD */}
             <div className="col-4">
               <label htmlFor="password" className="d-block">
@@ -499,21 +468,6 @@ const AddUserForm = (props) => {
                 onChange={passwordInputHandler}
                 value={password}
               />
-            </div>
-            {/* ROLE INPUT */}
-            <div className="col-4">
-              <label htmlFor="role" className="d-block">
-                Role
-              </label>
-              <select
-                className="form-select my-3 p-2"
-                aria-label="Default select example"
-                id="role"
-                onChange={genderInputHandler}
-                value={role}
-              >
-                <option value="Member">Member</option>
-              </select>
             </div>
 
             {/* MONTHLY CONTRIBUTION INPUT */}
@@ -532,6 +486,22 @@ const AddUserForm = (props) => {
                 onChange={monthlyContriHandler}
                 value={monthlyContribution}
               />
+            </div>
+
+            {/* ROLE INPUT */}
+            <div className="col-4">
+              <label htmlFor="role" className="d-block">
+                Role
+              </label>
+              <select
+                className="form-select my-3 p-2"
+                aria-label="Default select example"
+                id="role"
+                onChange={genderInputHandler}
+                value={role}
+              >
+                <option value="Member">Member</option>
+              </select>
             </div>
           </div>
         )}

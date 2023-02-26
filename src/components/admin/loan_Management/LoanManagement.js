@@ -1,17 +1,27 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import style from './LoanManagement.module.css';
 import { Table } from 'react-bootstrap';
-import { getAllLoan, updatedLoans } from '../../../store/api/api';
+import {
+  getAllLoan,
+  updatedLoans,
+  addLoanHistory,
+  deleteLoan,
+} from '../../../store/api/api';
 import MyPagination from '../contribution_Management/MyPagination';
 import AddLoanType from './add_LoanType/AddLoanType';
 import ApprovedLoan from './add_LoanType/ApprovedLoan';
 import AreYouSureModal from './AreYouSureModal';
-import { getAllUserPure, addLoanTransaction } from '../../../store/api/api';
+import {
+  getAllUserPure,
+  addLoanTransaction,
+  add,
+} from '../../../store/api/api';
 import { Alert } from 'react-bootstrap';
 import userContext from '../../../store/context/users-context';
 
 const LoanManagement = () => {
   const [users, setUsers] = useState([]);
+
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
 
@@ -41,26 +51,40 @@ const LoanManagement = () => {
   const userId = useContext(userContext).userLoanData;
 
   // SIDE EFFECT TO GET USERS
-
   useEffect(() => {
     const response = async () => {
       const data = await getAllLoan();
+
       setUsers(data);
       setFilteredData(data);
     };
-
     response();
   }, [setUsers, setFilteredData]);
+
+  // SIDE EFFECT TO CHECK IF USER HAS LOANS THAT IS ALREADY PAID
+
+  useEffect(() => {
+    const response = async () => {
+      const loans = await getAllLoan();
+
+      const inactiveLoans = loans.filter((loan) => loan.loanStatus === 'paid');
+      console.log(inactiveLoans);
+
+      for (let i in inactiveLoans) {
+        await addLoanHistory(inactiveLoans[i], inactiveLoans[i].id);
+        await deleteLoan(inactiveLoans[i].id, inactiveLoans[i].loanId);
+      }
+    };
+    response();
+  }, [getAllLoan]);
 
   function filterData(query) {
     return users.filter(
       (row) =>
-        row.memberID == query ||
         row.lastName.toLowerCase().includes(query.toLowerCase()) ||
         row.firstName.toLowerCase().includes(query.toLowerCase()) ||
         row.middleName.toLowerCase().includes(query.toLowerCase()) ||
-        row.loanType.toLowerCase().includes(query.toLowerCase()) ||
-        row.loanStatus.toLowerCase().includes(query.toLowerCase())
+        row.loanType.toLowerCase().includes(query.toLowerCase())
     );
   }
 
@@ -81,65 +105,68 @@ const LoanManagement = () => {
       return;
     }
     setIsLoading(true);
+
     const data = await getAllUserPure();
     let convertData = {};
 
-    for (let user_id in data) {
-      console.log(id);
-      for (let loan_id in data[id].loan) {
-        console.log(id);
-        if (+data[id].loan[loanId].balance >= 1) {
-          convertData = {
-            [loanId]: {
-              ...data[id].loan[loanId],
-              paidAmount:
-                +data[id].loan[loanId].payableInvisible === 1
-                  ? +data[id].loan[loanId].paidAmount +
-                    +data[id].loan[loanId].balance
-                  : Math.ceil(
-                      +data[id].loan[loanId].paidAmount +
-                        Math.floor(
-                          +data[id].loan[loanId].loanAmount /
-                            +data[id].loan[loanId].payableIn
-                        )
-                    ),
-              balance:
-                +data[id].loan[loanId].payableInvisible === 1
-                  ? 0
-                  : Math.ceil(
-                      +data[id].loan[loanId].balance -
-                        Math.floor(
-                          +data[id].loan[loanId].loanAmount /
-                            +data[id].loan[loanId].payableIn
-                        )
-                    ),
-              payableInvisible: +data[id].loan[loanId].payableInvisible - 1,
-            },
-          };
-        } else {
-          convertData = {
-            [loanId]: {
-              ...data[id].loan[loanId],
-              loanStatus: 'paid',
-              balance: 0,
-            },
-          };
-        }
+    console.log(id);
+    if (+data[id].loan[loanId].payableInvisible <= 1) {
+      {
+        convertData = {
+          [loanId]: {
+            ...data[id].loan[loanId],
+            loanStatus: 'paid',
 
-        // PUT LOGIN HERE
-        await updatedLoans(convertData, id);
+            balance: 0,
+          },
+        };
       }
     }
-    addLoanTransaction(
-      {
-        tSeqNo: Date.now(),
-        amount: +data[id].loan[loanId].monthlyPayment,
-        date: new Date().toISOString().split('T')[0],
-        loanType: data[id].loan[loanId].loanType,
-        loanId: loanId,
-      },
-      id
-    );
+    if (+data[id].loan[loanId].payableInvisible >= 2) {
+      convertData = {
+        [loanId]: {
+          ...data[id].loan[loanId],
+          paidAmount:
+            +data[id].loan[loanId].payableInvisible === 1
+              ? +data[id].loan[loanId].paidAmount +
+                +data[id].loan[loanId].balance
+              : Math.ceil(
+                  +data[id].loan[loanId].paidAmount +
+                    Math.floor(
+                      +data[id].loan[loanId].loanAmount /
+                        +data[id].loan[loanId].payableIn
+                    )
+                ),
+          balance:
+            +data[id].loan[loanId].payableInvisible === 1
+              ? 0
+              : Math.ceil(
+                  +data[id].loan[loanId].balance -
+                    Math.floor(
+                      +data[id].loan[loanId].loanAmount /
+                        +data[id].loan[loanId].payableIn
+                    )
+                ),
+          payableInvisible: +data[id].loan[loanId].payableInvisible - 1,
+          loanId,
+        },
+      };
+
+      addLoanTransaction(
+        {
+          tSeqNo: Date.now(),
+          date: new Date().toISOString().split('T')[0],
+          loanType: +data[id].loan[loanId].loanType,
+          amount: +data[id].loan[loanId].amount,
+          loanId: loanId,
+        },
+        id
+      );
+    }
+
+    // PUT LOGIN HERE
+    await updatedLoans(convertData, id);
+
     console.log(convertData);
     setPaymentsUpdated(true);
 
@@ -259,18 +286,7 @@ ${style.side}`}
           <Table responsive>
             <thead>
               <tr>
-                <th
-                  onClick={() => handleSort('memberID')}
-                  className={sortKey === 'memberID' ? sortOrder : ''}
-                >
-                  Member ID{''}
-                  {sortKey === 'memberID' && sortOrder === 'asc' && (
-                    <span className="sort-arrow up">▲</span>
-                  )}
-                  {sortKey === 'memberID' && sortOrder === 'desc' && (
-                    <span className="sort-arrow down">▼</span>
-                  )}
-                </th>
+                <th>Member ID</th>
                 <th
                   onClick={() => handleSort('lastName')}
                   className={sortKey === 'lastName' ? sortOrder : ''}
@@ -380,6 +396,18 @@ ${style.side}`}
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
+                <th
+                  onClick={() => handleSort('dateCreated')}
+                  className={sortKey === 'dateCreated' ? sortOrder : ''}
+                >
+                  Date Created
+                  {sortKey === 'dateCreated' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'dateCreated' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -388,7 +416,7 @@ ${style.side}`}
               {currentPosts.map((user, index) => {
                 return (
                   <tr key={index}>
-                    <td>{user.memberID}</td>
+                    <td>{index + 1}</td>
                     <td>{user.lastName}</td>
                     <td>{user.firstName}</td>
                     <td>{user.middleName}</td>
@@ -396,22 +424,19 @@ ${style.side}`}
                     <td>{user.loanType}</td>
                     <td>{user.loanAmount}</td>
                     <td>{user.payableIn}</td>
+
                     <td>{user.paidAmount}</td>
                     <td>{user.balance}</td>
-
+                    <td>{user.date}</td>
                     {console.log(user.loanId)}
 
                     <td>
-                      {user.balance === 0 ? (
-                        'Paid'
-                      ) : (
-                        <button
-                          className="btn btn-dark"
-                          onClick={() => collectHandler(user.id, user.loanId)}
-                        >
-                          Collect
-                        </button>
-                      )}
+                      <button
+                        className="btn btn-dark"
+                        onClick={() => collectHandler(user.id, user.loanId)}
+                      >
+                        Collect
+                      </button>
                     </td>
                   </tr>
                 );

@@ -1,12 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import style from "./TotalMembers.module.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import style from './TotalMembers.module.css';
 
 const TotalMembers = (props) => {
   return (
     <div
       className={` card text-white ${
-        props.className ? props.className : "bg-primary"
+        props.className ? props.className : 'bg-primary'
       } mb-3  `}
     >
       <div
@@ -19,8 +19,8 @@ const TotalMembers = (props) => {
         {/* fontAwesome logo of people should put here  */}
       </div>
       <Link
-        to={"/"}
-        className={`${style["card-button"]} card-footer d-flex  justify-content-between `}
+        to={props.to}
+        className={`${style['card-button']} card-footer d-flex  justify-content-between `}
       >
         {props.buttonTitle}
         <span>&rarr;</span>
