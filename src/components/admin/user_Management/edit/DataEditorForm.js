@@ -51,7 +51,7 @@ const DataEditorForm = (props) => {
   };
 
   const nationalityHandler = (event) => {
-    setNationality(event.target.handler);
+    setNationality(event.target.value);
   };
 
   const civilStatusHandler = (event) => {

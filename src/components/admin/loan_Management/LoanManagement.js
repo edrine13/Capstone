@@ -122,7 +122,7 @@ const LoanManagement = () => {
         };
       }
     }
-    if (+data[id].loan[loanId].payableInvisible >= 2) {
+    if (+data[id].loan[loanId].payableInvisible >= 1) {
       convertData = {
         [loanId]: {
           ...data[id].loan[loanId],
@@ -157,7 +157,7 @@ const LoanManagement = () => {
           tSeqNo: Date.now(),
           date: new Date().toISOString().split('T')[0],
           loanType: +data[id].loan[loanId].loanType,
-          amount: +data[id].loan[loanId].amount,
+          amount: +data[id].loan[loanId].monthlyPayment,
           loanId: loanId,
         },
         id
