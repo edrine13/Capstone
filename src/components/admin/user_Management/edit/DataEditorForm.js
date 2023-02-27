@@ -14,6 +14,9 @@ const DataEditorForm = (props) => {
   const [nationality, setNationality] = useState('');
   const [civilStatus, setCivilStatus] = useState('');
   const [suffix, setSuffix] = useState('');
+  const [email, setEmail] = useState('');
+  const [monthlyContribution, setMonthlyContribution] = useState('');
+  const [accountStatus, setAccountStatus] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,11 +51,23 @@ const DataEditorForm = (props) => {
   };
 
   const nationalityHandler = (event) => {
-    setNationality(event.target.handler);
+    setNationality(event.target.value);
   };
 
   const civilStatusHandler = (event) => {
     setCivilStatus(event.target.value);
+  };
+
+  const emailHandler = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const monthlyContributionHandler = (event) => {
+    setMonthlyContribution(event.target.value);
+  };
+
+  const accountStatusHandler = (event) => {
+    setAccountStatus(event.target.value);
   };
 
   // FORM EDIT SUBMIT HANDLER -Function will run after clicking the submit button :3
@@ -60,7 +75,6 @@ const DataEditorForm = (props) => {
     event.preventDefault();
     setIsLoading(true);
     const userData = props.onSubmit();
-
     const lastNameIsValid = inputIsNotEmpty(lastName);
     const firstNameIsValid = inputIsNotEmpty(firstName);
     const middleNameIsValid = inputIsNotEmpty(middleName);
@@ -68,7 +82,9 @@ const DataEditorForm = (props) => {
     const civilStatusIsValid = inputIsNotEmpty(civilStatus);
     const contactNumberIsValid = inputIsNotEmpty(contactNumber);
     const nationalityIsValid = inputIsNotEmpty(nationality);
-
+    const emailIsValid = inputIsNotEmpty(email);
+    const monthlyContributionIsValid = inputIsNotEmpty(monthlyContribution);
+    const accountStatusIsValid = inputIsNotEmpty(accountStatus);
     let convertData = {};
 
     convertData = {
@@ -82,6 +98,13 @@ const DataEditorForm = (props) => {
         ? contactNumber
         : userData.contactNumber,
       nationality: nationalityIsValid ? nationality : userData.nationality,
+      email: emailIsValid ? email : userData.email,
+      monthlyContribution: monthlyContributionIsValid
+        ? monthlyContribution
+        : userData.monthlyContribution,
+      accountStatus: accountStatusIsValid
+        ? accountStatus
+        : userData.accountStatus,
     };
     console.log(userData.id);
 
@@ -182,13 +205,49 @@ const DataEditorForm = (props) => {
                   value={nationality}
                 />
               </div>
+              <div className="col-4">
+                <label>Email</label>
+                <input
+                  type="text"
+                  name="Email"
+                  id="Email"
+                  className={`form-control my-3 p-2 `}
+                  placeholder="Email"
+                  onChange={emailHandler}
+                  value={email}
+                />
+              </div>
+              <div className="col-4">
+                <label>Monthly Contribution</label>
+                <input
+                  type="text"
+                  name="monthlyContribution "
+                  id="monthlyContribution"
+                  className={`form-control my-3 p-2 `}
+                  placeholder="Monthly Contribution"
+                  onChange={monthlyContributionHandler}
+                  value={monthlyContribution}
+                />
+              </div>
+              <div className="col-4">
+                <label>Account Status</label>
+                <input
+                  type="text"
+                  name="accountStatus"
+                  id="accountStatus"
+                  className={`form-control my-3 p-2 `}
+                  placeholder="Account Status"
+                  onChange={accountStatusHandler}
+                  value={accountStatus}
+                />
+              </div>
             </div>
             <div className="d-flex justify-content-between">
               <button
                 type="submit"
                 className={`btn btn-success ${false ? 'disabled' : ''}`}
               >
-                Add
+                Save
               </button>
               <button
                 type="button"

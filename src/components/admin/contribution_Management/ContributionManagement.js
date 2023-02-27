@@ -139,7 +139,7 @@ const ContributionManagement = () => {
           paidAmount: +data[user_id].monthlyContribution,
           date: new Date().toISOString().split('T')[0],
           monthCovered:
-            monthNames[d.getMonth()] + '-' + new Date().getFullYear(),
+            new Date().getFullYear() + '-' + monthNames[d.getMonth()],
         },
         user_id
       );

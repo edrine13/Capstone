@@ -6,6 +6,7 @@ import {
 } from '../../../store/api/api';
 import { Table } from 'react-bootstrap';
 import style from './UserContribution.module.css';
+import MyPagination from '../../admin/contribution_Management/MyPagination';
 
 const UserContributions = () => {
   const [userContri, setUserContri] = useState([]);
@@ -13,6 +14,11 @@ const UserContributions = () => {
   const [filteredContri, setFilteredContri] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const userCtx = useContext(userContext).userData;
+  const [page, setPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortKey, setSortKey] = useState('');
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -34,7 +40,6 @@ const UserContributions = () => {
     const fetchUsersContri = async () => {
       const datas = await getAllContributionTransaction();
       setUserContri(datas);
-      setFilteredContri(datas);
     };
 
     fetchUsersContri();
@@ -47,6 +52,26 @@ const UserContributions = () => {
       ),
     [userContri, userCtx.email]
   );
+
+  function filterContri(query) {
+    return currentUserContri.filter((row) =>
+      row.monthCovered.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+
+  function handleSearch(event) {
+    const query = event.target.value;
+    setQuery(query);
+    setFilteredContri(filterContri(query));
+  }
+
+  const indexOfLastPost = page * postsPerPage;
+  const indexOfFirstPosts = indexOfLastPost - postsPerPage;
+  const currentPosts = filteredContri.slice(indexOfFirstPosts, indexOfLastPost);
+
+  // CHANGE PAGE
+
+  const paginate = (pageNumber) => setPage(pageNumber);
 
   return (
     <div className={`mt-5 container ${style.side} ${style.userSection}`}>
@@ -71,6 +96,21 @@ const UserContributions = () => {
       })}
       <div className="mt-5">
         <h2>Contributions</h2>
+        <div className="d-flex">
+          <h4>Year:</h4>
+          <input
+            type="text"
+            aria-label="Search"
+            onChange={handleSearch}
+            value={query}
+          />
+          <button
+            className="btn btn-outline-success my-2 my-sm-0 d-block"
+            type="submit"
+          >
+            View Contribution
+          </button>
+        </div>
         <Table>
           <thead>
             <tr>
@@ -81,7 +121,7 @@ const UserContributions = () => {
             </tr>
           </thead>
           <tbody>
-            {currentUserContri.map((user, index) => {
+            {currentPosts.map((user, index) => {
               return (
                 <tr key={index}>
                   <td>{user.date}</td>
@@ -93,6 +133,12 @@ const UserContributions = () => {
             })}
           </tbody>
         </Table>
+        {/* Pagination */}
+        <MyPagination
+          postsPerPage={postsPerPage}
+          totalPosts={filteredContri.length}
+          paginate={paginate}
+        />
       </div>
     </div>
   );
