@@ -8,6 +8,7 @@ const Admin = () => {
   const [users, setUsers] = useState([]);
   const [activeUsers, setActiveUsers] = useState([]);
   const [loans, setLoans] = useState([]);
+  const [activeLoans, setActiveLoans] = useState([]);
 
   const userCtx = useContext(userContext).userData;
 
@@ -17,13 +18,12 @@ const Admin = () => {
       const loanData = await getAllLoan();
 
       const active = data.filter((user) => user.accountStatus === 'active');
-      const activeLoans = loanData.filter(
-        (loans) => loans.loanStatus === 'active'
-      );
+      const activeLoans = loanData.filter((loans) => loans.balance != 0);
       console.log(active);
       setUsers(data);
       setActiveUsers(active);
-      setLoans(activeLoans);
+      setLoans(loanData);
+      setActiveLoans(activeLoans);
     };
     response();
   }, [setUsers, setActiveUsers]);
@@ -41,35 +41,26 @@ const Admin = () => {
           <div className="col-lg-4 mt-5">
             <div className="card text-center border-0">
               {/* card */}
-              <TotalMembers
-                value={users.length}
-                buttonTitle={'View Members'}
-                to={'/admin/user-management'}
-              >
-                total Members
-              </TotalMembers>
+              <TotalMembers value={users.length}>total Members</TotalMembers>
             </div>
           </div>
           <div className="col-lg-4 mt-5">
             <div className="card text-center border-0">
-              <TotalMembers
-                className="bg-success"
-                value={activeUsers.length}
-                buttonTitle={'View Active Members'}
-                to={'/admin/user-management'}
-              >
+              <TotalMembers className="bg-success" value={activeUsers.length}>
                 Active Members
               </TotalMembers>
             </div>
           </div>
           <div className="col-lg-4 mt-5">
             <div className="card text-center border-0">
-              <TotalMembers
-                className="bg-info"
-                value={loans.length}
-                buttonTitle={'View Active Loans'}
-                to={'/admin/loan-management'}
-              >
+              <TotalMembers className="bg-info" value={loans.length}>
+                Total Loans
+              </TotalMembers>
+            </div>
+          </div>
+          <div className="col-lg-4 mt-5">
+            <div className="card text-center border-0">
+              <TotalMembers className="bg-info" value={activeLoans.length}>
                 Active Loans
               </TotalMembers>
             </div>

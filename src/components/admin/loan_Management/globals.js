@@ -1,1 +1,1 @@
-export const globalLoanID = `loan` + 1001;
+export let globalLoanID = 1000;

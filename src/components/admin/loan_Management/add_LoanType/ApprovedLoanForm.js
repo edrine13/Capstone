@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { addLoan, getAllUser } from '../../../../store/api/api';
 import LoadingSpinner from '../../../../UI/LoadingSpinner';
+import { globalLoanID } from '../globals';
 
 const inputIsNotEmpty = (input) => input !== '';
 const validAmount = (input) => input !== '' && input >= 300;
@@ -11,12 +12,10 @@ const AddLoanType = (props) => {
   // CAN USE "REACT-HOOK-FORMS" later if we made it in time
   const [users, setUsers] = useState([]);
   const [member, setMember] = useState(null);
-
   const [memberID, setMemberID] = useState('');
   const [loanType, setLoanType] = useState('shortTerm');
   const [loanAmount, setLoanAmount] = useState('');
   const [payableIn, setPayableIn] = useState(2);
-
   const [userExists, setUserExists] = useState(false);
   console.log(member);
   console.log(memberID);
@@ -145,6 +144,7 @@ const AddLoanType = (props) => {
           (new Date().getMonth() + 1) +
           '-' +
           new Date().getDate(),
+        gLoanID: `loan` + (+globalLoanID + 1),
       });
     } catch (err) {
       setIsLoading(false);

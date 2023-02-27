@@ -31,6 +31,7 @@ const LoanManagement = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [loanStatus, setLoanStatus] = useState('all');
 
   // STATE FOR ALERTS
   const [updated, setUpdated] = useState(false);
@@ -79,21 +80,42 @@ const LoanManagement = () => {
     response();
   }, [getAllLoan]);
 
-  function filterData(query) {
-    return users.filter(
-      (row) =>
+  useEffect(() => {
+    setFilteredData(filterData(query, loanStatus));
+  }, [query, loanStatus]);
+
+  function filterData(query, loanStatus) {
+    return users.filter((row) => {
+      // Filter by search query
+      const matchesQuery =
+        row.memberID == query ||
         row.lastName.toLowerCase().includes(query.toLowerCase()) ||
         row.firstName.toLowerCase().includes(query.toLowerCase()) ||
-        row.middleName.toLowerCase().includes(query.toLowerCase()) ||
-        row.loanType.toLowerCase().includes(query.toLowerCase())
-    );
-  }
+        row.middleName.toLowerCase().includes(query.toLowerCase());
 
+      // Filter by loan status if specified
+      const matchesLoanStatus =
+        loanStatus === 'All' || row.loanStatus === loanStatus;
+
+      return matchesQuery && matchesLoanStatus;
+    });
+  }
   // FUNCTION FOR SEARCH
-  function handleSearch(event) {
+  function handleSearch(event, loanStatus) {
     const query = event.target.value;
     setQuery(query);
-    setFilteredData(filterData(query));
+    setFilteredData(filterData(query, loanStatus));
+  }
+
+  function LoanStatusToggle({ loanStatus, onToggle }) {
+    return (
+      <div>
+        <button onClick={() => onToggle('All')}>All Loans</button>
+        <button onClick={() => onToggle('Active')}>Active Loans</button>
+        <button onClick={() => onToggle('Paid')}>Paid Loans</button>
+        <p>Showing: {loanStatus} Loans</p>
+      </div>
+    );
   }
 
   const collectHandler = async (id, loanId) => {
@@ -283,6 +305,12 @@ ${style.side}`}
                 isLoading={isLoading}
               />
             ) : null}
+          </div>
+          <div className="mt-3">
+            <LoanStatusToggle
+              loanStatus={loanStatus}
+              onToggle={setLoanStatus}
+            />
           </div>
           <Table responsive>
             <thead>
