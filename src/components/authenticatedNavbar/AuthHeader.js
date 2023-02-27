@@ -22,7 +22,7 @@ const AuthHeader = () => {
           </Link>
         </li>
         <li>
-          <Link to="/about-us" className={` ${style.link} `}>
+          <Link to="/about" className={` ${style.link} `}>
             About Us
           </Link>
         </li>

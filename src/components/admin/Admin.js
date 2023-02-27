@@ -37,28 +37,28 @@ const Admin = () => {
           Welcome back {`${userCtx.firstName} ${userCtx.lastName}`}
         </h2>
         {/* card */}
-        <div className="row">
-          <div className="col-lg-4 mt-5">
+        <div className="row mx-5">
+          <div className="col-lg-6 mt-5">
             <div className="card text-center border-0">
               {/* card */}
-              <TotalMembers value={users.length}>total Members</TotalMembers>
+              <TotalMembers value={users.length}>Total Members</TotalMembers>
             </div>
           </div>
-          <div className="col-lg-4 mt-5">
+          <div className="col-lg-6 mt-5">
             <div className="card text-center border-0">
               <TotalMembers className="bg-success" value={activeUsers.length}>
                 Active Members
               </TotalMembers>
             </div>
           </div>
-          <div className="col-lg-4 mt-5">
+          <div className="col-lg-6 mt-5">
             <div className="card text-center border-0">
               <TotalMembers className="bg-info" value={loans.length}>
                 Total Loans
               </TotalMembers>
             </div>
           </div>
-          <div className="col-lg-4 mt-5">
+          <div className="col-lg-6 mt-5">
             <div className="card text-center border-0">
               <TotalMembers className="bg-info" value={activeLoans.length}>
                 Active Loans

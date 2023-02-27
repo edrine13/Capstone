@@ -23,17 +23,11 @@ const User = () => {
               <div className="card text-center">
                 <UserContributionCard />
               </div>
+            </div>
 
-              <div className="col-lg-6 mt-5">
-                <div className="card text-center">
-                  <UserLoansCard />
-                </div>
-              </div>
-
-              <div className="col-lg-6 mt-5">
-                <div className="card text-center">
-                  <UserLoansCard />
-                </div>
+            <div className="col-lg-6 mt-5">
+              <div className="card text-center">
+                <UserLoansCard />
               </div>
             </div>
           </div>

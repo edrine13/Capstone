@@ -15,7 +15,7 @@ const Footer = () => {
             <Link to={'/privacy'}>Privacy</Link>
           </div>
           <div className="col-12 col-sm-3 bb">
-            <Link to={'/'}>About Us</Link>
+            <Link to={'/about'}>About Us</Link>
           </div>
           <div className="col-12 col-sm-3 bb">
             <Link to={'/terms'}>Terms &amp; Conditions</Link>

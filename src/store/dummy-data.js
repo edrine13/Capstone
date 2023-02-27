@@ -67,26 +67,8 @@ export const DummyLoanProducts = [
   },
   {
     id: 3,
-    title: 'Educational Loan',
-    text: 'Link Coop understands the challenges posed by the pandemic to jobs and businesses. We help parents with educational loan so that they can send their children to school.',
-    image: loanProductImage3,
-  },
-  {
-    id: 4,
-    title: 'Calamity Loan',
-    text: 'The Link Coop  Calamity Loan is a financial aid to assist members who are affected by calamities.',
+    title: 'Emergency Loan',
+    text: 'The Link Coop Emergency Loan is a financial aid to assist members who are affected by calamities.',
     image: loanProductImage4,
-  },
-  {
-    id: 5,
-    title: 'Appliance Loan',
-    text: 'Get your appliances fixed and in tip-top condition with Link Coop Appliance Loan.',
-    image: loanProductImage5,
-  },
-  {
-    id: 6,
-    title: 'Cash Advance',
-    text: 'Link Coop cash advances are the perfect solution for quickly and easily getting quick access to money, when you need it most.',
-    image: loanProductImage6,
   },
 ];

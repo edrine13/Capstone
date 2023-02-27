@@ -16,7 +16,7 @@ const UserContributions = () => {
   const userCtx = useContext(userContext).userData;
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [sortKey, setSortKey] = useState('');
   const [query, setQuery] = useState('');
 
@@ -73,6 +73,24 @@ const UserContributions = () => {
   const indexOfFirstPosts = indexOfLastPost - postsPerPage;
   const currentPosts = filteredContri.slice(indexOfFirstPosts, indexOfLastPost);
 
+  const handleSort = (key) => {
+    const newData = [...filteredContri];
+    const order =
+      sortKey === key ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc';
+    newData.sort((a, b) => {
+      if (a[key] < b[key]) {
+        return order === 'asc' ? -1 : 1;
+      }
+      if (a[key] > b[key]) {
+        return order === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+    setFilteredContri(newData);
+    setSortOrder(order);
+    setSortKey(key);
+  };
+
   // CHANGE PAGE
 
   const paginate = (pageNumber) => setPage(pageNumber);
@@ -83,6 +101,9 @@ const UserContributions = () => {
       {currentUser.map((user, index) => {
         return (
           <div className="d-flex row" key={index}>
+            <label className="mt-2">
+              <b>Member ID :</b> {user.memberID}
+            </label>
             <label className="mt-2">
               <b>Initial Contribution:</b> {user.initialContribution}
             </label>
@@ -115,13 +136,35 @@ const UserContributions = () => {
             View Contribution
           </button>
         </div>
-        <Table>
+        <Table responsive>
           <thead>
             <tr>
-              <th>Transaction Date</th>
+              <th
+                onClick={() => handleSort('date')}
+                className={sortKey === 'date' ? sortOrder : ''}
+              >
+                Transaction Date{''}
+                {sortKey === 'date' && sortOrder === 'asc' && (
+                  <span className="sort-arrow up">▲</span>
+                )}
+                {sortKey === 'date' && sortOrder === 'desc' && (
+                  <span className="sort-arrow down">▼</span>
+                )}
+              </th>
               <th>TSeqNo</th>
               <th>Period Covered</th>
-              <th>Amount</th>
+              <th
+                onClick={() => handleSort('amount')}
+                className={sortKey === 'amount' ? sortOrder : 'desc'}
+              >
+                Amount{''}
+                {sortKey === 'amount' && sortOrder === 'asc' && (
+                  <span className="sort-arrow up">▲</span>
+                )}
+                {sortKey === 'amount' && sortOrder === 'desc' && (
+                  <span className="sort-arrow down">▼</span>
+                )}
+              </th>
             </tr>
           </thead>
           <tbody>
