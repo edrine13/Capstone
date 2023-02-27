@@ -180,7 +180,7 @@ const LoanManagement = () => {
           tSeqNo: Date.now(),
           date: new Date().toISOString().split('T')[0],
           loanType: data[id].loan[loanId].loanType,
-          amount: +data[id].loan[loanId].monthlyPayment,
+          amount: Math.floor(+data[id].loan[loanId].monthlyPayment),
           loanId: loanId,
         },
         id

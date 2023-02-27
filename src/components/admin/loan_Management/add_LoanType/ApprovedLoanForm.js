@@ -135,7 +135,7 @@ const AddLoanType = (props) => {
         payableIn,
         payableInvisible: payableIn,
         balance: loanAmount,
-        monthlyPayment: loanAmount / payableIn,
+        monthlyPayment: Math.floor(loanAmount / payableIn),
         loanStatus: 'active',
         paidAmount: 0,
         date:
