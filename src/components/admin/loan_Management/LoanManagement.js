@@ -179,7 +179,7 @@ const LoanManagement = () => {
         {
           tSeqNo: Date.now(),
           date: new Date().toISOString().split('T')[0],
-          loanType: +data[id].loan[loanId].loanType,
+          loanType: data[id].loan[loanId].loanType,
           amount: +data[id].loan[loanId].monthlyPayment,
           loanId: loanId,
         },
@@ -315,7 +315,18 @@ ${style.side}`}
           <Table responsive>
             <thead>
               <tr>
-                <th>Member ID</th>
+                <th
+                  onClick={() => handleSort('memberID')}
+                  className={sortKey === 'memberID' ? sortOrder : ''}
+                >
+                  Member ID{''}
+                  {sortKey === 'memberID' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'memberID' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
                 <th
                   onClick={() => handleSort('lastName')}
                   className={sortKey === 'lastName' ? sortOrder : ''}
