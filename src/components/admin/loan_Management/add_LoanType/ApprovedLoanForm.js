@@ -13,7 +13,7 @@ const AddLoanType = (props) => {
   const [users, setUsers] = useState([]);
   const [member, setMember] = useState(null);
   const [memberID, setMemberID] = useState('');
-  const [loanType, setLoanType] = useState('shortTerm');
+  const [loanType, setLoanType] = useState('Short Term');
   const [loanAmount, setLoanAmount] = useState('');
   const [payableIn, setPayableIn] = useState(2);
   const [userExists, setUserExists] = useState(false);

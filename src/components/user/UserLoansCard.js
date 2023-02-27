@@ -51,32 +51,35 @@ const UserLoansCard = () => {
   return (
     <div className="card-body">
       <h4 className="card-title my-3">Active Loans</h4>
-
-      <Table>
-        <thead>
-          <tr>
-            <th>Loan Type</th>
-            <th>Loan Amount</th>
-            <th>Paid Amount</th>
-            <th>Balance</th>
-          </tr>
-        </thead>
-        <tbody>
-          {activeLoans
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, 5)
-            .map((user, index) => {
-              return (
-                <tr key={index}>
-                  <td>{user.loanType}</td>
-                  <td>{user.loanAmount}</td>
-                  <td>{user.paidAmount}</td>
-                  <td>{user.balance}</td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </Table>
+      {activeLoans.length == 0 ? (
+        'No Active Loans'
+      ) : (
+        <Table>
+          <thead>
+            <tr>
+              <th>Loan Type</th>
+              <th>Loan Amount</th>
+              <th>Paid Amount</th>
+              <th>Balance</th>
+            </tr>
+          </thead>
+          <tbody>
+            {activeLoans
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .slice(0, 5)
+              .map((user, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{user.loanType}</td>
+                    <td>{user.loanAmount}</td>
+                    <td>{user.paidAmount}</td>
+                    <td>{user.balance}</td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
+      )}
     </div>
   );
 };
