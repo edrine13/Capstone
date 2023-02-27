@@ -54,7 +54,11 @@ const UserContributions = () => {
   );
 
   useEffect(() => {
-    setFilteredContri(filterContri(query, currentUserContri));
+    setFilteredContri(
+      filterContri(query, currentUserContri).sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      )
+    );
   }, [query, currentUserContri]);
 
   function filterContri(query) {
