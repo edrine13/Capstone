@@ -98,7 +98,7 @@ const UserLoan = () => {
                   <td>{user.tSeqNo}</td>
                   <td>{user.tLoanID}</td>
                   <td>{user.loanType}</td>
-                  <td>{user.amount}</td>
+                  <td>{Math.floor(user.amount)}</td>
                 </tr>
               );
             })}

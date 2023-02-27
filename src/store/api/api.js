@@ -191,7 +191,9 @@ export const getAllLoan = async () => {
           loanType: data[user_id].loan[loan_id].loanType,
           loanAmount: data[user_id].loan[loan_id].loanAmount,
           payableIn: data[user_id].loan[loan_id].payableIn,
-          monthlyLoanPayment: data[user_id].loan[loan_id].monthlyLoanPayment,
+          monthlyLoanPayment: Math.floor(
+            data[user_id].loan[loan_id].monthlyLoanPayment
+          ),
           date: data[user_id].loan[loan_id].date,
           balance: data[user_id].loan[loan_id].balance,
           loanStatus:
@@ -366,7 +368,7 @@ export const getAllContributionTransaction = async () => {
               data[user_id].transactions.contribution[loan_id].monthCovered,
             civilStatus: data[user_id].civilStatus,
             gender: data[user_id].gender,
-            monthlyContribution: data[user_id].monthlyContribution,
+            monthlyContribution: Math.floor(data[user_id].monthlyContribution),
             initialContribution: data[user_id].initialContribution,
             memberID: data[user_id].memberID,
           });
