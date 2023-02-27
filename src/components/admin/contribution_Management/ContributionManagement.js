@@ -202,7 +202,18 @@ const ContributionManagement = () => {
           <Table responsive>
             <thead>
               <tr>
-                <th>id</th>
+                <th
+                  onClick={() => handleSort('memberID')}
+                  className={sortKey === 'memberID' ? sortOrder : ''}
+                >
+                  Member ID{''}
+                  {sortKey === 'memberID' && sortOrder === 'asc' && (
+                    <span className="sort-arrow up">▲</span>
+                  )}
+                  {sortKey === 'memberID' && sortOrder === 'desc' && (
+                    <span className="sort-arrow down">▼</span>
+                  )}
+                </th>
                 <th
                   onClick={() => handleSort('lastName')}
                   className={sortKey === 'lastName' ? sortOrder : ''}
