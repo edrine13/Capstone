@@ -6,7 +6,7 @@ import { FormText } from 'react-bootstrap';
 import AuthHeader from '../authenticatedNavbar/AuthHeader';
 
 const Layout = (props) => {
-  const style = { minHeight: 'calc(100vh - 125px)' };
+  const style = { minHeight: 1100 };
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleLogout = () => {

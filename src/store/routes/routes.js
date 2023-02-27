@@ -27,6 +27,7 @@ import UserLoanPage from '../../page/UserLoanPage';
 import UserContributionPage from '../../page/UserContributionPage';
 import User from '../../components/user/User';
 import UserOverviewPage from '../../page/UserOverviewPage';
+import AboutUsPage from '../../page/AboutUsPage';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
@@ -42,6 +43,7 @@ const useCreatedRoutes = () => {
         <Route path="faqs" element={<FaqsPage />} />
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="terms" element={<TermsPage />} />
+        <Route path="about" element={<AboutUsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
 

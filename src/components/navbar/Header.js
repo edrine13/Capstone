@@ -24,7 +24,7 @@ const Header = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/about-us" className={` ${style.link} `}>
+          <NavLink to="/about" className={` ${style.link} `}>
             About Us
           </NavLink>
         </li>
