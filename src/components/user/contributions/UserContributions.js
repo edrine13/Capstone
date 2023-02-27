@@ -15,7 +15,7 @@ const UserContributions = () => {
   const [filteredData, setFilteredData] = useState([]);
   const userCtx = useContext(userContext).userData;
   const [page, setPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [postsPerPage, setPostsPerPage] = useState(5);
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
   const [query, setQuery] = useState('');
@@ -52,6 +52,10 @@ const UserContributions = () => {
       ),
     [userContri, userCtx.email]
   );
+
+  useEffect(() => {
+    setFilteredContri(filterContri(query, currentUserContri));
+  }, [query, currentUserContri]);
 
   function filterContri(query) {
     return currentUserContri.filter((row) =>
