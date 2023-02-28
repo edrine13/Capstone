@@ -46,32 +46,35 @@ const UserContributionCard = () => {
   return (
     <div className="card-body">
       <h4 className="card-title my-3">Latest Contributions</h4>
-
-      <Table>
-        <thead>
-          <tr>
-            <th>Transaction Date</th>
-            <th>TSeqNo</th>
-            <th>Period Covered</th>
-            <th>Amount{''}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentUserContri
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, 5)
-            .map((user, index) => {
-              return (
-                <tr key={index}>
-                  <td>{user.date}</td>
-                  <td>{user.tSeqNo}</td>
-                  <td>{user.monthCovered}</td>
-                  <td>{user.paidAmount}</td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </Table>
+      {currentUserContri.length == 0 ? (
+        'No Contribution'
+      ) : (
+        <Table>
+          <thead>
+            <tr>
+              <th>Transaction Date</th>
+              <th>TSeqNo</th>
+              <th>Period Covered</th>
+              <th>Amount{''}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentUserContri
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .slice(0, 5)
+              .map((user, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{user.date}</td>
+                    <td>{user.tSeqNo}</td>
+                    <td>{user.monthCovered}</td>
+                    <td>{user.paidAmount}</td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
+      )}
     </div>
   );
 };

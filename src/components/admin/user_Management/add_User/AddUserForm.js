@@ -170,12 +170,7 @@ const AddUserForm = (props) => {
       totalContribution: monthlyContribution,
       monthlyLoanPayment: 0,
       contributionCount: 0,
-      lastPaid:
-        new Date().getFullYear() +
-        '/' +
-        (new Date().getMonth() + 1) +
-        '/' +
-        new Date().getDate(),
+      lastPaid: 'N/A',
     });
 
     if (!inputIsValid) {
@@ -219,12 +214,7 @@ const AddUserForm = (props) => {
         totalContribution: 0,
         contributionCount: 0,
         initialContribution: monthlyContribution,
-        lastPaid:
-          new Date().getFullYear() +
-          '/' +
-          (new Date().getMonth() + 1) +
-          '/' +
-          new Date().getDate(),
+        lastPaid: 'N/A',
         memberID: 1001 + +users.length,
       });
 
