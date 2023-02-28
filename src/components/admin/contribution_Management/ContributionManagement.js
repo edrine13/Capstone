@@ -38,6 +38,7 @@ const ContributionManagement = () => {
   function filterData(query) {
     return users.filter(
       (row) =>
+        row.memberID == query ||
         row.lastName.toLowerCase().includes(query.toLowerCase()) ||
         row.firstName.toLowerCase().includes(query.toLowerCase()) ||
         row.middleName.toLowerCase().includes(query.toLowerCase()) ||

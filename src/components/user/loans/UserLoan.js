@@ -34,7 +34,7 @@ const UserLoan = () => {
   );
 
   const handleSort = (key) => {
-    const newData = [...currentUser];
+    const newData = [...filteredData];
     const order =
       sortKey === key ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc';
     newData.sort((a, b) => {

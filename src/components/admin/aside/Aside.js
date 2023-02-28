@@ -23,6 +23,12 @@ const Aside = () => {
         <AsideButton linkTo={'contribution-management'}>
           Contribution Management
         </AsideButton>
+        <AsideButton linkTo={'transactions-loans'}>
+          Loan Transactions
+        </AsideButton>
+        <AsideButton linkTo={'transactions-contributions'}>
+          Contribution Transactions
+        </AsideButton>
         <AsideButton onClick={logout} linkTo={'/'}>
           Logout
         </AsideButton>
