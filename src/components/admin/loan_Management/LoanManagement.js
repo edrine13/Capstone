@@ -91,7 +91,8 @@ const LoanManagement = () => {
         row.memberID == query ||
         row.lastName.toLowerCase().includes(query.toLowerCase()) ||
         row.firstName.toLowerCase().includes(query.toLowerCase()) ||
-        row.middleName.toLowerCase().includes(query.toLowerCase());
+        row.middleName.toLowerCase().includes(query.toLowerCase()) ||
+        row.loanType.toLowerCase().includes(query.toLowerCase());
 
       // Filter by loan status if specified
       const matchesLoanStatus =
