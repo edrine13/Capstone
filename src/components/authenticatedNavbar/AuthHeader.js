@@ -48,7 +48,7 @@ const AuthHeader = () => {
               className={` ${style.link} `}
               onClick={logoutHandler}
             >
-              login
+              Login
             </Link>
           )}
         </li>
