@@ -28,6 +28,8 @@ import UserContributionPage from '../../page/UserContributionPage';
 import User from '../../components/user/User';
 import UserOverviewPage from '../../page/UserOverviewPage';
 import AboutUsPage from '../../page/AboutUsPage';
+import ContributionTransactionsPage from '../../page/ContributionTransactionsPage';
+import LoanTransactionsPage from '../../page/LoanTransactionsPage';
 
 const useCreatedRoutes = () => {
   const isLoggedIn = useContext(authContext).isLoggedIn;
@@ -69,6 +71,14 @@ const useCreatedRoutes = () => {
               element={<ContributionManagementPage />}
             />
             <Route path="loan-management" element={<LoanManagementPage />} />
+            <Route
+              path="transactions-contributions"
+              element={<ContributionTransactionsPage />}
+            />
+            <Route
+              path="transactions-loans"
+              element={<LoanTransactionsPage />}
+            />
           </Route>
         ) : null}
         <Route path="*" element={<Error404Page />} />
