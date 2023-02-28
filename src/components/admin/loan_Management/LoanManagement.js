@@ -437,18 +437,6 @@ ${style.side}`}
                     <span className="sort-arrow down">▼</span>
                   )}
                 </th>
-                <th
-                  onClick={() => handleSort('dateCreated')}
-                  className={sortKey === 'dateCreated' ? sortOrder : ''}
-                >
-                  Date Created
-                  {sortKey === 'dateCreated' && sortOrder === 'asc' && (
-                    <span className="sort-arrow up">▲</span>
-                  )}
-                  {sortKey === 'dateCreated' && sortOrder === 'desc' && (
-                    <span className="sort-arrow down">▼</span>
-                  )}
-                </th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -468,7 +456,7 @@ ${style.side}`}
 
                     <td>{user.paidAmount}</td>
                     <td>{user.balance}</td>
-                    <td>{user.date}</td>
+
                     {console.log(user.loanId)}
 
                     <td>

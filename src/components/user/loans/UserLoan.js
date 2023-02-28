@@ -13,6 +13,7 @@ const UserLoan = () => {
   const userCtx = useContext(userContext).userData;
   const [page, setPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
+  const [page1, setPage1] = useState(1);
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortKey, setSortKey] = useState('');
 
@@ -74,11 +75,15 @@ const UserLoan = () => {
     indexOfFirstPosts,
     indexOfLastPost
   );
-  const currentPosts1 = currentUser.slice(indexOfFirstPosts, indexOfLastPost);
+
+  const indexOfLastPost1 = page1 * postsPerPage;
+  const indexOfFirstPosts1 = indexOfLastPost1 - postsPerPage;
+  const currentPosts1 = currentUser.slice(indexOfFirstPosts1, indexOfLastPost1);
 
   // CHANGE PAGE
 
   const paginate = (pageNumber) => setPage(pageNumber);
+  const paginate1 = (pageNumber) => setPage1(pageNumber);
 
   return (
     <div className={`pt-5 container ${style.side} ${style.userSection}`}>
@@ -192,7 +197,7 @@ const UserLoan = () => {
         <MyPagination
           postsPerPage={postsPerPage}
           totalPosts={currentUser.length}
-          paginate={paginate}
+          paginate={paginate1}
         />
       </div>
       <div className="mt-5">
